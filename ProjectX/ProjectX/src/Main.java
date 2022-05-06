@@ -61,7 +61,7 @@ public class Main implements MouseListener {
     JPanel map = new JPanel();
     JLabel city = new JLabel();
     ImageIcon mapCity = new ImageIcon("/Users/zoe/Downloads/BattleOfSexes/ProjectX/ProjectX/src/cityImage.jpg");
-    GridLayout grid = new GridLayout(30, 30);
+    GridLayout grid = new GridLayout(height, width);
 
 
     public Main() {
@@ -77,6 +77,7 @@ public class Main implements MouseListener {
         for (int i=0; i<=width; i++){
             for (int z=0; z<=height; z++){
                 Tile p = new Tile(i, z, BLACK);
+                p.setLayout(null);
                 map.add(p);
                 Tlist.add(p);
 
