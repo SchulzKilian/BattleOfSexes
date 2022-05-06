@@ -60,7 +60,7 @@ public class Main implements MouseListener {
     MyFrame frame = new MyFrame();
     JPanel map = new JPanel();
     JLabel city = new JLabel();
-    //ImageIcon mapCity = new ImageIcon("/Users/zoe/IdeaProjects/JavaSwingTest/src/logoJavaSwingTest.jpg");
+    ImageIcon mapCity = new ImageIcon("/Users/zoe/Downloads/BattleOfSexes/ProjectX/ProjectX/src/cityImage.jpg");
     GridLayout grid = new GridLayout(30, 30);
 
 
@@ -68,7 +68,7 @@ public class Main implements MouseListener {
         frame.setLayout(null);
         frame.setVisible(true);
         frame.add(map);
-        //city.setIcon(mapCity);
+        city.setIcon(mapCity);
         city.setBounds(10,10,880,880);
         frame.add(city);
         map.setBounds(10,10,880,880);
