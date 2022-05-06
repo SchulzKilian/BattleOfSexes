@@ -61,6 +61,7 @@ public class Main implements MouseListener {
     JPanel map = new JPanel();
     JLabel city = new JLabel();
     ImageIcon mapCity = new ImageIcon("/Users/zoe/Downloads/BattleOfSexes/ProjectX/ProjectX/src/cityImage.jpg");
+    PieChart pieChart = new PieChart(30,140,90,100);
     GridLayout grid = new GridLayout(height, width);
 
 
@@ -68,6 +69,9 @@ public class Main implements MouseListener {
         frame.setLayout(null);
         frame.setVisible(true);
         frame.add(map);
+        frame.add(pieChart);
+        pieChart.setBounds(920,10,300,300);
+        pieChart.setBackground(new Color(0xFFD9D7C4));
         city.setIcon(mapCity);
         city.setBounds(10,10,880,880);
         frame.add(city);
@@ -83,13 +87,7 @@ public class Main implements MouseListener {
 
             }
         }
-
-
     }
-
-
-
-
 
     public int[] move(Man t){
         if (timepassed%cicles==0){
@@ -148,8 +146,6 @@ public class Main implements MouseListener {
         return pos[ind];
     }
 
-
-
     public void meet(Tile t){
 
         Man first;
@@ -189,8 +185,6 @@ public class Main implements MouseListener {
         boolean[] disp={m.fast,w.fast};
         int x= (int) (Math.random()*2);
         return disp[x];
-
-
 
     }
     public void God(Man parent1, Woman parent2){
@@ -264,7 +258,6 @@ public class Main implements MouseListener {
         int[] f= new int[2];
 
     }
-
 
 
     @Override

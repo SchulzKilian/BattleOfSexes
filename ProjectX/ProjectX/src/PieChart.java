@@ -1,86 +1,29 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferStrategy;
-
-public class PieChart extends Canvas implements Runnable{
-    public static final long serialVersionUID= 1L;
-    public Thread thread;
-    public JFrame frame;
-    public static  String title="PieChart";
-    public static final int Width= 400;
-    public static final int Height= 400;
-    public static  boolean running= false;
-    public PieChart(){
-        this.frame = new JFrame();
-        Dimension size = new Dimension(Width,Height);
-        this.setPreferredSize(size);
+import java.awt.Color;
+import java.awt.Graphics;
+import javax.swing.JPanel;
+public class PieChart extends JPanel {// draw rectangles and arcs
+    int angle1;
+    int angle2;
+    int angle3;
+    int angle4;
+    PieChart(int a1, int a2, int a3, int a4) {
+        angle1 = a1;
+        angle2 = a2;
+        angle3 = a3;
+        angle4 = a4;
     }
-    public static void main(String[] args) {
-        PieChart display = new PieChart();
-        display.frame.setTitle(title);
-        display.frame.add(display);
-        display.frame.pack();
-        display.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        display.frame.setLocationRelativeTo(null);
-        display.frame.setResizable(false);
-        display.frame.setVisible(true);
-        display.start();
+    public void paintComponent(Graphics g){ //, int a1,int a2, int a3 ,int a4) {
+        super.paintComponent(g); // call superclass's paintComponent
+        // start at 0 and sweep 360 degrees
+        g.setColor(new Color(0x0FFFFFF, true));
+        g.drawRect(0, 0, 300, 300);
+        g.setColor(new Color(0xF060FA));
+        g.fillArc(0, 0, 300, 300, 0, angle1);
+        g.setColor(new Color(0xF59CFF));
+        g.fillArc(0, 0, 300, 300, angle1, angle2);
+        g.setColor(new Color(0x008EFF));
+        g.fillArc(0, 0, 300, 300, angle1+angle2, angle3);
+        g.setColor(new Color(0x7FC6FF));
+        g.fillArc(0, 0, 300, 300, angle1+angle2+angle3, angle4);
     }
-    public synchronized void start() {
-        running = true;
-        this.thread = new Thread(this, "Display");
-        this.thread.start();
-    }
-    public synchronized void stop(){
-        running =false;
-        try {
-            this.thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-    @Override
-    public void run() {
-        long lastTime =System.nanoTime();
-        long timer = System.currentTimeMillis();
-        final double ns=1000000000.0/60;
-        double delta=0;
-        int frames=0;
-        while(running){
-            long now = System.nanoTime();
-            delta+= (now-lastTime)/ns;
-            lastTime=now;
-            while (delta>=1){
-                update();
-                delta--;
-            }
-            render();
-            frames++;
-            if (System.currentTimeMillis()-timer>1000){
-                timer =+1000;
-                this.frame.setTitle((title+" | "+frames+" fps"));
-                frames=0;
-            }
-        }
-        stop();
-
-    }
-    private void render(){
-        BufferStrategy bs= this.getBufferStrategy();
-        if (bs==null){
-            this.createBufferStrategy(3);
-            return;
-        }
-        Graphics g= bs.getDrawGraphics();
-        g.setColor(Color.black);
-        g.fillRect(0,0,Width*2,Height*2);
-        g.setColor(Color.white);
-
-        g.fillRect(78,200,90,400);
-
-        g.dispose();
-        ((BufferStrategy) bs).show();
-
-    }
-    private void update(){}
 }
