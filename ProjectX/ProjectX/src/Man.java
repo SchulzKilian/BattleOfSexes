@@ -12,9 +12,9 @@ public class Man implements Person{
     Main frame;
 
     Man(int x, int y, Main m){
-        peopleIcon n=new peopleIcon(x,y, Color.yellow);
+        peopleIcon n=new peopleIcon(x,y, new Color(0x008EFF));
         meetingtile=n;
-        meetingtile.setSize(5,5);
+        meetingtile.setSize(7,7);
         frame=m;
     }
     public boolean type(){

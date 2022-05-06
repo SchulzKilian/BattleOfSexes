@@ -74,8 +74,8 @@ public class Main implements MouseListener {
         map.setBounds(10,10,880,880);
         map.setOpaque(false);
         map.setLayout(grid);
-        for (int i=0; i<=width; i++){
-            for (int z=0; z<=height; z++){
+        for (int i=1; i<=width; i++){
+            for (int z=1; z<=height; z++){
                 Tile p = new Tile(i, z, BLACK);
                 p.setLayout(null);
                 map.add(p);
@@ -149,6 +149,7 @@ public class Main implements MouseListener {
     }
 
 
+
     public void meet(Tile t){
 
         Man first;
@@ -179,7 +180,7 @@ public class Main implements MouseListener {
             gettogether(first, second);}
     }
     public static void gettogether(Man m, Woman w){
-        if(m.single==true&& w.single==true){
+        if(m.single && w.single){
             m.meetingtile.paused=true;
             w.meetingtile.paused=true;
         }
@@ -250,7 +251,7 @@ public class Main implements MouseListener {
                     timer.meet(tile);
                 }
                 timer.move(timer.start3);timer.move(timer.start4);timer.move(timer.start5);timer.move(timer.start6); timer.move(timer.start7);timer.move(timer.start8);timer.move(timer.start9);timer.move(timer.start10);timer.move(timer.start11);timer.move(timer.start12);timer.move(timer.start15);timer.move(timer.start16);timer.move(timer.start17);timer.move(timer.start18);timer.move(timer.start19);
-                timer.move(timer.start20);timer.move(timer.start21);timer.move(timer.start22);timer.move(timer.start23);timer.move(timer.start24);timer.move(timer.start25);timer.move(timer.start26);timer.move(timer.start27);timer.move(timer.start28);timer.move(timer.start29);timer.move(timer.start30);timer.move(timer.start31);timer.move(timer.start32);timer.move(timer.start33);timer.move(timer.start34);timer.move(timer.start35);timer.move(timer.start36);
+                //timer.move(timer.start20);timer.move(timer.start21);timer.move(timer.start22);timer.move(timer.start23);timer.move(timer.start24);timer.move(timer.start25);timer.move(timer.start26);timer.move(timer.start27);timer.move(timer.start28);timer.move(timer.start29);timer.move(timer.start30);timer.move(timer.start31);timer.move(timer.start32);timer.move(timer.start33);timer.move(timer.start34);timer.move(timer.start35);timer.move(timer.start36);
                 //System.out.println("dgfdgfdgf");
                 //timer.move(timer.stop);
                 timer.frame.revalidate(); timer.frame.repaint();
