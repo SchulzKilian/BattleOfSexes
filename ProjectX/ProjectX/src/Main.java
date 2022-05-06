@@ -12,7 +12,7 @@ import static java.awt.Color.*;
 public class Main implements MouseListener {
 
     public static long timepassed = 0;
-    public static int cicles= 2;
+    public static int cicles= 60;
     public static boolean dominantgene=true;
     public static boolean rand=false;
     int width= 30;
@@ -20,6 +20,7 @@ public class Main implements MouseListener {
     int amountmen = 10;
     int amountwomen = 10;
     ArrayList<Tile> Tlist= new ArrayList<Tile>();
+    ArrayList<Person> Alive=new ArrayList<Person>();
 
     Man start1 = new Man(0,0,this);
     Woman start2 = new Woman(7,7,this);
@@ -190,6 +191,49 @@ public class Main implements MouseListener {
 
 
     }
+    public void God(Man parent1, Woman parent2){
+        String[] gender={"male","female"};
+        int y=(int)(Math.random()*2);
+        if(gender[y].equals("male")){
+            Man m=new Man(0,0,this);
+            m.fast=inheritance(parent1,parent2);
+            m.age=0;
+            Thread thread=new Thread(m);
+            m.runningon=thread;
+            Alive.add(m);
+        }
+        else {
+            Woman w=new Woman(29,29,this);
+            w.fast=inheritance(parent1,parent2);
+            w.age=0;
+            Thread thread=new Thread(w);
+            w.runningon=thread;
+            Alive.add(w);
+
+        }
+
+    }
+    public void GrimReaper(Man p){
+        Alive.remove(p);
+        p.runningon.stop();
+        this.remove(p);
+    }
+    public void GrimReaper(Woman p){
+        Alive.remove(p);
+        p.runningon.stop();
+        this.remove(p);
+    }
+    public void remove(Man p){
+        p.meetingtile.color= lightGray;
+        p.meetingtile.tileon.remove(p.meetingtile);
+
+    }
+    public void remove(Woman p){
+        p.meetingtile.color= lightGray;
+        p.meetingtile.tileon.remove(p.meetingtile);
+
+    }
+
 
     public static void main(String[] args) throws InterruptedException {
 

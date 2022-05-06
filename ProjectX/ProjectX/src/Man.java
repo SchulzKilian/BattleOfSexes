@@ -1,6 +1,7 @@
 import java.awt.*;
 
 public class Man implements Person{
+    Thread runningon;
     peopleIcon meetingtile;
     boolean[][] granparents={{true,true},{true,true}};
     boolean[] parents={true,true};

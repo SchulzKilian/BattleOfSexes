@@ -1,6 +1,8 @@
 import java.awt.*;
 
 public class Woman implements Person {
+    Thread runningon;
+    Man spouse;
     peopleIcon meetingtile;
     String gender="female";
     boolean single=true;
