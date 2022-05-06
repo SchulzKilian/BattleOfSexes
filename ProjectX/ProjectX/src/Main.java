@@ -15,8 +15,8 @@ public class Main implements MouseListener {
     public static int cicles= 60;
     public static boolean dominantgene=true;
     public static boolean rand=false;
-    int width= 40;
-    int height = 40;
+    int width= 30;
+    int height = 30;
     int amountmen = 10;
     int amountwomen = 10;
     ArrayList<Tile> Tlist= new ArrayList<Tile>();
@@ -60,15 +60,15 @@ public class Main implements MouseListener {
     MyFrame frame = new MyFrame();
     JPanel map = new JPanel();
     JLabel city = new JLabel();
-    //ImageIcon mapCity = new ImageIcon("/Users/zoe/IdeaProjects/JavaSwingTest/src/logoJavaSwingTest.jpg");
-    GridLayout grid = new GridLayout(width, height);
+    ImageIcon mapCity = new ImageIcon("/Users/zoe/Downloads/BattleOfSexes/ProjectX/ProjectX/src/cityImage.jpg");
+    GridLayout grid = new GridLayout(30, 30);
 
 
     public Main() {
         frame.setLayout(null);
         frame.setVisible(true);
         frame.add(map);
-        //city.setIcon(mapCity);
+        city.setIcon(mapCity);
         city.setBounds(10,10,880,880);
         frame.add(city);
         map.setBounds(10,10,880,880);
@@ -77,7 +77,6 @@ public class Main implements MouseListener {
         for (int i=0; i<=width; i++){
             for (int z=0; z<=height; z++){
                 Tile p = new Tile(i, z, BLACK);
-                p.setLayout(null);
                 map.add(p);
                 Tlist.add(p);
 
@@ -244,7 +243,6 @@ public class Main implements MouseListener {
             public void run() {
                 timepassed++;
                 timer.move(timer.start1);
-                //timer.start1.meetingtile.setwhite();
                 timer.move(timer.start2);
 
                 for (Tile tile: timer.Tlist) {
