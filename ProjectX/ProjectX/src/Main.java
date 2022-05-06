@@ -15,8 +15,8 @@ public class Main implements MouseListener {
     public static int cicles= 60;
     public static boolean dominantgene=true;
     public static boolean rand=false;
-    int width= 30;
-    int height = 30;
+    int width= 40;
+    int height = 40;
     int amountmen = 10;
     int amountwomen = 10;
     ArrayList<Tile> Tlist= new ArrayList<Tile>();
@@ -61,7 +61,7 @@ public class Main implements MouseListener {
     JPanel map = new JPanel();
     JLabel city = new JLabel();
     //ImageIcon mapCity = new ImageIcon("/Users/zoe/IdeaProjects/JavaSwingTest/src/logoJavaSwingTest.jpg");
-    GridLayout grid = new GridLayout(30, 30);
+    GridLayout grid = new GridLayout(width, height);
 
 
     public Main() {
@@ -77,6 +77,7 @@ public class Main implements MouseListener {
         for (int i=0; i<=width; i++){
             for (int z=0; z<=height; z++){
                 Tile p = new Tile(i, z, BLACK);
+                p.setLayout(null);
                 map.add(p);
                 Tlist.add(p);
 
@@ -243,6 +244,7 @@ public class Main implements MouseListener {
             public void run() {
                 timepassed++;
                 timer.move(timer.start1);
+                //timer.start1.meetingtile.setwhite();
                 timer.move(timer.start2);
 
                 for (Tile tile: timer.Tlist) {

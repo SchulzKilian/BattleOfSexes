@@ -12,6 +12,7 @@ public class Woman implements Person {
     Woman(int x, int y, Main m){
         peopleIcon w =new peopleIcon(x,y, Color.cyan);
         meetingtile = w;
+        meetingtile.setSize(5,5);
         frame=m;
     }
 
