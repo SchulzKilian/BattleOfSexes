@@ -1,15 +1,19 @@
 import java.awt.*;
 
 public class Man implements Person{
-    Tile meetingtile;
+    peopleIcon meetingtile;
+    boolean[][] granparents={{true,true},{true,true}};
+    boolean[] parents={true,true};
     String gender="male";
     boolean single=true;
     int age=20;
     boolean fast=true;
+    Main frame;
 
-    Man(int x, int y){
-        Tile n=new Tile(x,y, Color.yellow);
+    Man(int x, int y, Main m){
+        peopleIcon n=new peopleIcon(x,y, Color.red);
         meetingtile=n;
+        frame=m;
     }
     public boolean type(){
         return fast;

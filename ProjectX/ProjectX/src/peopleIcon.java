@@ -1,25 +1,28 @@
-
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Tile extends JPanel {
+
+
+
+
+public class peopleIcon extends JPanel {
     int coor_x;
     int coor_y;
     int[] coor=new int[2];
-    Color color = new Color(255, 255, 255, 0);
+    Color color;
     ArrayList<Person> occupants= new ArrayList<Person>();
     Tile tileon;
     boolean paused= false;
 
 
-    Tile(int x,int y, Color c){
+    peopleIcon(int x,int y, Color c){
+        color=c;
         coor_x=x;
         coor_y=y;
         coor[0]=x;
         coor[1]=y;
-        this.setBackground(color);
+        this.setBackground(c);
     }
 
     public void back(){

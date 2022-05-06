@@ -1,14 +1,16 @@
 import java.awt.*;
 
-public class Woman implements Person{
-    Tile meetingtile;
+public class Woman implements Person {
+    peopleIcon meetingtile;
     String gender="female";
     boolean single=true;
     int age=20;
     boolean fast=false;
-    Woman(int x, int y){
-        Tile w=new Tile(x,y, Color.CYAN);
-        meetingtile=w;
+    Main frame;
+    Woman(int x, int y, Main m){
+        peopleIcon w =new peopleIcon(x,y, Color.cyan);
+        meetingtile = w;
+        frame=m;
     }
 
     @Override
@@ -30,4 +32,6 @@ public class Woman implements Person{
     public void run() {
 
     }
+
+
 }
