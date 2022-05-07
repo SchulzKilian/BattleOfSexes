@@ -12,7 +12,7 @@ public class Man implements Person{
     Main frame;
 
     Man(int x, int y, Main m){
-        peopleIcon n=new peopleIcon(x,y, new Color(0x008EFF));
+        peopleIcon n=new peopleIcon(x,y, new Color(0x327067));
         meetingtile=n;
         meetingtile.setSize(7,7);
         frame=m;
@@ -33,6 +33,11 @@ public class Man implements Person{
 
     @Override
     public void run() {
+        frame.move(this);
+        for (Tile tile: frame.Tlist) {
+            frame.meet(tile);
+
+        }
 
     }
 }

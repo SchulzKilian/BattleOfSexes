@@ -10,7 +10,7 @@ public class Woman implements Person {
     boolean fast=false;
     Main frame;
     Woman(int x, int y, Main m){
-        peopleIcon w =new peopleIcon(x,y, new Color(0xE500AA));
+        peopleIcon w =new peopleIcon(x,y, new Color(0x554AC2));
         meetingtile = w;
         meetingtile.setSize(7,7);
         frame=m;

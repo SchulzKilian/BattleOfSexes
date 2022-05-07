@@ -16,14 +16,14 @@ public class PieChart extends JPanel {// draw rectangles and arcs
         super.paintComponent(g); // call superclass's paintComponent
         // start at 0 and sweep 360 degrees
         g.setColor(new Color(0x0FFFFFF, true));
-        g.drawRect(0, 0, 300, 300);
-        g.setColor(new Color(0xF060FA));
-        g.fillArc(0, 0, 300, 300, 0, angle1);
-        g.setColor(new Color(0xF59CFF));
-        g.fillArc(0, 0, 300, 300, angle1, angle2);
-        g.setColor(new Color(0x008EFF));
-        g.fillArc(0, 0, 300, 300, angle1+angle2, angle3);
-        g.setColor(new Color(0x7FC6FF));
-        g.fillArc(0, 0, 300, 300, angle1+angle2+angle3, angle4);
+        g.drawRect(20, 15, 270, 270);
+        g.setColor(new Color(0x7AEFB9));
+        g.fillArc(20, 15, 270, 270, 0, angle1);
+        g.setColor(new Color(0x327067));
+        g.fillArc(20, 15, 270, 270, angle1, angle2);
+        g.setColor(new Color(0x554AC2));
+        g.fillArc(20, 15, 270, 270, angle1+angle2, angle3);
+        g.setColor(new Color(0x7D73E0));
+        g.fillArc(20, 15, 270, 270, angle1+angle2+angle3, angle4);
     }
 }

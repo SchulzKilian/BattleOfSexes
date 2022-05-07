@@ -70,7 +70,7 @@ public class Main implements MouseListener {
         frame.setVisible(true);
         frame.add(map);
         frame.add(pieChart);
-        pieChart.setBounds(920,10,300,300);
+        pieChart.setBounds(920,10,500,300);
         pieChart.setBackground(new Color(0xC2BEAA));
         city.setIcon(mapCity);
         city.setBounds(10,10,880,880);
@@ -81,7 +81,6 @@ public class Main implements MouseListener {
         for (int i=1; i<=width; i++){
             for (int z=1; z<=height; z++){
                 Tile p = new Tile(i, z, BLACK);
-                p.setLayout(null);
                 map.add(p);
                 Tlist.add(p);
 
