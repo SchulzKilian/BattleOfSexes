@@ -12,7 +12,8 @@ import static java.awt.Color.*;
 public class Main implements MouseListener {
 
     public static long timepassed = 0;
-    public static int cicles= 60;
+    public static int cicles= 600;
+    public static int population=50;
     public static boolean dominantgene=true;
     public static boolean rand=false;
     int width= 30;
@@ -91,12 +92,9 @@ public class Main implements MouseListener {
         }
         Man Ancestor =new Man(0,0,this);
         Woman Ancestor2= new Woman(7,7,this);
-        for (int m = 0; m < 50; m++) {
-            God(Ancestor,Ancestor2);
-
-        }
-        for (Person p:Alive) {
-            Thread provvisorio=p.getRunningon();
+        for (int m = 0; m < population; m++) {
+            Person r=God(Ancestor,Ancestor2);
+            Thread provvisorio=r.getRunningon();
             provvisorio.start();
 
         }
@@ -104,7 +102,7 @@ public class Main implements MouseListener {
 
     public int[] move(Man t){
         if (timepassed%cicles==0){
-            System.out.println(timepassed);
+            //.out.println(timepassed);
 
             t.meetingtile.paused=false;
             UpdateMoving(true,t);
@@ -164,6 +162,7 @@ public class Main implements MouseListener {
 
     public void meet(Tile t){
 
+
         Man first;
         Woman second;
         if(t.occupants.size()>=2){
@@ -205,24 +204,26 @@ public class Main implements MouseListener {
         return disp[x];
 
     }
-    public void God(Man parent1, Woman parent2){
+    public Person God(Man parent1, Woman parent2){
         String[] gender={"male","female"};
         int y=(int)(Math.random()*2);
         if(gender[y].equals("male")){
             Man m=new Man(0,0,this);
             m.fast=inheritance(parent1,parent2);
-            m.age=0;
+            m.age=20;
             Thread thread=new Thread(m);
             m.runningon=thread;
             Alive.add(m);
+            return m;
         }
         else {
             Woman w=new Woman(29,29,this);
             w.fast=inheritance(parent1,parent2);
-            w.age=0;
+            w.age=20;
             Thread thread=new Thread(w);
             w.runningon=thread;
             Alive.add(w);
+            return w;
 
         }
 
@@ -264,16 +265,7 @@ public class Main implements MouseListener {
             @Override
             public void run() {
                 timepassed++;
-                //timer.move(timer.start1);
-                //timer.move(timer.start2);
 
-               /* for (Tile tile: timer.Tlist) {
-                    timer.meet(tile);
-                }*/
-                //timer.move(timer.start3);timer.move(timer.start4);timer.move(timer.start5);timer.move(timer.start6); timer.move(timer.start7);timer.move(timer.start8);timer.move(timer.start9);timer.move(timer.start10);timer.move(timer.start11);timer.move(timer.start12);timer.move(timer.start15);timer.move(timer.start16);timer.move(timer.start17);timer.move(timer.start18);timer.move(timer.start19);
-                //timer.move(timer.start20);timer.move(timer.start21);timer.move(timer.start22);timer.move(timer.start23);timer.move(timer.start24);timer.move(timer.start25);timer.move(timer.start26);timer.move(timer.start27);timer.move(timer.start28);timer.move(timer.start29);timer.move(timer.start30);timer.move(timer.start31);timer.move(timer.start32);timer.move(timer.start33);timer.move(timer.start34);timer.move(timer.start35);timer.move(timer.start36);
-                //System.out.println("dgfdgfdgf");
-                //timer.move(timer.stop);
                 timer.frame.revalidate(); timer.frame.repaint();
 
 

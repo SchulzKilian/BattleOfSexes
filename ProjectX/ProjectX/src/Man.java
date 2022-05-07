@@ -23,6 +23,7 @@ public class Man implements Person{
 
     @Override
     public String getgender() {
+        //System.out.println("triggered");
         return gender;
     }
 
@@ -43,7 +44,8 @@ public class Man implements Person{
         for (Tile tile: frame.Tlist) {
             frame.meet(tile);
 
-        }}
+        }
+        }
 
     }
 }
