@@ -7,6 +7,7 @@ public interface Person extends Runnable {
     public int[] moverand(int x, int y);
     public  boolean type();
     public  String  getgender();
+    public Thread getRunningon();
 
 
 }

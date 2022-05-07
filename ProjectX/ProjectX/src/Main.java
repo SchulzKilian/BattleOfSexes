@@ -21,6 +21,7 @@ public class Main implements MouseListener {
     int amountwomen = 10;
     ArrayList<Tile> Tlist= new ArrayList<Tile>();
     ArrayList<Person> Alive=new ArrayList<Person>();
+    ArrayList<Person> Moving=new ArrayList<Person>();
 
     Man start1 = new Man(0,0,this);
     Woman start2 = new Woman(7,7,this);
@@ -71,20 +72,33 @@ public class Main implements MouseListener {
         frame.add(map);
         frame.add(pieChart);
         pieChart.setBounds(920,10,500,300);
-        pieChart.setBackground(new Color(0xC2BEAA));
+        pieChart.setBackground(new Color(0x3C593A));
         city.setIcon(mapCity);
         city.setBounds(10,10,880,880);
         frame.add(city);
         map.setBounds(10,10,880,880);
         map.setOpaque(false);
         map.setLayout(grid);
+        //GridLayout g=new GridLayout(10,10);
         for (int i=1; i<=width; i++){
             for (int z=1; z<=height; z++){
                 Tile p = new Tile(i, z, BLACK);
                 map.add(p);
+                //p.setLayout(g);
                 Tlist.add(p);
 
             }
+        }
+        Man Ancestor =new Man(0,0,this);
+        Woman Ancestor2= new Woman(7,7,this);
+        for (int m = 0; m < 50; m++) {
+            God(Ancestor,Ancestor2);
+
+        }
+        for (Person p:Alive) {
+            Thread provvisorio=p.getRunningon();
+            provvisorio.start();
+
         }
     }
 
@@ -93,6 +107,8 @@ public class Main implements MouseListener {
             System.out.println(timepassed);
 
             t.meetingtile.paused=false;
+            UpdateMoving(true,t);
+
         }
         int x= t.meetingtile.coor_x;
         int y= t.meetingtile.coor_y;
@@ -120,6 +136,7 @@ public class Main implements MouseListener {
     public int[] move(Woman t){
         if (timepassed%cicles==0){
             t.meetingtile.paused=false;
+            UpdateMoving(true,t);
         }
         int x= t.meetingtile.coor_x;
         int y= t.meetingtile.coor_y;
@@ -174,10 +191,12 @@ public class Main implements MouseListener {
             //}
             gettogether(first, second);}
     }
-    public static void gettogether(Man m, Woman w){
+    public void gettogether(Man m, Woman w){
         if(m.single && w.single){
             m.meetingtile.paused=true;
             w.meetingtile.paused=true;
+            UpdateMoving(false,m);
+            UpdateMoving(false,w);
         }
     }
     public boolean inheritance(Man m, Woman w){
@@ -228,6 +247,14 @@ public class Main implements MouseListener {
         p.meetingtile.tileon.remove(p.meetingtile);
 
     }
+    public  void UpdateMoving(Boolean v,Person p){
+        if(v){
+            Moving.add(p);
+        }
+        else {
+            Moving.remove(p);
+        }
+    }
 
 
     public static void main(String[] args) throws InterruptedException {
@@ -237,13 +264,13 @@ public class Main implements MouseListener {
             @Override
             public void run() {
                 timepassed++;
-                timer.move(timer.start1);
-                timer.move(timer.start2);
+                //timer.move(timer.start1);
+                //timer.move(timer.start2);
 
-                for (Tile tile: timer.Tlist) {
+               /* for (Tile tile: timer.Tlist) {
                     timer.meet(tile);
-                }
-                timer.move(timer.start3);timer.move(timer.start4);timer.move(timer.start5);timer.move(timer.start6); timer.move(timer.start7);timer.move(timer.start8);timer.move(timer.start9);timer.move(timer.start10);timer.move(timer.start11);timer.move(timer.start12);timer.move(timer.start15);timer.move(timer.start16);timer.move(timer.start17);timer.move(timer.start18);timer.move(timer.start19);
+                }*/
+                //timer.move(timer.start3);timer.move(timer.start4);timer.move(timer.start5);timer.move(timer.start6); timer.move(timer.start7);timer.move(timer.start8);timer.move(timer.start9);timer.move(timer.start10);timer.move(timer.start11);timer.move(timer.start12);timer.move(timer.start15);timer.move(timer.start16);timer.move(timer.start17);timer.move(timer.start18);timer.move(timer.start19);
                 //timer.move(timer.start20);timer.move(timer.start21);timer.move(timer.start22);timer.move(timer.start23);timer.move(timer.start24);timer.move(timer.start25);timer.move(timer.start26);timer.move(timer.start27);timer.move(timer.start28);timer.move(timer.start29);timer.move(timer.start30);timer.move(timer.start31);timer.move(timer.start32);timer.move(timer.start33);timer.move(timer.start34);timer.move(timer.start35);timer.move(timer.start36);
                 //System.out.println("dgfdgfdgf");
                 //timer.move(timer.stop);

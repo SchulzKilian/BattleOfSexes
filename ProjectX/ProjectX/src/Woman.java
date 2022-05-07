@@ -32,7 +32,18 @@ public class Woman implements Person {
     }
 
     @Override
+    public Thread getRunningon() {
+        return runningon;
+    }
+
+    @Override
     public void run() {
+        while (true){
+        frame.move(this);
+        for (Tile tile: frame.Tlist) {
+            frame.meet(tile);
+
+        }}
 
     }
 

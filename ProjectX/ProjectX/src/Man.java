@@ -27,17 +27,23 @@ public class Man implements Person{
     }
 
     @Override
+    public Thread getRunningon() {
+        return runningon;
+    }
+
+    @Override
     public int[] moverand(int x, int y) {
         return new int[0];
     }
 
     @Override
     public void run() {
+        while (true){
         frame.move(this);
         for (Tile tile: frame.Tlist) {
             frame.meet(tile);
 
-        }
+        }}
 
     }
 }
