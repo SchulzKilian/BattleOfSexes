@@ -6,7 +6,7 @@ public class Woman implements Person {
     peopleIcon meetingtile;
     String gender="female";
     boolean single=true;
-    int age=20;
+
     long birthday;
     boolean fast=false;
     Main frame;

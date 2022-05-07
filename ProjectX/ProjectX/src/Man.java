@@ -8,7 +8,6 @@ public class Man implements Person{
     boolean[] parents={true,true};
     String gender="male";
     boolean single=true;
-    int age=20;
     boolean fast=true;
     Main frame;
     long birthday;
