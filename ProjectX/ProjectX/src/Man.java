@@ -1,6 +1,7 @@
 import java.awt.*;
 
 public class Man implements Person{
+
     Thread runningon;
     peopleIcon meetingtile;
     boolean[][] granparents={{true,true},{true,true}};
@@ -10,6 +11,7 @@ public class Man implements Person{
     int age=20;
     boolean fast=true;
     Main frame;
+    long birthday;
 
     Man(int x, int y, Main m){
         peopleIcon n=new peopleIcon(x,y, new Color(0x327067));
@@ -21,6 +23,11 @@ public class Man implements Person{
         return fast;
     }
 
+    @Override
+    public long getAge(){
+        return Main.timepassed-birthday;
+
+    }
     @Override
     public String getgender() {
         //System.out.println("triggered");

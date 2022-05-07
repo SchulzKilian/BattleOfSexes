@@ -7,6 +7,7 @@ public class Woman implements Person {
     String gender="female";
     boolean single=true;
     int age=20;
+    long birthday;
     boolean fast=false;
     Main frame;
     Woman(int x, int y, Main m){
@@ -15,7 +16,11 @@ public class Woman implements Person {
         meetingtile.setSize(7,7);
         frame=m;
     }
+    @Override
+    public long getAge(){
+        return Main.timepassed-birthday;
 
+    }
     @Override
     public int[] moverand(int x, int y) {
         return new int[0];
