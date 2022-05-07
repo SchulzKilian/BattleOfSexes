@@ -60,7 +60,7 @@ public class Main implements MouseListener {
     MyFrame frame = new MyFrame();
     JPanel map = new JPanel();
     JLabel city = new JLabel();
-    ImageIcon mapCity = new ImageIcon("/Users/zoe/Downloads/BattleOfSexes/ProjectX/ProjectX/src/cityImage.jpg");
+    ImageIcon mapCity = new ImageIcon("ProjectX/ProjectX/src/cityImage.jpg");
     PieChart pieChart = new PieChart(30,140,90,100);
     GridLayout grid = new GridLayout(height, width);
 
@@ -71,7 +71,7 @@ public class Main implements MouseListener {
         frame.add(map);
         frame.add(pieChart);
         pieChart.setBounds(920,10,300,300);
-        pieChart.setBackground(new Color(0xFFD9D7C4));
+        pieChart.setBackground(new Color(0xC2BEAA));
         city.setIcon(mapCity);
         city.setBounds(10,10,880,880);
         frame.add(city);
