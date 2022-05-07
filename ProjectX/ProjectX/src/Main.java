@@ -206,9 +206,8 @@ public class Main implements MouseListener {
 
     }
     public void God(Man parent1, Woman parent2){
-        String[] gender={"male","female"};
         int y=(int)(Math.random()*2);
-        if(gender[y].equals("male")){
+        if(y == 0){
             Man m=new Man(0,0,this);
             m.fast=inheritance(parent1,parent2);
             m.age=0;
@@ -217,7 +216,7 @@ public class Main implements MouseListener {
             Alive.add(m);
         }
         else {
-            Woman w=new Woman(29,29,this);
+            Woman w=new Woman(width-1,height-1,this);
             w.fast=inheritance(parent1,parent2);
             w.age=0;
             Thread thread=new Thread(w);
