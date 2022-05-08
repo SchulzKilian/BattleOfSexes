@@ -11,9 +11,11 @@ import static java.awt.Color.*;
 
 public class Main implements MouseListener {
 
-    public static long timepassed = 0;
-    public static int cicles= 600;
-    public static int population=50;
+    public static int timepassed;
+    public static int cicles= 5000;
+    public static int population=2;
+    public static int movements;
+
     public static boolean dominantgene=true;
     public static boolean rand=false;
     int width= 30;
@@ -24,40 +26,7 @@ public class Main implements MouseListener {
     ArrayList<Person> Alive=new ArrayList<Person>();
     ArrayList<Person> Moving=new ArrayList<Person>();
 
-    Man start1 = new Man(0,0,this);
-    Woman start2 = new Woman(7,7,this);
-    Man start3 = new Man(0,1,this);
-    Woman start4 = new Woman(7,7,this);
-    Man start5 = new Man(0,2,this);
-    Woman start6 = new Woman(7,7,this);
-    Man start7 = new Man(0,3,this);
-    Woman start8 =new Woman(7,7,this);
-    Man start9 =new Man(0,4,this);
-    Woman start10 = new Woman(7,7,this);
-    Man start11 = new Man(0,5,this);
-    Woman start12 = new Woman(7,7,this);
-    Man start15 = new Man(0,6,this);
-    Woman start16 = new Woman(7,7,this);
-    Man start17 = new Man(0,7,this);
-    Woman start18 = new Woman(7,7,this);
-    Man start19=new Man(0,8,this);
-    Woman start20 = new Woman(7,7,this);
-    Man start21 = new Man(5, 17,this);
-    Woman start22 = new Woman(5, 18,this);
-    Man start23 = new Man(5, 12,this);
-    Woman start24 = new Woman(5, 13,this);
-    Man start25 = new Man(5, 14,this);
-    Woman start26 = new Woman(5, 15,this);
-    Man start27 = new Man(5, 16,this);
-    Woman start28 = new Woman(5, 17,this);
-    Man start29= new Man(5, 18,this);
-    Woman start30 = new Woman(5, 12,this);
-    Man start31 = new Man(5, 13,this);
-    Woman start32 = new Woman(5, 14,this);
-    Man start33 = new Man(5, 15,this);
-    Woman start34 = new Woman(5, 16,this);
-    Man start35 = new Man(5, 17,this);
-    Woman start36 = new Woman(5, 18,this);
+
 
     MyFrame frame = new MyFrame();
     JPanel map = new JPanel();
@@ -96,23 +65,33 @@ public class Main implements MouseListener {
             Person r=God(Ancestor,Ancestor2);
             Thread provvisorio=r.getRunningon();
             provvisorio.start();
+        }
+
 
         }
-    }
+
+
+
+
+
+
+
+
+
+
 
     public int[] move(Man t){
-        if (timepassed%cicles==0){
-            //.out.println(timepassed);
-
-            t.meetingtile.paused=false;
-            UpdateMoving(true,t);
-
+        movements++;
+        if(movements%10==0){
+            timepassed++;
+            movements=0;
         }
+
         int x= t.meetingtile.coor_x;
         int y= t.meetingtile.coor_y;
         int[][] pos={{x+1,y+0},{x+(-1),y+0},{x+0,y+1},{x+0,y+(-1)},{x+1,y+1},{x+1,y+(-1)},{x+(-1),y+1},{x+(-1),y+(-1)}};
         int ind= (int) (Math.random()* pos.length);
-        if(t.meetingtile.paused!=true){
+
             if (t.meetingtile.tileon!=null){
                 t.meetingtile.tileon.popoccupants(t);}
             for (Tile tile: Tlist) {
@@ -128,19 +107,21 @@ public class Main implements MouseListener {
                     t.meetingtile.coor_y=yt;
                     frame.repaint(); frame.revalidate();
                 }
-            }}
+            }
         return pos[ind];
     }
     public int[] move(Woman t){
-        if (timepassed%cicles==0){
-            t.meetingtile.paused=false;
-            UpdateMoving(true,t);
+        movements++;
+        if(movements%10==0){
+            timepassed++;
+            movements=0;
         }
+
         int x= t.meetingtile.coor_x;
         int y= t.meetingtile.coor_y;
         int[][] pos={{x+1,y+0},{x+(-1),y+0},{x+0,y+1},{x+0,y+(-1)},{x+1,y+1},{x+1,y+(-1)},{x+(-1),y+1},{x+(-1),y+(-1)}};
         int ind= (int) (Math.random()* pos.length);
-        if(t.meetingtile.paused!=true){
+
             if (t.meetingtile.tileon!=null){
                 t.meetingtile.tileon.popoccupants(t);}
             for (Tile tile: Tlist) {
@@ -156,7 +137,7 @@ public class Main implements MouseListener {
                     t.meetingtile.coor_y=yt;
                     frame.repaint(); frame.revalidate();
                 }
-            }}
+            }
         return pos[ind];
     }
 
@@ -192,8 +173,9 @@ public class Main implements MouseListener {
     }
     public void gettogether(Man m, Woman w){
         if(m.single && w.single){
-            m.meetingtile.paused=true;
-            w.meetingtile.paused=true;
+            m.Pause(timepassed,cicles);
+            w.Pause(timepassed,cicles);
+            //System.out.println("io");
             UpdateMoving(false,m);
             UpdateMoving(false,w);
         }
@@ -251,31 +233,26 @@ public class Main implements MouseListener {
     public  void UpdateMoving(Boolean v,Person p){
         if(v){
             Moving.add(p);
+
         }
         else {
             Moving.remove(p);
+
         }
     }
 
 
     public static void main(String[] args) throws InterruptedException {
-
         Main timer = new Main();
-        Runnable r=new Runnable() {
-            @Override
-            public void run() {
-                timepassed++;
-
-                timer.frame.revalidate(); timer.frame.repaint();
-
+        int[] f= new int[2];
+        while(true){
+            for (Person p:timer.Alive) {
+                p.Startagain(timer.timepassed);
+                //System.out.println(timepassed);
 
             }
-        };
-        ScheduledExecutorService executor= Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(r, 0, 100, TimeUnit.MILLISECONDS);
-        int[] f= new int[2];
 
-    }
+    }}
 
 
     @Override
