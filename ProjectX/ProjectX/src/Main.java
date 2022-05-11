@@ -209,6 +209,11 @@ public class Main implements MouseListener {
         return disp[x];
 
     }
+    public Tile getcoor(int x, int y){
+        assert (x<= width && y<= height );
+        int z = (x-1)*width + y;
+        return Tlist.get(z);
+    }
     public Person God(Man parent1, Woman parent2){
 
         int y=(int)(Math.random()*2);
