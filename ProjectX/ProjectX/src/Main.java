@@ -164,7 +164,7 @@ public class Main implements MouseListener {
             if (!first.single || !second.single){
                 return;
             }
-            if ((55 > first.getAge() && first.getAge() < 12) || (55 > second.getAge() && second.getAge()<12)){
+            if ((60 < first.getAge() || first.getAge() < 12) || (55 < second.getAge() || second.getAge()<12)){
                 return;
             }
             if(first.type()== second.type()){
@@ -217,7 +217,7 @@ public class Main implements MouseListener {
             return m;
         }
         else {
-            Woman w=new Woman(29,29,this);
+            Woman w=new Woman(width-1,height -1,this);
             w.fast=inheritance(parent1,parent2);
             w.birthday = timepassed;
             Thread thread=new Thread(w);
