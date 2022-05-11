@@ -22,9 +22,14 @@ public class Main implements MouseListener {
     int height = 30;
     int amountmen = 10;
     int amountwomen = 10;
+    int mapwidth = 880;
+    int mapheight = 880;
+    int mapx = 10;
+    int mapy = 10;
     ArrayList<Tile> Tlist= new ArrayList<Tile>();
     ArrayList<Person> Alive=new ArrayList<Person>();
     ArrayList<Person> Moving=new ArrayList<Person>();
+    ArrayList<Person> Prison = new ArrayList<Person>();
 
 
 
@@ -44,9 +49,9 @@ public class Main implements MouseListener {
         pieChart.setBounds(920,10,500,300);
         pieChart.setBackground(new Color(0x3C593A));
         city.setIcon(mapCity);
-        city.setBounds(10,10,880,880);
+        city.setBounds(mapx,mapy,mapwidth,mapheight);
         frame.add(city);
-        map.setBounds(10,10,880,880);
+        map.setBounds(mapx,mapy,mapwidth,mapheight);
         map.setOpaque(false);
         map.setLayout(grid);
         //GridLayout g=new GridLayout(10,10);
@@ -91,7 +96,7 @@ public class Main implements MouseListener {
 
         int x= t.meetingtile.coor_x;
         int y= t.meetingtile.coor_y;
-        int[][] pos={{x+0,y+0},{x+1,y+0},{x+(-1),y+0},{x+0,y+1},{x+0,y+(-1)},{x+1,y+1},{x+1,y+(-1)},{x+(-1),y+1},{x+(-1),y+(-1)}};
+        int[][] pos={{x,y},{x+1,y},{x+(-1),y},{x,y+1},{x,y+(-1)},{x+1,y+1},{x+1,y+(-1)},{x+(-1),y+1},{x+(-1),y+(-1)}};
         int ind= (int) (Math.random()* pos.length);
 
             if (t.meetingtile.tileon!=null){
@@ -108,7 +113,7 @@ public class Main implements MouseListener {
                     t.meetingtile.coor_x=xt;
                     t.meetingtile.coor_y=yt;
                     frame.repaint(); frame.revalidate();
-                    int[][] pos2={{xt+0,yt+0},{xt+1,yt+0},{xt+(-1),yt+0},{xt+0,yt+1},{xt+0,yt+(-1)},{xt+1,yt+1},{xt+1,yt+(-1)},{xt+(-1),yt+1},{xt+(-1),yt+(-1)}};
+                    int[][] pos2={{xt,yt},{xt+1,yt},{xt+(-1),yt},{xt,yt+1},{xt,yt+(-1)},{xt+1,yt+1},{xt+1,yt+(-1)},{xt+(-1),yt+1},{xt+(-1),yt+(-1)}};
                     return pos2;
                 }
             }
@@ -164,9 +169,9 @@ public class Main implements MouseListener {
             if (!first.single || !second.single){
                 return;
             }
-            if ((60 < first.getAge() || first.getAge() < 12) || (55 < second.getAge() || second.getAge()<12)){
-                return;
-            }
+          //  if ((60 < first.getAge() || first.getAge() < 12) || (55 < second.getAge() || second.getAge()<12)){
+            //    return;
+          //  }
             if(first.type()== second.type()){
                 gettogether(first, second);
             }
@@ -255,6 +260,8 @@ public class Main implements MouseListener {
         }
         else {
             Moving.remove(p);
+            Prison.add(p);
+
 
         }
     }
