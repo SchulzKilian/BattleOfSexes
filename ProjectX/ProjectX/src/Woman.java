@@ -14,7 +14,7 @@ public class Woman implements Person {
     boolean cooldown = true;
     int counter;
     boolean val = true;
-
+    long birthday;
 
     Woman(int x, int y, Main m) {
         peopleIcon w = new peopleIcon(x, y, new Color(0x554AC2));
@@ -24,7 +24,11 @@ public class Woman implements Person {
         //tempodifermo[0]=1;
         //tempodifermo[1]=9;
     }
+    @Override
+    public long getAge(){
+        return Main.timepassed-birthday;
 
+    }
     @Override
     public int[] moverand(int x, int y) {
         return new int[0];

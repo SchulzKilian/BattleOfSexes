@@ -123,7 +123,7 @@ public class Main implements MouseListener {
 
         int x= t.meetingtile.coor_x;
         int y= t.meetingtile.coor_y;
-        int[][] pos={{x+0,y+0},{x+1,y+0},{x+(-1),y+0},{x+0,y+1},{x+0,y+(-1)},{x+1,y+1},{x+1,y+(-1)},{x+(-1),y+1},{x+(-1),y+(-1)}};
+        int[][] pos={{x,y},{x+1,y},{x+(-1),y},{x,y+1},{x,y+(-1)},{x+1,y+1},{x+1,y+(-1)},{x+(-1),y+1},{x+(-1),y+(-1)}};
         int ind= (int) (Math.random()* pos.length);
 
             if (t.meetingtile.tileon!=null){
@@ -140,7 +140,7 @@ public class Main implements MouseListener {
                     t.meetingtile.coor_x=xt;
                     t.meetingtile.coor_y=yt;
                     frame.repaint(); frame.revalidate();
-                    int[][] pos2={{xt+0,yt+0},{xt+1,yt+0},{xt+(-1),yt+0},{xt+0,yt+1},{xt+0,yt+(-1)},{xt+1,yt+1},{xt+1,yt+(-1)},{xt+(-1),yt+1},{xt+(-1),yt+(-1)}};
+                    int[][] pos2={{xt,yt},{xt+1,yt},{xt+(-1),yt},{xt,yt+1},{xt,yt+(-1)},{xt+1,yt+1},{xt+1,yt+(-1)},{xt+(-1),yt+1},{xt+(-1),yt+(-1)}};
                     return pos2;
                 }
             }
@@ -164,7 +164,7 @@ public class Main implements MouseListener {
             if (!first.single || !second.single){
                 return;
             }
-            if ((55 > first.age && first.age < 12) || (55 > second.age && second.age<12)){
+            if ((55 > first.getAge() && first.getAge() < 12) || (55 > second.getAge() && second.getAge()<12)){
                 return;
             }
             if(first.type()== second.type()){
@@ -205,12 +205,12 @@ public class Main implements MouseListener {
 
     }
     public Person God(Man parent1, Woman parent2){
-        String[] gender={"male","female"};
+
         int y=(int)(Math.random()*2);
-        if(gender[y].equals("male")){
+        if(y==0){
             Man m=new Man(0,0,this);
             m.fast=inheritance(parent1,parent2);
-            m.age=20;
+            m.birthday=timepassed;
             Thread thread=new Thread(m);
             m.runningon=thread;
             Alive.add(m);
@@ -219,7 +219,7 @@ public class Main implements MouseListener {
         else {
             Woman w=new Woman(29,29,this);
             w.fast=inheritance(parent1,parent2);
-            w.age=20;
+            w.birthday = timepassed;
             Thread thread=new Thread(w);
             w.runningon=thread;
             Alive.add(w);

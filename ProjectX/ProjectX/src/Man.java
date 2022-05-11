@@ -14,6 +14,7 @@ public class Man implements Person{
     int counter=0;
     boolean val=true;
     boolean cooldown=true;
+    long birthday;
 
 
 
@@ -28,6 +29,11 @@ public class Man implements Person{
     
     public boolean type(){
         return fast;
+    }
+    @Override
+    public long getAge(){
+        return Main.timepassed-birthday;
+
     }
 
     @Override
