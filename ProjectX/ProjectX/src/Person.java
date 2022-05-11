@@ -8,6 +8,7 @@ public interface Person extends Runnable {
     public Thread getRunningon();
     public void Pause(int CurrentTime, int pausingtime);
     public boolean Startagain(int CurrentTime);
+    public boolean amifree();
 
 
 }

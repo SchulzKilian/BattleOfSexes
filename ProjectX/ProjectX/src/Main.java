@@ -196,9 +196,10 @@ public class Main implements MouseListener {
     }
     public void gettogether(Man m, Woman w){
         if(m.single && w.single){
-            m.Pause(timepassed,cicles);
-            w.Pause(timepassed,cicles);
+
             //System.out.println("io");
+            m.behindbarsuntil = timepassed+cicles;
+            w.behindbarsuntil =timepassed + cicles;
             UpdateMoving(false,m);
             UpdateMoving(false,w);
         }
@@ -240,11 +241,13 @@ public class Main implements MouseListener {
     }
     public void GrimReaper(Man p){
         Alive.remove(p);
+        Moving.remove(p);
         p.runningon.stop();
         this.remove(p);
     }
     public void GrimReaper(Woman p){
         Alive.remove(p);
+        Moving.remove(p);
         p.runningon.stop();
         this.remove(p);
     }
@@ -258,14 +261,16 @@ public class Main implements MouseListener {
         p.meetingtile.tileon.remove(p.meetingtile);
 
     }
-    public  void UpdateMoving(Boolean v,Person p){
+    public void UpdateMoving(Boolean v,Person p){
         if(v){
             Moving.add(p);
+            Prison.remove(p);
 
         }
         else {
             Moving.remove(p);
             Prison.add(p);
+
 
 
         }
@@ -276,9 +281,14 @@ public class Main implements MouseListener {
         Main timer = new Main();
         int[] f= new int[2];
         while(true){
-            for (Person p:timer.Alive) {
-                p.Startagain(timer.timepassed);
-                //System.out.println(timepassed);
+            for (Person p:timer.Moving) {
+                p.Startagain(Main.timepassed);
+                System.out.println(timepassed);
+            }
+            for (Person p: timer.Prison){
+                if (p.amifree()){
+                    timer.UpdateMoving(true,p);
+                }
 
             }
 

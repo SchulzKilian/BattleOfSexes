@@ -15,6 +15,7 @@ public class Woman implements Person {
     int counter;
     boolean val = true;
     long birthday;
+    int behindbarsuntil;
 
     Woman(int x, int y, Main m) {
         peopleIcon w = new peopleIcon(x, y, new Color(0x554AC2));
@@ -28,6 +29,15 @@ public class Woman implements Person {
     public long getAge(){
         return Main.timepassed-birthday;
 
+    }
+    @Override
+    public boolean amifree(){
+        if (Main.timepassed>=behindbarsuntil){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     @Override
     public int[] moverand(int x, int y) {

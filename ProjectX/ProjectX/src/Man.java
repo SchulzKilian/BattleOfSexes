@@ -15,6 +15,7 @@ public class Man implements Person{
     boolean val=true;
     boolean cooldown=true;
     long birthday;
+    int behindbarsuntil;
 
 
 
@@ -26,7 +27,15 @@ public class Man implements Person{
         //tempodifermo[0]=1;
         //tempodifermo[1]=9;
     }
-    
+    @Override
+    public boolean amifree(){
+        if (Main.timepassed>=behindbarsuntil){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
     public boolean type(){
         return fast;
     }
