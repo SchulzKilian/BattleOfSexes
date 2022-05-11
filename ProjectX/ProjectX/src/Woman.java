@@ -4,21 +4,23 @@ public class Woman implements Person {
     Thread runningon;
     Man spouse;
     peopleIcon meetingtile;
-    String gender="female";
-    boolean single=true;
-    int age=20;
-    boolean fast=false;
+    String gender = "female";
+    boolean single = true;
+    int age = 20;
+    boolean fast = false;
     Main frame;
-    boolean running=true;
-    int[] tempodifermo=new int[2];
+    boolean running = true;
+    int[] tempodifermo = new int[2];
+    boolean cooldown = true;
+    int counter;
+    boolean val = true;
 
 
-
-    Woman(int x, int y, Main m){
-        peopleIcon w =new peopleIcon(x,y, new Color(0x554AC2));
+    Woman(int x, int y, Main m) {
+        peopleIcon w = new peopleIcon(x, y, new Color(0x554AC2));
         meetingtile = w;
-        meetingtile.setSize(7,7);
-        frame=m;
+        meetingtile.setSize(7, 7);
+        frame = m;
         //tempodifermo[0]=1;
         //tempodifermo[1]=9;
     }
@@ -44,27 +46,51 @@ public class Woman implements Person {
     }
 
     @Override
-    public boolean Startagain(int CurrentTime) {
-        if(tempodifermo[0]+tempodifermo[1]<=CurrentTime){
-            running=true;}
-        return true;
-    }
     public void Pause(int CurrentTime, int pausingtime) {
-        tempodifermo[0]=CurrentTime;
-        tempodifermo[1]=pausingtime;
-        running=false;
+        if (val) {
+            tempodifermo[0] = CurrentTime;
+            tempodifermo[1] = pausingtime;
+            counter++;
+            //System.out.println("word");
+            running = false;
+
+            val = false;
+        }
+
+    }
+
+    @Override
+    public boolean Startagain(int CurrentTime) {
+        if (counter >= 1) {
+            int f = tempodifermo[0] + tempodifermo[1];
+            //f=2600;
+            // System.out.println(f+" "+CurrentTime);
+            if (f < CurrentTime) {
+                //System.out.println("yes");
+                cooldown = false;
+
+                running = true;
+
+                val = true;
+            }
+            //System.out.println(CurrentTime);
+            //System.out.println(f);
+            return true;
+        }
+        return false;
     }
 
     @Override
     public void run() {
-        while (running){
-        frame.move(this);
-        for (Tile tile: frame.Tlist) {
-            frame.meet(tile);
-
-        }}
-
+        while (true) {
+            System.out.println("eo");
+            if (running){
+                int[][] on = frame.move(this);
+                if (cooldown) {
+                   // System.out.println("2");
+                    frame.localmeet(on);
+                }
+            }
+        }
     }
-
-
 }

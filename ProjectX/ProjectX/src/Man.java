@@ -3,7 +3,6 @@ import java.awt.*;
 public class Man implements Person{
     Thread runningon;
     peopleIcon meetingtile;
-    boolean[][] granparents={{true,true},{true,true}};
     boolean[] parents={true,true};
     String gender="male";
     boolean single=true;
@@ -13,6 +12,8 @@ public class Man implements Person{
     boolean running=true;
     int[] tempodifermo=new int[2];
     int counter=0;
+    boolean val=true;
+    boolean cooldown=true;
 
 
 
@@ -24,6 +25,7 @@ public class Man implements Person{
         //tempodifermo[0]=1;
         //tempodifermo[1]=9;
     }
+    
     public boolean type(){
         return fast;
     }
@@ -42,25 +44,36 @@ public class Man implements Person{
 
     @Override
     public void Pause(int CurrentTime, int pausingtime) {
+        if(val){
         tempodifermo[0]=CurrentTime;
         tempodifermo[1]=pausingtime;
         counter++;
+        cooldown=false;
         //System.out.println("word");
         running=false;
+        val=false;
+
+        }
 
     }
-
     @Override
-    public synchronized boolean Startagain(int CurrentTime) {
-        if(counter>=1){
-        int f=tempodifermo[0]+tempodifermo[1];
-        //f=2600;
-        if(f<CurrentTime){
-            System.out.println(f);
-        running=true;}
-        //System.out.println(CurrentTime);
-            System.out.println(f);
-        return true;}
+    public boolean Startagain(int CurrentTime) {
+        if (counter >= 1) {
+            int f = tempodifermo[0] + tempodifermo[1];
+            //f=2600;
+            // System.out.println(f+" "+CurrentTime);
+            if (f < CurrentTime) {
+                //System.out.println("yes");
+                cooldown = false;
+
+                running = true;
+
+                val = true;
+            }
+            //System.out.println(CurrentTime);
+            //System.out.println(f);
+            return true;
+        }
         return false;
     }
 
@@ -71,10 +84,15 @@ public class Man implements Person{
 
     @Override
     public void run() {
-        while (running){
-        frame.move(this);
-        for (Tile tile: frame.Tlist) {
-            frame.meet(tile);}
+        while (true) {
+            System.out.println("eo");
+            if (running){
+                int[][] on = frame.move(this);
+                if (cooldown) {
+                    // System.out.println("2");
+                    frame.localmeet(on);
+                }
+            }
         }
     }
 }

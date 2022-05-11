@@ -12,8 +12,8 @@ import static java.awt.Color.*;
 public class Main implements MouseListener {
 
     public static int timepassed;
-    public static int cicles= 5000;
-    public static int population=2;
+    public static int cicles= 300;
+    public static int population=20;
     public static int movements;
 
     public static boolean dominantgene=true;
@@ -59,12 +59,14 @@ public class Main implements MouseListener {
 
             }
         }
+        int y=0;
         Man Ancestor =new Man(0,0,this);
         Woman Ancestor2= new Woman(7,7,this);
         for (int m = 0; m < population; m++) {
             Person r=God(Ancestor,Ancestor2);
             Thread provvisorio=r.getRunningon();
             provvisorio.start();
+            System.out.println(y++);
         }
 
 
@@ -80,7 +82,7 @@ public class Main implements MouseListener {
 
 
 
-    public int[] move(Man t){
+    public  int[][] move(Man t){
         movements++;
         if(movements%10==0){
             timepassed++;
@@ -89,7 +91,7 @@ public class Main implements MouseListener {
 
         int x= t.meetingtile.coor_x;
         int y= t.meetingtile.coor_y;
-        int[][] pos={{x+1,y+0},{x+(-1),y+0},{x+0,y+1},{x+0,y+(-1)},{x+1,y+1},{x+1,y+(-1)},{x+(-1),y+1},{x+(-1),y+(-1)}};
+        int[][] pos={{x+0,y+0},{x+1,y+0},{x+(-1),y+0},{x+0,y+1},{x+0,y+(-1)},{x+1,y+1},{x+1,y+(-1)},{x+(-1),y+1},{x+(-1),y+(-1)}};
         int ind= (int) (Math.random()* pos.length);
 
             if (t.meetingtile.tileon!=null){
@@ -106,11 +108,13 @@ public class Main implements MouseListener {
                     t.meetingtile.coor_x=xt;
                     t.meetingtile.coor_y=yt;
                     frame.repaint(); frame.revalidate();
+                    int[][] pos2={{xt+0,yt+0},{xt+1,yt+0},{xt+(-1),yt+0},{xt+0,yt+1},{xt+0,yt+(-1)},{xt+1,yt+1},{xt+1,yt+(-1)},{xt+(-1),yt+1},{xt+(-1),yt+(-1)}};
+                    return pos2;
                 }
             }
-        return pos[ind];
+        return pos;
     }
-    public int[] move(Woman t){
+    public  int[][] move(Woman t){
         movements++;
         if(movements%10==0){
             timepassed++;
@@ -119,7 +123,7 @@ public class Main implements MouseListener {
 
         int x= t.meetingtile.coor_x;
         int y= t.meetingtile.coor_y;
-        int[][] pos={{x+1,y+0},{x+(-1),y+0},{x+0,y+1},{x+0,y+(-1)},{x+1,y+1},{x+1,y+(-1)},{x+(-1),y+1},{x+(-1),y+(-1)}};
+        int[][] pos={{x+0,y+0},{x+1,y+0},{x+(-1),y+0},{x+0,y+1},{x+0,y+(-1)},{x+1,y+1},{x+1,y+(-1)},{x+(-1),y+1},{x+(-1),y+(-1)}};
         int ind= (int) (Math.random()* pos.length);
 
             if (t.meetingtile.tileon!=null){
@@ -136,14 +140,14 @@ public class Main implements MouseListener {
                     t.meetingtile.coor_x=xt;
                     t.meetingtile.coor_y=yt;
                     frame.repaint(); frame.revalidate();
+                    int[][] pos2={{xt+0,yt+0},{xt+1,yt+0},{xt+(-1),yt+0},{xt+0,yt+1},{xt+0,yt+(-1)},{xt+1,yt+1},{xt+1,yt+(-1)},{xt+(-1),yt+1},{xt+(-1),yt+(-1)}};
+                    return pos2;
                 }
             }
-        return pos[ind];
+        return pos;
     }
 
     public void meet(Tile t){
-
-
         Man first;
         Woman second;
         if(t.occupants.size()>=2){
@@ -170,6 +174,20 @@ public class Main implements MouseListener {
             //  return;
             //}
             gettogether(first, second);}
+    }
+    public void localmeet(int[][] coor){
+        //Tile[] t=new Tile[8];
+        for (int i = 0; i <9; i++) {
+            for (Tile tile:Tlist) {
+                if(tile.coor_x==coor[0][0] && tile.coor_y==coor[0][1]){
+                    meet(tile);
+                }
+
+            }
+
+        }
+
+
     }
     public void gettogether(Man m, Woman w){
         if(m.single && w.single){
