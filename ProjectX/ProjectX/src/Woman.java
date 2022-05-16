@@ -7,23 +7,26 @@ public class Woman implements Person {
     String gender = "female";
     boolean single = true;
     int age = 20;
-    boolean fast = false;
+    boolean fast;
     Main frame;
     boolean running = true;
     int[] tempodifermo = new int[2];
     boolean cooldown = true;
     int counter;
     boolean val = true;
+    int moved;
 
 
     Woman(int x, int y, Main m) {
-        peopleIcon w = new peopleIcon(x, y, new Color(0x554AC2));
+        Color c=new Color(0xFFFFFF);
+        peopleIcon w=new peopleIcon(x,y, c);
         meetingtile = w;
         meetingtile.setSize(7, 7);
         frame = m;
         //tempodifermo[0]=1;
         //tempodifermo[1]=9;
     }
+
 
     @Override
     public int[] moverand(int x, int y) {
@@ -72,6 +75,7 @@ public class Woman implements Person {
                 running = true;
 
                 val = true;
+                frame.Court(false,this);
             }
             //System.out.println(CurrentTime);
             //System.out.println(f);
@@ -81,14 +85,32 @@ public class Woman implements Person {
     }
 
     @Override
+    public Main getFrame() {
+        return frame;
+    }
+
+    @Override
+    public void fenotipo() {
+        if(fast) meetingtile.setBackground(new Color(0x9D6363));
+        else  meetingtile.setBackground(new Color(0xF6A6A6));
+
+    }
+
+    @Override
     public void run() {
         while (true) {
-            System.out.println("eo");
+            frame.slowdown();
+            //System.out.println("4");
             if (running){
                 int[][] on = frame.move(this);
                 if (cooldown) {
-                   // System.out.println("2");
-                    frame.localmeet(on);
+                    if(frame.Forbidden.contains(on)==false){
+                        frame.localmeet(on);}
+                }
+                else {
+                    moved++;
+                    if(moved==4){moved=0; cooldown=true;System.out.println(moved);}
+
                 }
             }
         }

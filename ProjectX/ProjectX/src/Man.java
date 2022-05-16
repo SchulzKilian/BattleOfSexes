@@ -7,18 +7,20 @@ public class Man implements Person{
     String gender="male";
     boolean single=true;
     int age=20;
-    boolean fast=true;
+    boolean fast;
     Main frame;
     boolean running=true;
     int[] tempodifermo=new int[2];
     int counter=0;
     boolean val=true;
-    boolean cooldown=true;
+    boolean  cooldown=true;
+    int moved=0;
 
 
 
     Man(int x, int y, Main m){
-        peopleIcon n=new peopleIcon(x,y, new Color(0x327067));
+        Color c=new Color(0xFFFFFF);
+        peopleIcon n=new peopleIcon(x,y, c);
         meetingtile=n;
         meetingtile.setSize(7,7);
         frame=m;
@@ -61,14 +63,13 @@ public class Man implements Person{
         if (counter >= 1) {
             int f = tempodifermo[0] + tempodifermo[1];
             //f=2600;
-            // System.out.println(f+" "+CurrentTime);
+             System.out.println(f+" "+CurrentTime);
             if (f < CurrentTime) {
-                //System.out.println("yes");
+                System.out.println("yes");
                 cooldown = false;
-
                 running = true;
-
                 val = true;
+                frame.Court(false,this);
             }
             //System.out.println(CurrentTime);
             //System.out.println(f);
@@ -78,19 +79,44 @@ public class Man implements Person{
     }
 
     @Override
+    public Main getFrame() {
+        return frame;
+    }
+
+    @Override
+    public void fenotipo() {
+        if(fast) meetingtile.setBackground(new Color(0x7DC0A0));
+        else  meetingtile.setBackground(new Color(0xBFFFF2));
+
+    }
+
+    @Override
     public int[] moverand(int x, int y) {
         return new int[0];
+    }
+    public void turntrue(Boolean b){
+        b=true;
     }
 
     @Override
     public void run() {
         while (true) {
-            System.out.println("eo");
+            frame.slowdown();
+            //System.out.println("4");
             if (running){
                 int[][] on = frame.move(this);
                 if (cooldown) {
-                    // System.out.println("2");
-                    frame.localmeet(on);
+                    if(frame.Forbidden.contains(on)==false){
+                    frame.localmeet(on);}
+                    //System.out.println(this);
+                }
+                else {
+                    moved++;
+                    if(moved==4){
+                        moved=0;
+                        cooldown = true;
+                        System.out.println("triggered by man");
+                        }
                 }
             }
         }

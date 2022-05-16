@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -12,9 +13,14 @@ import static java.awt.Color.*;
 public class Main implements MouseListener {
 
     public static int timepassed;
-    public static int cicles= 300;
-    public static int population=20;
+    public static int cicles= 10;
+    public static int population=5;
     public static int movements;
+    public static int s;
+    public static int fastmen=2;
+    public static int fastwomen=2;
+    public static int slowmen=2;
+    public static int slowwomen=2;
 
     public static boolean dominantgene=true;
     public static boolean rand=false;
@@ -25,7 +31,8 @@ public class Main implements MouseListener {
     ArrayList<Tile> Tlist= new ArrayList<Tile>();
     ArrayList<Person> Alive=new ArrayList<Person>();
     ArrayList<Person> Moving=new ArrayList<Person>();
-
+    ArrayList<Person> Prison=new ArrayList<Person>();
+    ArrayList<Tile> Forbidden=new ArrayList<>();
 
 
     MyFrame frame = new MyFrame();
@@ -42,17 +49,17 @@ public class Main implements MouseListener {
         frame.add(map);
         frame.add(pieChart);
         pieChart.setBounds(920,10,500,300);
-        pieChart.setBackground(new Color(0x3C593A));
+        pieChart.setBackground(new Color(0xFFFFFF));
         city.setIcon(mapCity);
-        city.setBounds(10,10,880,880);
+        city.setBounds(10,10,800,800);
         frame.add(city);
-        map.setBounds(10,10,880,880);
+        map.setBounds(10,10,800,800);
         map.setOpaque(false);
         map.setLayout(grid);
         //GridLayout g=new GridLayout(10,10);
-        for (int i=1; i<=width; i++){
-            for (int z=1; z<=height; z++){
-                Tile p = new Tile(i, z, BLACK);
+        for (int i=0; i<width; i++){
+            for (int n=0; n<height; n++){
+                Tile p = new Tile(i, n, BLACK);
                 map.add(p);
                 //p.setLayout(g);
                 Tlist.add(p);
@@ -61,28 +68,20 @@ public class Main implements MouseListener {
         }
         int y=0;
         Man Ancestor =new Man(0,0,this);
+        Ancestor.fast=true;
         Woman Ancestor2= new Woman(7,7,this);
-        for (int m = 0; m < population; m++) {
+        /*for (int m = 0; m < population; m++) {
             Person r=God(Ancestor,Ancestor2);
             Thread provvisorio=r.getRunningon();
             provvisorio.start();
-            System.out.println(y++);
-        }
+           // System.out.println(y++);
+        }*/
+        initialize(fastmen,fastwomen,slowmen,slowwomen);
 
 
         }
 
-
-
-
-
-
-
-
-
-
-
-    public  int[][] move(Man t){
+    public  int[][] move (Man t){
         movements++;
         if(movements%10==0){
             timepassed++;
@@ -92,27 +91,88 @@ public class Main implements MouseListener {
         int x= t.meetingtile.coor_x;
         int y= t.meetingtile.coor_y;
         int[][] pos={{x+0,y+0},{x+1,y+0},{x+(-1),y+0},{x+0,y+1},{x+0,y+(-1)},{x+1,y+1},{x+1,y+(-1)},{x+(-1),y+1},{x+(-1),y+(-1)}};
+       /* if (x==0 && y>0){
+            pos[2]= new int[]{x, y};
+            pos[7]=new int[] {x,y+1};
+            pos[8]= new int[] {x, y+(-1)};
+
+        }
+        else if (y==0 && x>0){
+            pos[4]=new int[]{x,y};
+            pos[6]=new int[]{x+1,y};
+            pos[8]=new int[]{x+(-1),y};
+        }
+        else if (y==0 && x==0){
+            pos[2]=new int[]{x,y};
+            pos[4]=new int[]{x,y};
+            pos[6]=new int[]{x+1,y};
+            pos[7]=new int[]{x,y+1};
+            pos[8]=new int[]{x,y};
+        }
+        if(x==width-1 && y<width-1){
+            pos[1]=new int[]{x, y};
+            pos[5]= new int[]{x,y+1};
+            pos[6]= new int[]{x, y+(-1)};
+
+        }
+        else if(x<width-1 && y==width-1){
+            pos[3]=new int[]{x,y};
+            pos[5]=new int[]{x+1,y};
+            pos[7]= new int[]{x+(-1),y};
+        }
+        else if(x==width-1 && y==width-1){
+            pos[1]=new int[]{x, y};
+            pos[5]= new int[]{x+(-1),y+(-1)};
+            pos[6]= new int[]{x, y+(-1)};
+            pos[3]=new int[]{x,y};
+            pos[7]= new int[]{x+(-1),y};
+
+
+        }*/
+        if(x==0){
+            pos[2][0]=x;
+            pos[7][0]=x;
+            pos[8][0]=x;
+        }
+        else if (x== width-1) {
+            pos[1][0]=x;
+            pos[5][0]=x;
+            pos[6][0]=x;
+        }
+        if(y==0){
+            pos[4][1]=y;
+            pos[6][1]=y;
+            pos[8][1]=y;
+        }
+        else if(y== width-1){
+            pos[3][1]=y;
+            pos[5][1]=y;
+            pos[7][1]=y;
+        }
+
         int ind= (int) (Math.random()* pos.length);
 
             if (t.meetingtile.tileon!=null){
                 t.meetingtile.tileon.popoccupants(t);}
-            for (Tile tile: Tlist) {
-                if (tile.coor_x == pos[ind][0] && tile.coor_y == pos[ind][1]){
+            Tile tile=getcoor(pos[ind][0],pos[ind][1]);
+            //for (Tile tile: Tlist) {
+                //if (tile.coor_x == pos[ind][0] && tile.coor_y == pos[ind][1]){
                     //System.out.println("udfhdffdhdghdgifh");
-                    t.meetingtile.tileon=tile;
-                    tile.add(t.meetingtile);
-                    //tile.setwhite();
-                    tile.addoccupants(t);
-                    int xt= tile.coor_x;
-                    int yt =tile.coor_y;
-                    t.meetingtile.coor_x=xt;
-                    t.meetingtile.coor_y=yt;
-                    frame.repaint(); frame.revalidate();
-                    int[][] pos2={{xt+0,yt+0},{xt+1,yt+0},{xt+(-1),yt+0},{xt+0,yt+1},{xt+0,yt+(-1)},{xt+1,yt+1},{xt+1,yt+(-1)},{xt+(-1),yt+1},{xt+(-1),yt+(-1)}};
-                    return pos2;
-                }
-            }
-        return pos;
+
+            t.meetingtile.tileon=tile;
+            tile.add(t.meetingtile);
+            //tile.setwhite();
+            tile.addoccupants(t);
+            int xt= tile.coor_x;
+            int yt =tile.coor_y;
+            t.meetingtile.coor_x=xt;
+            t.meetingtile.coor_y=yt;
+            frame.repaint(); frame.revalidate();
+            int[][] pos2={{xt+0,yt+0},{xt+1,yt+0},{xt+(-1),yt+0},{xt+0,yt+1},{xt+0,yt+(-1)},{xt+1,yt+1},{xt+1,yt+(-1)},{xt+(-1),yt+1},{xt+(-1),yt+(-1)}};
+            return pos2;
+                //}
+            //}
+        //return pos;
     }
     public  int[][] move(Woman t){
         movements++;
@@ -124,42 +184,165 @@ public class Main implements MouseListener {
         int x= t.meetingtile.coor_x;
         int y= t.meetingtile.coor_y;
         int[][] pos={{x+0,y+0},{x+1,y+0},{x+(-1),y+0},{x+0,y+1},{x+0,y+(-1)},{x+1,y+1},{x+1,y+(-1)},{x+(-1),y+1},{x+(-1),y+(-1)}};
+       /* if (x==0 && y>0){
+            pos[2]= new int[]{x, y};
+            pos[7]=new int[] {x,y+1};
+            pos[8]= new int[] {x, y+(-1)};
+
+        }
+        else if (y==0 && x>0){
+            pos[4]=new int[]{x,y};
+            pos[6]=new int[]{x+1,y};
+            pos[8]=new int[]{x+(-1),y};
+        }
+        else if (y==0 && x==0){
+            pos[2]=new int[]{x,y};
+            pos[4]=new int[]{x,y};
+            pos[6]=new int[]{x+1,y};
+            pos[7]=new int[]{x,y+1};
+            pos[8]=new int[]{x,y};
+        }
+        if(x==width-1 && y<width-1){
+            pos[1]=new int[]{x, y};
+            pos[5]= new int[]{x,y+1};
+            pos[6]= new int[]{x, y+(-1)};
+
+        }
+        else if(x<width-1 && y==width-1){
+            pos[3]=new int[]{x,y};
+            pos[5]=new int[]{x+1,y};
+            pos[7]= new int[]{x+(-1),y};
+        }
+        else if(x==width-1 && y==width-1){
+            pos[1]=new int[]{x, y};
+            pos[5]= new int[]{x+(-1),y+(-1)};
+            pos[6]= new int[]{x, y+(-1)};
+            pos[3]=new int[]{x,y};
+            pos[7]= new int[]{x+(-1),y};
+
+
+        }*/
+        if(x==0){
+            pos[2][0]=x;
+            pos[7][0]=x;
+            pos[8][0]=x;
+        }
+        else if (x== width-1) {
+            pos[1][0]=x;
+            pos[5][0]=x;
+            pos[6][0]=x;
+        }
+        if(y==0){
+            pos[4][1]=y;
+            pos[6][1]=y;
+            pos[8][1]=y;
+        }
+        else if(y== width-1){
+            pos[3][1]=y;
+            pos[5][1]=y;
+            pos[7][1]=y;
+        }
+
         int ind= (int) (Math.random()* pos.length);
 
-            if (t.meetingtile.tileon!=null){
-                t.meetingtile.tileon.popoccupants(t);}
-            for (Tile tile: Tlist) {
-                if (tile.coor_x == pos[ind][0] && tile.coor_y == pos[ind][1]){
+        if (t.meetingtile.tileon!=null){
+            t.meetingtile.tileon.popoccupants(t);}
+        Tile tile=getcoor(pos[ind][0],pos[ind][1]);
+        //for (Tile tile: Tlist) {
+        //if (tile.coor_x == pos[ind][0] && tile.coor_y == pos[ind][1]){
+        //System.out.println("udfhdffdhdghdgifh");
 
-                    //System.out.println("udfhdffdhdghdgifh");
-                    t.meetingtile.tileon=tile;
-                    tile.add(t.meetingtile);
-                    tile.addoccupants(t);
-                    int xt= tile.coor_x;
-                    int yt =tile.coor_y;
-                    t.meetingtile.coor_x=xt;
-                    t.meetingtile.coor_y=yt;
-                    frame.repaint(); frame.revalidate();
-                    int[][] pos2={{xt+0,yt+0},{xt+1,yt+0},{xt+(-1),yt+0},{xt+0,yt+1},{xt+0,yt+(-1)},{xt+1,yt+1},{xt+1,yt+(-1)},{xt+(-1),yt+1},{xt+(-1),yt+(-1)}};
-                    return pos2;
-                }
-            }
-        return pos;
+        t.meetingtile.tileon=tile;
+        tile.add(t.meetingtile);
+        //tile.setwhite();
+        tile.addoccupants(t);
+        int xt= tile.coor_x;
+        int yt =tile.coor_y;
+        t.meetingtile.coor_x=xt;
+        t.meetingtile.coor_y=yt;
+        frame.repaint(); frame.revalidate();
+        int[][] pos2={{xt+0,yt+0},{xt+1,yt+0},{xt+(-1),yt+0},{xt+0,yt+1},{xt+0,yt+(-1)},{xt+1,yt+1},{xt+1,yt+(-1)},{xt+(-1),yt+1},{xt+(-1),yt+(-1)}};
+        return pos2;
+        //}
+        //}
+        //return pos;
+    }
+    public  synchronized void slowdown(){
+        int[] f=new int[4];
+        f[0]=1;
+        f[2]=1;
+        f[3]=1;
+        f[1]=1;
+
+    }
+    public void initialize(int fm,int fw,int sm,int sw){
+        for (int i = 0; i < fm; i++) {
+            Man m=new Man(0,0,this);
+            m.fast=true;
+            m.fenotipo();
+            m.age=20;
+            Thread thread=new Thread(m);
+            m.runningon=thread;
+            m.runningon.start();
+            Alive.add(m);
+        }
+        for (int i = 0; i < sm; i++) {
+            Man m=new Man(0,0,this);
+            m.fast=false;
+            m.fenotipo();
+            m.age=20;
+            Thread thread=new Thread(m);
+            m.runningon=thread;
+            m.runningon.start();
+            Alive.add(m);
+
+        }
+        for (int i = 0; i < fw; i++) {
+            Woman w=new Woman(29,29,this);
+            w.fast=true;
+            w.fenotipo();
+            w.age=20;
+            Thread thread=new Thread(w);
+            w.runningon=thread;
+            w.runningon.start();
+            Alive.add(w);
+
+
+        }
+        for (int i = 0; i < sw; i++) {
+            Woman w=new Woman(29,29,this);
+            w.fast=false;
+            w.fenotipo();
+            w.age=20;
+            Thread thread=new Thread(w);
+            w.runningon=thread;
+            w.runningon.start();
+            Alive.add(w);
+
+
+        }
     }
 
     public void meet(Tile t){
         Man first;
         Woman second;
         if(t.occupants.size()>=2){
+            //System.out.println(t.occupants.get(0)+" "+t.occupants.get(1));
+            //t.occupants.get(1).getFrame().slowdown();
+            //t.occupants.get(0).getFrame().slowdown();
+            try {
             if(t.occupants.get(1).getgender().equals("male") && t.occupants.get(0).getgender().equals("female")){
+                //System.out.println("all good");
                 first= (Man) t.occupants.get(1);
                 second =(Woman) t.occupants.get(0);
             }
             else if(t.occupants.get(0).getgender().equals("male") && t.occupants.get(1).getgender().equals("female")){
+               // System.out.println("all good");
                 first= (Man) t.occupants.get(0);
                 second =(Woman) t.occupants.get(1);
             }
-            else return;
+            else { //System.out.println("all good");
+                return;}
 
             if (!first.single || !second.single){
                 return;
@@ -170,14 +353,31 @@ public class Main implements MouseListener {
             if(first.type()== second.type()){
                 gettogether(first, second);
             }
-            //if (first.gender.equals("male") && first.type() || second.gender.equals("male") && second.type()){
-            //  return;
-            //}
             gettogether(first, second);}
+            catch (java.lang.IndexOutOfBoundsException e){
+                System.out.println("out of bound");
+            }
+            catch (java.lang.NullPointerException e){
+            System.out.println("null pointer");
+            }
+        }
+        else{
+            return;}
+
     }
+    public Tile getcoor(int x, int y){
+        //assert (x< width && y< height );
+
+        int z = (x)*width + (y);
+        //System.out.println(x+" "+width+" "+y);
+        //System.out.println(z);
+        return Tlist.get(z);
+    }
+
     public void localmeet(int[][] coor){
+        meet(getcoor(coor[0][0],coor[0][1]));
         //Tile[] t=new Tile[8];
-        for (int i = 0; i <9; i++) {
+        /*for (int i = 0; i <9; i++) {
             for (Tile tile:Tlist) {
                 if(tile.coor_x==coor[0][0] && tile.coor_y==coor[0][1]){
                     meet(tile);
@@ -185,17 +385,23 @@ public class Main implements MouseListener {
 
             }
 
-        }
+        }*/
 
 
     }
-    public void gettogether(Man m, Woman w){
+    public synchronized void gettogether(Man m, Woman w){
         if(m.single && w.single){
             m.Pause(timepassed,cicles);
             w.Pause(timepassed,cicles);
             //System.out.println("io");
-            UpdateMoving(false,m);
-            UpdateMoving(false,w);
+            if(!Forbidden.contains(m.meetingtile.tileon))
+                Forbidden.add(m.meetingtile.tileon);
+            s++;
+            if(s==1){Court(true,m);
+                Court(true,w);}
+            System.out.println(Forbidden.size());
+
+
         }
     }
     public boolean inheritance(Man m, Woman w){
@@ -210,6 +416,7 @@ public class Main implements MouseListener {
         if(gender[y].equals("male")){
             Man m=new Man(0,0,this);
             m.fast=inheritance(parent1,parent2);
+            m.fenotipo();
             m.age=20;
             Thread thread=new Thread(m);
             m.runningon=thread;
@@ -219,6 +426,7 @@ public class Main implements MouseListener {
         else {
             Woman w=new Woman(29,29,this);
             w.fast=inheritance(parent1,parent2);
+            w.fenotipo();
             w.age=20;
             Thread thread=new Thread(w);
             w.runningon=thread;
@@ -248,14 +456,14 @@ public class Main implements MouseListener {
         p.meetingtile.tileon.remove(p.meetingtile);
 
     }
-    public  void UpdateMoving(Boolean v,Person p){
+    public  void Court(Boolean v,Person p){
         if(v){
-            Moving.add(p);
-
+            if(!Prison.contains(p))
+                Prison.add(p);
+            System.out.println(Prison.size());
         }
         else {
-            Moving.remove(p);
-
+            Prison.remove(p);
         }
     }
 
@@ -264,10 +472,16 @@ public class Main implements MouseListener {
         Main timer = new Main();
         int[] f= new int[2];
         while(true){
-            for (Person p:timer.Alive) {
-                p.Startagain(timer.timepassed);
-                //System.out.println(timepassed);
 
+            try {
+                //System.out.println(timer.Prison.size());
+                for (Person p:timer.Prison) {
+                    System.out.println("sdsd");
+                    p.Startagain(timer.timepassed);
+                    //System.out.println(timepassed);
+                }
+            }catch (java.util.ConcurrentModificationException e){
+                System.out.println("error");
             }
 
     }}
@@ -276,25 +490,14 @@ public class Main implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
 
-    }
+    } @Override public void mousePressed(MouseEvent e) {} @Override public void mouseReleased(MouseEvent e) {
 
-    @Override
-    public void mousePressed(MouseEvent e) {
+    } @Override public void mouseEntered(MouseEvent e) {
 
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
+    } @Override public void mouseExited(MouseEvent e) {
 
     }
 
-    @Override
-    public void mouseEntered(MouseEvent e) {
 
-    }
 
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
 }

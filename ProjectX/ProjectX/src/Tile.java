@@ -27,7 +27,7 @@ public class Tile extends JPanel {
         occupants.add(t);
         return occupants;
     }
-    public ArrayList<Person> popoccupants(Person t){
+    public synchronized ArrayList<Person> popoccupants(Person t){
         occupants.remove(t);
         return occupants;
     }
