@@ -33,13 +33,23 @@ public class Main implements MouseListener {
     ArrayList<Person> Moving=new ArrayList<Person>();
     ArrayList<Person> Prison=new ArrayList<Person>();
     ArrayList<Tile> Forbidden=new ArrayList<>();
+    float totPeople =  (float) amountmen + amountwomen;
+    float n1 = (float) amountmen;
+    float n2 = (float) amountmen;
+    float n3 = (float) amountwomen;
+    float n4 = (float) amountwomen;
 
 
     MyFrame frame = new MyFrame();
     JPanel map = new JPanel();
     JLabel city = new JLabel();
     ImageIcon mapCity = new ImageIcon("ProjectX/ProjectX/src/cityImage.jpg");
-    PieChart pieChart = new PieChart(30,140,90,100);
+    LowerPanel buttonPanel = new LowerPanel(frame);
+    JLabel stats1 = new JLabel();
+    JLabel stats2 = new JLabel();
+    JLabel stats3 = new JLabel();
+    JLabel stats4 = new JLabel();
+    PieChart pieChart = new PieChart(totPeople,n1,n2,n3,n4, stats1, stats2, stats3, stats4, frame);
     GridLayout grid = new GridLayout(height, width);
 
 
@@ -49,14 +59,14 @@ public class Main implements MouseListener {
         frame.add(map);
         frame.add(pieChart);
         pieChart.setBounds(920,10,500,300);
-        pieChart.setBackground(new Color(0xFFFFFF));
         city.setIcon(mapCity);
-        city.setBounds(10,10,800,800);
+        city.setBounds(10,10,880,880);
         frame.add(city);
-        map.setBounds(10,10,800,800);
+        frame.add(buttonPanel);
+        buttonPanel.setBounds(920,350,450,500);
+        map.setBounds(10,10,880,880);
         map.setOpaque(false);
         map.setLayout(grid);
-        //GridLayout g=new GridLayout(10,10);
         for (int i=0; i<width; i++){
             for (int n=0; n<height; n++){
                 Tile p = new Tile(i, n, BLACK);
