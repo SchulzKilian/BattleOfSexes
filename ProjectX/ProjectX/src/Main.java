@@ -13,11 +13,11 @@ import static java.awt.Color.*;
 public class Main implements MouseListener {
 
     public static int timepassed;
-    public static int cicles= 10;
+    public static int cicles= 100;
     public static int population=5;
     public static int movements;
     public static int s;
-    public static int fastmen=2;
+    public static int fastmen=3;
     public static int fastwomen=2;
     public static int slowmen=2;
     public static int slowwomen=2;
@@ -77,6 +77,21 @@ public class Main implements MouseListener {
            // System.out.println(y++);
         }*/
         initialize(fastmen,fastwomen,slowmen,slowwomen);
+        while(true){
+            slowdown();
+            //System.out.println(Prison.size());
+            try {
+                //System.out.println(timer.Prison.size());
+                for (Person p:Prison) {
+                    //System.out.println("sdsd");
+                    p.Startagain(timepassed);
+                    //System.out.println(timepassed);
+                }
+            }catch (java.util.ConcurrentModificationException e){
+                System.out.println("error");
+            }
+
+        }
 
 
         }
@@ -396,10 +411,10 @@ public class Main implements MouseListener {
             //System.out.println("io");
             if(!Forbidden.contains(m.meetingtile.tileon))
                 Forbidden.add(m.meetingtile.tileon);
-            s++;
-            if(s==1){Court(true,m);
-                Court(true,w);}
-            System.out.println(Forbidden.size());
+
+            Court(true,m);
+            Court(true,w);
+          //System.out.println(Prison.size());
 
 
         }
@@ -460,7 +475,7 @@ public class Main implements MouseListener {
         if(v){
             if(!Prison.contains(p))
                 Prison.add(p);
-            System.out.println(Prison.size());
+            //System.out.println(Prison.size());
         }
         else {
             Prison.remove(p);
@@ -471,8 +486,9 @@ public class Main implements MouseListener {
     public static void main(String[] args) throws InterruptedException {
         Main timer = new Main();
         int[] f= new int[2];
-        while(true){
-
+      /*  while(true){
+            if(timer.Prison.size()>0)
+                System.out.println(timer.Prison.size());
             try {
                 //System.out.println(timer.Prison.size());
                 for (Person p:timer.Prison) {
@@ -482,9 +498,9 @@ public class Main implements MouseListener {
                 }
             }catch (java.util.ConcurrentModificationException e){
                 System.out.println("error");
-            }
+            }*/
 
-    }}
+    }
 
 
     @Override

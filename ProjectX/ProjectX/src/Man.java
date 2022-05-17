@@ -63,9 +63,9 @@ public class Man implements Person{
         if (counter >= 1) {
             int f = tempodifermo[0] + tempodifermo[1];
             //f=2600;
-             System.out.println(f+" "+CurrentTime);
+             //System.out.println(f+" "+CurrentTime);
             if (f < CurrentTime) {
-                System.out.println("yes");
+                //System.out.println("yes");
                 cooldown = false;
                 running = true;
                 val = true;
@@ -106,7 +106,7 @@ public class Man implements Person{
             if (running){
                 int[][] on = frame.move(this);
                 if (cooldown) {
-                    if(frame.Forbidden.contains(on)==false){
+                    if(frame.Forbidden.contains(frame.getcoor(on[0][0],on[0][1]))==false){
                     frame.localmeet(on);}
                     //System.out.println(this);
                 }
@@ -115,7 +115,7 @@ public class Man implements Person{
                     if(moved==4){
                         moved=0;
                         cooldown = true;
-                        System.out.println("triggered by man");
+                        //System.out.println("triggered by man");
                         }
                 }
             }

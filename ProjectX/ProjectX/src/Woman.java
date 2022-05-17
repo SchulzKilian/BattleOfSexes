@@ -104,12 +104,13 @@ public class Woman implements Person {
             if (running){
                 int[][] on = frame.move(this);
                 if (cooldown) {
-                    if(frame.Forbidden.contains(on)==false){
+                    if(frame.Forbidden.contains(frame.getcoor(on[0][0],on[0][1]))==false){
                         frame.localmeet(on);}
                 }
                 else {
                     moved++;
-                    if(moved==4){moved=0; cooldown=true;System.out.println(moved);}
+                    if(moved==4){moved=0; cooldown=true;//System.out.println(moved);
+                         }
 
                 }
             }
