@@ -6,7 +6,6 @@ public class Man implements Person{
     boolean[] parents={true,true};
     String gender="male";
     boolean single=true;
-    int age=20;
     boolean fast;
     Main frame;
     boolean running=true;
@@ -15,6 +14,7 @@ public class Man implements Person{
     boolean val=true;
     boolean  cooldown=true;
     int moved=0;
+    int birthday;
 
 
 
@@ -36,6 +36,9 @@ public class Man implements Person{
     public String getgender() {
         //System.out.println("triggered");
         return gender;
+    }
+    public int getage(){
+        return Main.timepassed - birthday;
     }
 
     @Override

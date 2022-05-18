@@ -305,7 +305,7 @@ public class Main implements MouseListener {
             Man m=new Man(0,0,this);
             m.fast=true;
             m.fenotipo();
-            m.age=20;
+            m.birthday = timepassed;
             Thread thread=new Thread(m);
             m.runningon=thread;
             m.runningon.start();
@@ -315,7 +315,7 @@ public class Main implements MouseListener {
             Man m=new Man(0,0,this);
             m.fast=false;
             m.fenotipo();
-            m.age=20;
+            m.birthday = timepassed;
             Thread thread=new Thread(m);
             m.runningon=thread;
             m.runningon.start();
@@ -326,7 +326,7 @@ public class Main implements MouseListener {
             Woman w=new Woman(29,29,this);
             w.fast=true;
             w.fenotipo();
-            w.age=20;
+            w.birthday = timepassed;
             Thread thread=new Thread(w);
             w.runningon=thread;
             w.runningon.start();
@@ -335,10 +335,10 @@ public class Main implements MouseListener {
 
         }
         for (int i = 0; i < sw; i++) {
-            Woman w=new Woman(29,29,this);
+            Woman w=new Woman(width -1,height -1,this);
             w.fast=false;
             w.fenotipo();
-            w.age=20;
+            w.birthday = timepassed;
             Thread thread=new Thread(w);
             w.runningon=thread;
             w.runningon.start();
@@ -372,7 +372,7 @@ public class Main implements MouseListener {
             if (!first.single || !second.single){
                 return;
             }
-            if ((55 > first.age && first.age < 12) || (55 > second.age && second.age<12)){
+            if ((55 > first.getage() && first.getage() < 12) || (55 > second.getage() && second.getage()<12)){
                 return;
             }
             if(first.type()== second.type()){
@@ -442,7 +442,7 @@ public class Main implements MouseListener {
             Man m=new Man(0,0,this);
             m.fast=inheritance(parent1,parent2);
             m.fenotipo();
-            m.age=20;
+            m.birthday = timepassed;
             Thread thread=new Thread(m);
             m.runningon=thread;
             Alive.add(m);
@@ -452,7 +452,7 @@ public class Main implements MouseListener {
             Woman w=new Woman(29,29,this);
             w.fast=inheritance(parent1,parent2);
             w.fenotipo();
-            w.age=20;
+            w.birthday = timepassed;
             Thread thread=new Thread(w);
             w.runningon=thread;
             Alive.add(w);

@@ -6,7 +6,6 @@ public class Woman implements Person {
     peopleIcon meetingtile;
     String gender = "female";
     boolean single = true;
-    int age = 20;
     boolean fast;
     Main frame;
     boolean running = true;
@@ -15,6 +14,7 @@ public class Woman implements Person {
     int counter;
     boolean val = true;
     int moved;
+    int birthday;
 
 
     Woman(int x, int y, Main m) {
@@ -38,6 +38,9 @@ public class Woman implements Person {
         return fast;
     }
 
+    public int getage(){
+        return Main.timepassed - birthday;
+    }
     @Override
     public String getgender() {
         return gender;
