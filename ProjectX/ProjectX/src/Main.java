@@ -4,6 +4,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.ConcurrentModificationException;
+import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -11,9 +13,14 @@ import java.util.concurrent.TimeUnit;
 import static java.awt.Color.*;
 
 public class Main implements MouseListener {
-
+    public Random rd = new Random();
+    public static int lifeexpectancy = 100;
+    public static int a = 30;
+    public static int b = 50;
+    public static int c = 50;
+    public static ItsTime timelord;
     public static int timepassed;
-    public static int cicles= 100;
+    public static int cicles= b+c;
     public static int population=5;
     public static int movements;
     public static int s;
@@ -21,6 +28,7 @@ public class Main implements MouseListener {
     public static int fastwomen=2;
     public static int slowmen=2;
     public static int slowwomen=2;
+    public static boolean allowed = true;
 
     public static boolean dominantgene=true;
     public static boolean rand=false;
@@ -29,9 +37,9 @@ public class Main implements MouseListener {
     int amountmen = 10;
     int amountwomen = 10;
     ArrayList<Tile> Tlist= new ArrayList<Tile>();
-    ArrayList<Person> Alive=new ArrayList<Person>();
+    static ArrayList<Person> Alive=new ArrayList<Person>();
     ArrayList<Person> Moving=new ArrayList<Person>();
-    ArrayList<Person> Prison=new ArrayList<Person>();
+    static ArrayList<Person> Prison=new ArrayList<Person>();
     ArrayList<Tile> Forbidden=new ArrayList<>();
     float totPeople =  (float) amountmen + amountwomen;
     float n1 = (float) amountmen;
@@ -87,35 +95,26 @@ public class Main implements MouseListener {
            // System.out.println(y++);
         }*/
         initialize(fastmen,fastwomen,slowmen,slowwomen);
-        while(true){
-            slowdown();
-            //System.out.println(Prison.size());
-            try {
-                //System.out.println(timer.Prison.size());
-                for (Person p:Prison) {
-                    //System.out.println("sdsd");
-                    p.Startagain(timepassed);
-                    //System.out.println(timepassed);
-                }
-            }catch (java.util.ConcurrentModificationException e){
-                System.out.println("error");
-            }
 
-        }
+
 
 
         }
+
 
     public  int[][] move (Man t){
         movements++;
         if(movements%10==0){
             timepassed++;
+            ItsTime timehascome = new ItsTime(this);
+            timehascome.start();
+            timelord = timehascome;
             movements=0;
         }
 
         int x= t.meetingtile.coor_x;
         int y= t.meetingtile.coor_y;
-        int[][] pos={{x+0,y+0},{x+1,y+0},{x+(-1),y+0},{x+0,y+1},{x+0,y+(-1)},{x+1,y+1},{x+1,y+(-1)},{x+(-1),y+1},{x+(-1),y+(-1)}};
+        int[][] pos={{x,y},{x+1,y},{x+(-1),y},{x,y+1},{x,y+(-1)},{x+1,y+1},{x+1,y+(-1)},{x+(-1),y+1},{x+(-1),y+(-1)}};
        /* if (x==0 && y>0){
             pos[2]= new int[]{x, y};
             pos[7]=new int[] {x,y+1};
@@ -193,16 +192,27 @@ public class Main implements MouseListener {
             t.meetingtile.coor_x=xt;
             t.meetingtile.coor_y=yt;
             frame.repaint(); frame.revalidate();
-            int[][] pos2={{xt+0,yt+0},{xt+1,yt+0},{xt+(-1),yt+0},{xt+0,yt+1},{xt+0,yt+(-1)},{xt+1,yt+1},{xt+1,yt+(-1)},{xt+(-1),yt+1},{xt+(-1),yt+(-1)}};
+            int[][] pos2={{xt,yt},{xt+1,yt},{xt+(-1),yt},{xt,yt+1},{xt,yt+(-1)},{xt+1,yt+1},{xt+1,yt+(-1)},{xt+(-1),yt+1},{xt+(-1),yt+(-1)}};
             return pos2;
                 //}
             //}
         //return pos;
     }
+    public synchronized void checker(){
+
+        for (Person p:Prison) {
+            //System.out.println("sdsd");
+            p.Startagain(timepassed);
+            //System.out.println(timepassed);
+        }
+    }
     public  int[][] move(Woman t){
         movements++;
         if(movements%10==0){
             timepassed++;
+            ItsTime timehascome = new ItsTime(this);
+            timehascome.start();
+            timelord = timehascome;
             movements=0;
         }
 
@@ -286,7 +296,7 @@ public class Main implements MouseListener {
         t.meetingtile.coor_x=xt;
         t.meetingtile.coor_y=yt;
         frame.repaint(); frame.revalidate();
-        int[][] pos2={{xt+0,yt+0},{xt+1,yt+0},{xt+(-1),yt+0},{xt+0,yt+1},{xt+0,yt+(-1)},{xt+1,yt+1},{xt+1,yt+(-1)},{xt+(-1),yt+1},{xt+(-1),yt+(-1)}};
+        int[][] pos2={{xt,yt},{xt+1,yt},{xt+(-1),yt},{xt,yt+1},{xt,yt+(-1)},{xt+1,yt+1},{xt+1,yt+(-1)},{xt+(-1),yt+1},{xt+(-1),yt+(-1)}};
         return pos2;
         //}
         //}
@@ -352,16 +362,18 @@ public class Main implements MouseListener {
         Man first;
         Woman second;
         if(t.occupants.size()>=2){
+            String genderfirst=t.occupants.get(1).getgender();
+            String gendersecond = t.occupants.get(0).getgender();
             //System.out.println(t.occupants.get(0)+" "+t.occupants.get(1));
             //t.occupants.get(1).getFrame().slowdown();
             //t.occupants.get(0).getFrame().slowdown();
             try {
-            if(t.occupants.get(1).getgender().equals("male") && t.occupants.get(0).getgender().equals("female")){
+            if(genderfirst.equals("male") && gendersecond.equals("female")){
                 //System.out.println("all good");
                 first= (Man) t.occupants.get(1);
                 second =(Woman) t.occupants.get(0);
             }
-            else if(t.occupants.get(0).getgender().equals("male") && t.occupants.get(1).getgender().equals("female")){
+            else if(gendersecond.equals("male") && genderfirst.equals("female")){
                // System.out.println("all good");
                 first= (Man) t.occupants.get(0);
                 second =(Woman) t.occupants.get(1);
@@ -376,6 +388,7 @@ public class Main implements MouseListener {
                 return;
             }
             if(first.type()== second.type()){
+                gettogether(first, second);
                 gettogether(first, second);
             }
             gettogether(first, second);}
@@ -414,14 +427,15 @@ public class Main implements MouseListener {
 
 
     }
-    public synchronized void gettogether(Man m, Woman w){
+    public void gettogether(Man m, Woman w){
         if(m.single && w.single){
             m.Pause(timepassed,cicles);
             w.Pause(timepassed,cicles);
             //System.out.println("io");
             if(!Forbidden.contains(m.meetingtile.tileon))
                 Forbidden.add(m.meetingtile.tileon);
-
+            m.Partner=w;
+            w.Partner = m;
             Court(true,m);
             Court(true,w);
           //System.out.println(Prison.size());
@@ -435,21 +449,32 @@ public class Main implements MouseListener {
         return disp[x];
 
     }
-    public Person God(Man parent1, Woman parent2){
+    synchronized public static void warten(){
+        for (Person i : Alive){
+            try {
+                i.getRunningon().wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+    public Person God(Man parent1, Woman parent2, int x,int y){
         String[] gender={"male","female"};
-        int y=(int)(Math.random()*2);
-        if(gender[y].equals("male")){
-            Man m=new Man(0,0,this);
+        int k=(int)(Math.random()*2);
+        if(gender[k].equals("male")){
+            Man m=new Man(x,y,this);
             m.fast=inheritance(parent1,parent2);
             m.fenotipo();
             m.birthday = timepassed;
             Thread thread=new Thread(m);
             m.runningon=thread;
             Alive.add(m);
+            thread.start();
             return m;
         }
         else {
-            Woman w=new Woman(29,29,this);
+            Woman w=new Woman(x,y,this);
             w.fast=inheritance(parent1,parent2);
             w.fenotipo();
             w.birthday = timepassed;
@@ -461,16 +486,7 @@ public class Main implements MouseListener {
         }
 
     }
-    public void GrimReaper(Man p){
-        Alive.remove(p);
-        p.runningon.stop();
-        this.remove(p);
-    }
-    public void GrimReaper(Woman p){
-        Alive.remove(p);
-        p.runningon.stop();
-        this.remove(p);
-    }
+
     public void remove(Man p){
         p.meetingtile.color= lightGray;
         p.meetingtile.tileon.remove(p.meetingtile);
@@ -481,7 +497,17 @@ public class Main implements MouseListener {
         p.meetingtile.tileon.remove(p.meetingtile);
 
     }
-    public  void Court(Boolean v,Person p){
+    public void makebabies(Man one, Woman two) {
+        int max = a / 10;
+        int x = two.meetingtile.coor_x;
+        int y = two.meetingtile.coor_y;
+        int amount = rd.nextInt(max);
+        for (int ja = 1;ja <amount; ja++){
+            God(one,two,x,y);
+        }
+        System.out.println(Integer.toString(amount)+"new babies");
+    }
+    public void Court(Boolean v,Person p){
         if(v){
             if(!Prison.contains(p))
                 Prison.add(p);
@@ -491,7 +517,16 @@ public class Main implements MouseListener {
             Prison.remove(p);
         }
     }
-
+    public  void GrimReaper(Man p){
+        Alive.remove(p);
+        p.runningon.stop();
+        this.remove(p);
+    }
+    public  void GrimReaper(Woman p){
+        Alive.remove(p);
+        p.runningon.stop();
+        this.remove(p);
+    }
 
     public static void main(String[] args) throws InterruptedException {
         Main timer = new Main();

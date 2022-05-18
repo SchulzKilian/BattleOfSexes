@@ -15,7 +15,8 @@ public class LowerPanel extends JPanel{
         startButton.setBounds(100,300,300,70);
         startButton.addActionListener(
                 e -> {startButton.setEnabled(false);
-                    stopButton.setEnabled(true);}
+                    stopButton.setEnabled(true);
+}
         );
         startButton.setOpaque(true);
         startButton.setText("start simulation");
@@ -30,7 +31,8 @@ public class LowerPanel extends JPanel{
         stopButton.setBounds(100,400,300,70);
         stopButton.addActionListener(
                 e -> {startButton.setEnabled(true);
-                    stopButton.setEnabled(false);}
+                    stopButton.setEnabled(false);
+                    Main.warten();}
         );
         stopButton.setOpaque(true);
         stopButton.setText("stop simulation");

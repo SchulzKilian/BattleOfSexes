@@ -2,10 +2,11 @@ import java.awt.*;
 
 public class Woman implements Person {
     Thread runningon;
-    Man spouse;
+
     peopleIcon meetingtile;
     String gender = "female";
     boolean single = true;
+    Man Partner = null;
     boolean fast;
     Main frame;
     boolean running = true;
@@ -18,8 +19,8 @@ public class Woman implements Person {
 
 
     Woman(int x, int y, Main m) {
-        Color c=new Color(0xFFFFFF);
-        peopleIcon w=new peopleIcon(x,y, c);
+        Color c = new Color(0xFFFFFF);
+        peopleIcon w = new peopleIcon(x, y, c);
         meetingtile = w;
         meetingtile.setSize(7, 7);
         frame = m;
@@ -38,9 +39,11 @@ public class Woman implements Person {
         return fast;
     }
 
-    public int getage(){
-        return Main.timepassed - birthday;
+    @Override
+    public int getage() {
+        return (Main.timepassed - birthday)/50;
     }
+
     @Override
     public String getgender() {
         return gender;
@@ -65,6 +68,8 @@ public class Woman implements Person {
 
     }
 
+
+
     @Override
     public boolean Startagain(int CurrentTime) {
         if (counter >= 1) {
@@ -76,9 +81,11 @@ public class Woman implements Person {
                 cooldown = false;
 
                 running = true;
-
+                if (!(Partner==null)){
+                    frame.makebabies(Partner, this);
+                }
                 val = true;
-                frame.Court(false,this);
+                frame.Court(false, this);
             }
             //System.out.println(CurrentTime);
             //System.out.println(f);
@@ -94,29 +101,40 @@ public class Woman implements Person {
 
     @Override
     public void fenotipo() {
-        if(fast) meetingtile.setBackground(new Color(0x9D6363));
-        else  meetingtile.setBackground(new Color(0xF6A6A6));
+        if (fast) meetingtile.setBackground(new Color(0x9D6363));
+        else meetingtile.setBackground(new Color(0xF6A6A6));
 
     }
 
     @Override
     public void run() {
         while (true) {
-            frame.slowdown();
-            //System.out.println("4");
-            if (running){
-                int[][] on = frame.move(this);
-                if (cooldown) {
-                    if(frame.Forbidden.contains(frame.getcoor(on[0][0],on[0][1]))==false){
-                        frame.localmeet(on);}
-                }
-                else {
-                    moved++;
-                    if(moved==4){moved=0; cooldown=true;//System.out.println(moved);
-                         }
 
+                frame.slowdown();
+                //System.out.println("4");
+                if (running) {
+                    if (!Main.allowed) {
+                        try {
+                            Main.timelord.join();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    int[][] on = frame.move(this);
+                    if (cooldown) {
+                        if (!frame.Forbidden.contains(frame.getcoor(on[0][0], on[0][1]))) {
+                            frame.localmeet(on);
+                        }
+                    } else {
+                        moved++;
+                        if (moved == 4) {
+                            moved = 0;
+                            cooldown = true;//System.out.println(moved);
+                        }
+
+                    }
                 }
             }
         }
     }
-}
+

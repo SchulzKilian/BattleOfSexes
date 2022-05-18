@@ -10,6 +10,8 @@ public interface Person extends Runnable {
     public boolean Startagain(int CurrentTime);
     public Main getFrame();
     public void fenotipo();
+    public int getage();
+
 
 
 }
