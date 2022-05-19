@@ -20,7 +20,7 @@ public class Main implements MouseListener {
     public static int movements;
     public static int s;
     public static int fastmen=3;
-    public static int fastwomen=50;
+    public static int fastwomen=5;
     public static int slowmen=2;
     public static int slowwomen=2;
     public static boolean allowed = true;
@@ -37,11 +37,11 @@ public class Main implements MouseListener {
     static ArrayList<Person> Prison=new ArrayList<Person>();
     ArrayList<Tile> Forbidden=new ArrayList<>();
     ArrayList<int[]> popGrowth = new ArrayList<>();
-    float totPeople =  (float) amountmen + amountwomen;
-    float n1 = (float) amountmen;
-    float n2 = (float) amountmen;
-    float n3 = (float) amountwomen;
-    float n4 = (float) amountwomen;
+    float totPeople =  (float) (fastmen+fastwomen+slowmen+slowwomen);
+    float n1 = (float) fastmen;
+    float n2 = (float) fastwomen;
+    float n3 = (float) slowmen;
+    float n4 = (float) slowwomen;
 
 
     MyFrame frame = new MyFrame();

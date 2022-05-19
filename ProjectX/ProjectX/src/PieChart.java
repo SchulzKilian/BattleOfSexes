@@ -25,22 +25,22 @@ public class PieChart extends JPanel {// draw rectangles and arcs
         s1.setText("<html>coy women<br>"+(int)a1+"("+Math.round(perc[0] * 100.0)/100.0+"%)</html>");
         JLabel label = new JLabel("<html>First line<br>Second line</html>");
         s1.setFont(new Font("Courier New", Font.BOLD , 20));
-        s1.setForeground(new Color(0x0E6698));
+        s1.setForeground(new Color(0xF6A6A6));
         s2.setOpaque(true);
         s2.setBackground(new Color(0xFFEDEBDE));
         s2.setText("<html>fast women<br>"+(int)a2+"("+Math.round(perc[1] * 100.0)/100.0+"%)</html>");
         s2.setFont(new Font("Courier New", Font.BOLD , 20));
-        s2.setForeground(new Color(0x94E70101, true));
+        s2.setForeground(new Color(0x9D6363, true));
         s3.setOpaque(true);
         s3.setBackground(new Color(0xFFEDEBDE));
         s3.setText("<html>philanderers<br>"+(int)a3+"("+Math.round(perc[2] * 100.0)/100.0+"%)</html>");
         s3.setFont(new Font("Courier New", Font.BOLD , 20));
-        s3.setForeground(new Color(0x538300));
+        s3.setForeground(new Color(0x7DC0A0));
         s4.setOpaque(true);
         s4.setBackground(new Color(0xFFEDEBDE));
         s4.setText("<html>faithful men<br>"+(int)a4+"("+Math.round(perc[3] * 100.0)/100.0+"%)</html>");
         s4.setFont(new Font("Courier New", Font.BOLD , 20));
-        s4.setForeground(new Color(0x5238A4));
+        s4.setForeground(new Color(0xBFFFF2));
 
         frame.add(this);
     }
@@ -67,13 +67,15 @@ public class PieChart extends JPanel {// draw rectangles and arcs
         // start at 0 and sweep 360 degrees
         g.setColor(new Color(0xFFEDEBDE));
         g.drawRect(10, 20, 260, 260);
-        g.setColor(new Color(0x0E6698));
+        g.setColor(new Color(0xF6A6A6));
+        g.fillArc(10, 20, 260, 260, 0, 360);
+        g.setColor(new Color(0xF6A6A6));
         g.fillArc(10, 20, 260, 260, 0, angle[0]);
-        g.setColor(new Color(0x94E70101));
+        g.setColor(new Color(0x9D6363));
         g.fillArc(10, 20, 260, 260, angle[0], angle[1]);
-        g.setColor(new Color(0x538300));
+        g.setColor(new Color(0x7DC0A0));
         g.fillArc(10, 20, 260, 260, angle[0]+angle[1], angle[2]);
-        g.setColor(new Color(0x5238A4));
+        g.setColor(new Color(0xBFFFF2));
         g.fillArc(10, 20, 260, 260, angle[0]+angle[1]+angle[2], angle[3]);
     }
 }
