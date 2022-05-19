@@ -3,20 +3,15 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.ConcurrentModificationException;
 import java.util.Random;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import static java.awt.Color.*;
 
 public class Main implements MouseListener {
     public Random rd = new Random();
     public static int lifeexpectancy = 100;
-    public static int a = 30;
-    public static int b = 50;
+    public static int a = 60;
+    public static int b = 40;
     public static int c = 50;
     public static ItsTime timelord;
     public static int timepassed;
@@ -25,7 +20,7 @@ public class Main implements MouseListener {
     public static int movements;
     public static int s;
     public static int fastmen=3;
-    public static int fastwomen=2;
+    public static int fastwomen=50;
     public static int slowmen=2;
     public static int slowwomen=2;
     public static boolean allowed = true;
@@ -41,6 +36,7 @@ public class Main implements MouseListener {
     ArrayList<Person> Moving=new ArrayList<Person>();
     static ArrayList<Person> Prison=new ArrayList<Person>();
     ArrayList<Tile> Forbidden=new ArrayList<>();
+    ArrayList<int[]> popGrowth = new ArrayList<>();
     float totPeople =  (float) amountmen + amountwomen;
     float n1 = (float) amountmen;
     float n2 = (float) amountmen;
@@ -528,6 +524,8 @@ public class Main implements MouseListener {
         this.remove(p);
     }
 
+
+
     public static void main(String[] args) throws InterruptedException {
         Main timer = new Main();
         int[] f= new int[2];
@@ -545,6 +543,34 @@ public class Main implements MouseListener {
                 System.out.println("error");
             }*/
 
+    }
+
+    public ArrayList<int[]> growthPopulation(int time, ArrayList<int[]> popTime) {
+        timepassed = time;
+        popGrowth = popTime;
+        if(timepassed % 20 == 0) {
+            int[] x = new int[2];
+            x[0] = timepassed;
+            x[1] = 20;
+            popGrowth.add(x);
+        }
+        return popGrowth;
+    }
+
+    public float[][] statsPopulation(float totPeople, float fmen, float fwomen, float smen, float swomen){
+        float [][] statsPop = new float[3][4];  //general overview , fast/slow, men/women
+        statsPop [0][0] = (float) ((float) (Math.round((fmen/totPeople) * 10000.0)/100.0));   //fmen
+        statsPop [0][1] = (float) ((float) (Math.round((fwomen/totPeople) * 10000.0)/100.0)); //fwomen
+        statsPop [0][2] = (float) ((float) (Math.round((smen/totPeople) * 10000.0)/100.0));   //smen
+        statsPop [0][3] = (float) ((float) (Math.round((swomen/totPeople) * 10000.0)/100.0));  //swomen
+
+        statsPop [1][0] = (float) ((float) (Math.round((fmen+fwomen)/totPeople) * 10000.0)/100.0);  //fast people
+        statsPop [1][1] = (float) ((float) (Math.round((smen+swomen)/totPeople) * 10000.0)/100.0);  //slow people
+
+        statsPop [2][0] = (float) ((float) (Math.round((fmen+smen)/totPeople) * 10000.0)/100.0);  //men
+        statsPop [2][1] = (float) ((float) (Math.round((fwomen+swomen)/totPeople) * 10000.0)/100.0);  //women
+
+        return statsPop;
     }
 
 

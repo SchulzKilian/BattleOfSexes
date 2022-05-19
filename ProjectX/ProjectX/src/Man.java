@@ -116,8 +116,12 @@ public class Man implements Person {
     @Override
     public void run() {
         while (true) {
-
-                frame.slowdown();
+            try {
+                this.getRunningon().sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+                //frame.slowdown();
                 //System.out.println("4");
                 if (running) {
                     if (!Main.allowed) {
