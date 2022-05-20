@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Woman implements Person {
     Thread runningon;
@@ -7,7 +8,7 @@ public class Woman implements Person {
     String gender = "female";
     boolean single = true;
     Man Partner = null;
-    boolean fast;
+   // boolean fast;
     Main frame;
     boolean running = true;
     int[] tempodifermo = new int[2];
@@ -16,6 +17,8 @@ public class Woman implements Person {
     boolean val = true;
     int moved;
     int birthday;
+    boolean stop=false;
+    ArrayList<Boolean> genes;
 
 
     Woman(int x, int y, Main m) {
@@ -36,7 +39,8 @@ public class Woman implements Person {
 
     @Override
     public boolean type() {
-        return fast;
+        return genes.get(0);
+
     }
 
     @Override
@@ -101,14 +105,14 @@ public class Woman implements Person {
 
     @Override
     public void fenotipo() {
-        if (fast) meetingtile.setBackground(new Color(0x9D6363));
+        if (genes.get(0)) meetingtile.setBackground(new Color(0x9D6363));
         else meetingtile.setBackground(new Color(0xF6A6A6));
 
     }
 
     @Override
     public void run() {
-        while (true) {
+        while (!stop) {
             try {
                 this.getRunningon().sleep(5);
             } catch (InterruptedException e) {

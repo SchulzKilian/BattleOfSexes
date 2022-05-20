@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 import static java.awt.Color.*;
@@ -10,7 +11,7 @@ import static java.awt.Color.*;
 public class Main implements MouseListener {
     public Random rd = new Random();
     public static int lifeexpectancy = 100;
-    public static int a = 60;
+    public static int a = 100;
     public static int b = 40;
     public static int c = 50;
     public static ItsTime timelord;
@@ -19,17 +20,17 @@ public class Main implements MouseListener {
     public static int population=5;
     public static int movements;
     public static int s;
-    public static int fastmen=3;
-    public static int fastwomen=5;
-    public static int slowmen=2;
-    public static int slowwomen=2;
+    public static int fastmen=1;
+    public static int fastwomen=1;
+    public static int slowmen=1;
+    public static int slowwomen=1;
     public static boolean allowed = true;
 
     public static boolean dominantgene=true;
     public static boolean rand=false;
-    int width= 30;
+    int width= 100;
     int height = 30;
-    int amountmen = 10;
+    int amountmen = 30;
     int amountwomen = 10;
     ArrayList<Tile> Tlist= new ArrayList<Tile>();
     static ArrayList<Person> Alive=new ArrayList<Person>();
@@ -81,9 +82,9 @@ public class Main implements MouseListener {
             }
         }
         int y=0;
-        Man Ancestor =new Man(0,0,this);
-        Ancestor.fast=true;
-        Woman Ancestor2= new Woman(7,7,this);
+        //Man Ancestor =new Man(0,0,this);
+        //Ancestor.fast=true;
+        //Woman Ancestor2= new Woman(7,7,this);
         /*for (int m = 0; m < population; m++) {
             Person r=God(Ancestor,Ancestor2);
             Thread provvisorio=r.getRunningon();
@@ -95,10 +96,10 @@ public class Main implements MouseListener {
 
 
 
+
         }
 
-
-    public  int[][] move (Man t){
+    public  int[][] timemove (clockTile t){
         movements++;
         if(movements%10==0){
             timepassed++;
@@ -107,6 +108,57 @@ public class Main implements MouseListener {
             timelord = timehascome;
             movements=0;
         }
+
+        int x= t.meetingtile.coor_x;
+        int y= t.meetingtile.coor_y;
+        int[][] pos={{x+0,y+0},{x+1,y+0},{x+(-1),y+0},{x+0,y+1},{x+0,y+(-1)},{x+1,y+1},{x+1,y+(-1)},{x+(-1),y+1},{x+(-1),y+(-1)}};
+        if(x==0){
+            pos[2][0]=x;
+            pos[7][0]=x;
+            pos[8][0]=x;
+        }
+        else if (x== width-1) {
+            pos[1][0]=x;
+            pos[5][0]=x;
+            pos[6][0]=x;
+        }
+        if(y==0){
+            pos[4][1]=y;
+            pos[6][1]=y;
+            pos[8][1]=y;
+        }
+        else if(y== width-1){
+            pos[3][1]=y;
+            pos[5][1]=y;
+            pos[7][1]=y;
+        }
+
+        int ind= (int) (Math.random()* pos.length);
+
+        //if (t.meetingtile.tileon!=null){
+        //  t.meetingtile.tileon.popoccupants(t);}
+        Tile tile=getcoor(pos[ind][0],pos[ind][1]);
+        //for (Tile tile: Tlist) {
+        //if (tile.coor_x == pos[ind][0] && tile.coor_y == pos[ind][1]){
+        //System.out.println("udfhdffdhdghdgifh");
+
+        t.meetingtile.tileon=tile;
+        tile.add(t.meetingtile);
+        //tile.setwhite();
+        //tile.addoccupants(t);
+        int xt= tile.coor_x;
+        int yt =tile.coor_y;
+        t.meetingtile.coor_x=xt;
+        t.meetingtile.coor_y=yt;
+        frame.repaint(); frame.revalidate();
+        int[][] pos2={{xt+0,yt+0},{xt+1,yt+0},{xt+(-1),yt+0},{xt+0,yt+1},{xt+0,yt+(-1)},{xt+1,yt+1},{xt+1,yt+(-1)},{xt+(-1),yt+1},{xt+(-1),yt+(-1)}};
+        return pos2;
+        //}
+        //}
+        //return pos;
+    }
+
+    public  int[][] move (Man t){
 
         int x= t.meetingtile.coor_x;
         int y= t.meetingtile.coor_y;
@@ -203,15 +255,6 @@ public class Main implements MouseListener {
         }
     }
     public  int[][] move(Woman t){
-        movements++;
-        if(movements%10==0){
-            timepassed++;
-            ItsTime timehascome = new ItsTime(this);
-            timehascome.start();
-            timelord = timehascome;
-            movements=0;
-        }
-
         int x= t.meetingtile.coor_x;
         int y= t.meetingtile.coor_y;
         int[][] pos={{x+0,y+0},{x+1,y+0},{x+(-1),y+0},{x+0,y+1},{x+0,y+(-1)},{x+1,y+1},{x+1,y+(-1)},{x+(-1),y+1},{x+(-1),y+(-1)}};
@@ -307,9 +350,18 @@ public class Main implements MouseListener {
 
     }
     public void initialize(int fm,int fw,int sm,int sw){
+        clockTile clock=new clockTile(8,8,this);
+        Thread clkThread= new Thread(clock);
+        clkThread.start();
+        System.out.println("4");
         for (int i = 0; i < fm; i++) {
             Man m=new Man(0,0,this);
-            m.fast=true;
+            ArrayList<Boolean> g = new ArrayList<>();
+            g.add(true);
+            g.add(true);
+            ArrayList<Boolean>gen=setDominant(g);
+            m.genes=gen;
+            //m.fast=true;
             m.fenotipo();
             m.birthday = timepassed;
             Thread thread=new Thread(m);
@@ -319,7 +371,12 @@ public class Main implements MouseListener {
         }
         for (int i = 0; i < sm; i++) {
             Man m=new Man(0,0,this);
-            m.fast=false;
+            ArrayList<Boolean> g = new ArrayList<>();
+            g.add(false);
+            g.add(false);
+            ArrayList<Boolean>gen=setDominant(g);
+            m.genes=gen;
+           // m.fast=false;
             m.fenotipo();
             m.birthday = timepassed;
             Thread thread=new Thread(m);
@@ -330,7 +387,11 @@ public class Main implements MouseListener {
         }
         for (int i = 0; i < fw; i++) {
             Woman w=new Woman(29,29,this);
-            w.fast=true;
+            ArrayList<Boolean> g = new ArrayList<>();
+            g.add(true);
+            ArrayList<Boolean>gen=setDominant(g);
+            w.genes=gen;
+           // w.fast=true;
             w.fenotipo();
             w.birthday = timepassed;
             Thread thread=new Thread(w);
@@ -342,7 +403,12 @@ public class Main implements MouseListener {
         }
         for (int i = 0; i < sw; i++) {
             Woman w=new Woman(width -1,height -1,this);
-            w.fast=false;
+            ArrayList<Boolean> g = new ArrayList<>();
+            g.add(false);
+            g.add(false);
+            ArrayList<Boolean>gen=setDominant(g);
+            w.genes=gen;
+            //w.fast=false;
             w.fenotipo();
             w.birthday = timepassed;
             Thread thread=new Thread(w);
@@ -352,18 +418,20 @@ public class Main implements MouseListener {
 
 
         }
+        frame.repaint(); frame.revalidate();
     }
 
     public void meet(Tile t){
         Man first;
         Woman second;
         if(t.occupants.size()>=2){
+            try {
             String genderfirst=t.occupants.get(1).getgender();
             String gendersecond = t.occupants.get(0).getgender();
             //System.out.println(t.occupants.get(0)+" "+t.occupants.get(1));
             //t.occupants.get(1).getFrame().slowdown();
             //t.occupants.get(0).getFrame().slowdown();
-            try {
+
             if(genderfirst.equals("male") && gendersecond.equals("female")){
                 //System.out.println("all good");
                 first= (Man) t.occupants.get(1);
@@ -439,10 +507,14 @@ public class Main implements MouseListener {
 
         }
     }
-    public boolean inheritance(Man m, Woman w){
-        boolean[] disp={m.fast,w.fast};
+    public ArrayList<Boolean> inheritance(Man m, Woman w){
         int x= (int) (Math.random()*2);
-        return disp[x];
+        int y= (int) (Math.random()*2);
+        ArrayList<Boolean> disp=new ArrayList<>();
+        disp.add(m.genes.get(x));
+        disp.add(w.genes.get(y));
+
+        return disp;
 
     }
     synchronized public static void warten(){
@@ -460,7 +532,7 @@ public class Main implements MouseListener {
         int k=(int)(Math.random()*2);
         if(gender[k].equals("male")){
             Man m=new Man(x,y,this);
-            m.fast=inheritance(parent1,parent2);
+            m.genes=setDominant(inheritance(parent1,parent2));
             m.fenotipo();
             m.birthday = timepassed;
             Thread thread=new Thread(m);
@@ -471,12 +543,13 @@ public class Main implements MouseListener {
         }
         else {
             Woman w=new Woman(x,y,this);
-            w.fast=inheritance(parent1,parent2);
+            w.genes=inheritance(parent1,parent2);
             w.fenotipo();
             w.birthday = timepassed;
             Thread thread=new Thread(w);
             w.runningon=thread;
             Alive.add(w);
+            thread.start();
             return w;
 
         }
@@ -515,13 +588,29 @@ public class Main implements MouseListener {
     }
     public  void GrimReaper(Man p){
         Alive.remove(p);
-        p.runningon.stop();
+        p.stop=true;
         this.remove(p);
+        System.out.println("eo");
     }
     public  void GrimReaper(Woman p){
+        System.out.println("eo");
         Alive.remove(p);
-        p.runningon.stop();
+        p.stop=true;
         this.remove(p);
+    }
+    public ArrayList<Boolean> setDominant(ArrayList<Boolean> g){
+        if(dominantgene){
+            if(g.contains(true)){
+                Collections.swap(g,g.indexOf(true),0);
+            }
+
+        }
+        else {
+            if(g.contains(false)){
+                Collections.swap(g,g.indexOf(false),0);
+            }
+        }
+        return g;
     }
 
 
