@@ -8,11 +8,12 @@ public class LowerPanel extends JPanel{
     JButton stopButton;
 
     LowerPanel(JFrame frame){
-        this.setBackground(new Color(0xFFEDEBDE));
+        this.setBackground(new Color(0xFFEDEBDE, true));
+        this.setBounds(1190,320,210,175);
         startButton = new JButton();
         startButton.setFocusable(false);
         startButton.setLayout(null);
-        startButton.setBounds(100,30,200,80);
+        startButton.setBounds(5,5,200,80);
         startButton.addActionListener(
                 e -> {startButton.setEnabled(false);
                     stopButton.setEnabled(true);
@@ -20,7 +21,7 @@ public class LowerPanel extends JPanel{
 }
         );
         startButton.setOpaque(true);
-        startButton.setText("start simulation");
+        startButton.setText("<html>start simulation");
         startButton.setFont(new Font("Courier New", Font.BOLD , 20));
         startButton.setForeground(new Color(0xFF7379C2));
         startButton.setBackground(new Color(0x07379C2, true));
@@ -29,7 +30,7 @@ public class LowerPanel extends JPanel{
         stopButton = new JButton();
         stopButton.setFocusable(false);
         stopButton.setLayout(null);
-        stopButton.setBounds(100,120,200,80);
+        stopButton.setBounds(5,90,200,80);
         stopButton.addActionListener(
                 e -> {startButton.setEnabled(true);
                     stopButton.setEnabled(false);

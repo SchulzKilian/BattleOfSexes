@@ -10,8 +10,9 @@ import static java.awt.Color.*;
 
 public class Main implements MouseListener {
     public Random rd = new Random();
-    public static int lifeexpectancy = 100000000;
-    public static int a = 50;
+    public static ArrayList<Integer> Populations = new ArrayList<Integer>();
+    public static int lifeexpectancy = 100;
+    public static int a = 60;
     public static int b = 40;
     public static int c = 50;
     public static ItsTime timelord;
@@ -20,17 +21,17 @@ public class Main implements MouseListener {
     public static int population=5;
     public static int movements;
     public static int s;
-    public static int fastmen=1;
-    public static int fastwomen=1;
-    public static int slowmen=0;
-    public static int slowwomen=0;
+    public static int fastmen=3;
+    public static int fastwomen=5;
+    public static int slowmen=2;
+    public static int slowwomen=2;
     public static boolean allowed = true;
 
     public static boolean dominantgene=true;
     public static boolean rand=false;
     int width= 30;
     int height = 30;
-    int amountmen = 30;
+    int amountmen = 10;
     int amountwomen = 10;
     ArrayList<Tile> Tlist= new ArrayList<Tile>();
     static ArrayList<Person> Alive=new ArrayList<Person>();
@@ -39,10 +40,10 @@ public class Main implements MouseListener {
     ArrayList<Tile> Forbidden=new ArrayList<>();
     ArrayList<int[]> popGrowth = new ArrayList<>();
     float totPeople =  (float) (fastmen+fastwomen+slowmen+slowwomen);
-    float n1 = (float) slowwomen;
+    float n1 = (float) fastmen;
     float n2 = (float) fastwomen;
-    float n3 = (float) fastmen;
-    float n4 = (float) slowmen;
+    float n3 = (float) slowmen;
+    float n4 = (float) slowwomen;
 
 
     MyFrame frame = new MyFrame();
@@ -56,6 +57,10 @@ public class Main implements MouseListener {
     JLabel stats4 = new JLabel();
     PieChart pieChart = new PieChart(totPeople,n1,n2,n3,n4, stats1, stats2, stats3, stats4, frame);
     GridLayout grid = new GridLayout(height, width);
+    InputsPanel inputs = new InputsPanel(frame);
+
+    //stats frame
+    statsFrame statistics = new statsFrame(Populations);
     Tile graveyard= new Tile(0,0,new Color(0xFF000000));
 
 
@@ -75,7 +80,6 @@ public class Main implements MouseListener {
         city.setBounds(10,10,880,880);
         frame.add(city);
         frame.add(buttonPanel);
-        buttonPanel.setBounds(920,350,450,500);
         map.setBounds(10,10,880,880);
         map.setOpaque(false);
         map.setLayout(grid);
@@ -85,7 +89,6 @@ public class Main implements MouseListener {
                 map.add(p);
                 //p.setLayout(g);
                 Tlist.add(p);
-
             }
         }
         int y=0;
@@ -99,6 +102,7 @@ public class Main implements MouseListener {
            // System.out.println(y++);
         }*/
         initialize(fastmen,fastwomen,slowmen,slowwomen);
+        }
 
 
 
@@ -114,6 +118,10 @@ public class Main implements MouseListener {
             timehascome.start();
             timelord = timehascome;
             movements=0;
+        }
+        if (timepassed%100==0){
+            Populations.add(Thread.activeCount());
+            System.out.println(Populations);
         }
 
         int x= t.meetingtile.coor_x;
@@ -354,8 +362,8 @@ public class Main implements MouseListener {
         f[2]=1;
         f[3]=1;
         f[1]=1;
-
     }
+
     public void initialize(int fm,int fw,int sm,int sw){
         clockTile clock=new clockTile(8,8,this);
         Thread clkThread= new Thread(clock);
@@ -683,7 +691,7 @@ public class Main implements MouseListener {
     public ArrayList<int[]> growthPopulation(int time, ArrayList<int[]> popTime) {
         timepassed = time;
         popGrowth = popTime;
-        if(timepassed % 20 == 0) {
+        if(timepassed % 100 == 0) {
             int[] x = new int[2];
             x[0] = timepassed;
             x[1] = 20;

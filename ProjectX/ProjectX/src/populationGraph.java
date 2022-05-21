@@ -1,34 +1,51 @@
-import java.awt.*;
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicSplitPaneUI;
+import java.awt.*;
 
-import static java.awt.Color.BLACK;
+public class populationGraph extends JPanel {
+    static int[][] population;
+    populationGraph(int[][] pop) {
+        this.setPreferredSize(new Dimension(700,900));
+        population=pop;
 
-public class populationGraph extends JPanel {// draw rectangles and arcs
-    int[][] population;   //[0] time, [1] num pop
-    int popSize = population.length;
-    populationGraph(int[][] population,JFrame frame) {
-        this.setLayout(null);
-        this.setBounds(920,10,500,300);
-        this.setBackground(new Color(0xFFEDEBDE, true));
-        JLabel time = new JLabel("<html>t<br>i<br>m<br>e</html>");
-        time.setHorizontalTextPosition(JLabel.CENTER);
-        time.setFont(new Font("Courier New", Font.PLAIN , 9));
-        time.setBounds(0,100,13,13);
-        JLabel pop = new JLabel("population");
-        pop.setFont(new Font("Courier New", Font.PLAIN , 9));
-        time.setBounds(200,290,20,10);
-        frame.add(this);
     }
+    public void paint(Graphics g) {
+        Graphics2D g2D = (Graphics2D) g;
 
-    public void paintComponent(Graphics g){ //, int a1,int a2, int a3 ,int a4) {
-        super.paintComponent(g);
-        g.setColor(new Color(0x0000FFF, true));
-        g.drawLine(15,15,15,285);
-        g.drawLine(15,285,15,485);
-        for (int i=0; i<popSize-1; i++){
-            g.setColor(new Color (0x50673E));
-            g.drawLine((population[i][0])+15,(population[i][1])+15,(population[i+1][0])+15,(population[i+1][1])+15);
+        g2D.setPaint(new Color(0x262424));
+        g2D.setFont(new Font("Courier New", Font.BOLD , 15));
+        g2D.drawString("population",5,138);
+
+        g2D.setPaint(new Color(0x262424));
+        g2D.setFont(new Font("Courier New", Font.BOLD , 15));
+        g2D.drawString("time",340,515 );
+
+        for (int i=0; i<10-1; i++){
+            g2D.setStroke(new BasicStroke(3));
+            g2D.setColor(new Color (0xE18E3B));
+            g2D.drawLine((population[i][0])+15,500-((population[i][1])+15),(population[i+1][0])+15,500-((population[i+1][1])+15));
+            int[] xPoints = new int[4];
+            int[] yPoints = new int[4];
+            xPoints[0] = (population[i][0])+15;
+            xPoints[1] = (population[i][0])+15;
+            xPoints[2] = (population[i+1][0])+15;
+            xPoints[3] = (population[i+1][0])+15;
+
+            yPoints[0] = 500-((population[i][1])+15);
+            yPoints[1] = 500;
+            yPoints[2] = 500;
+            yPoints[3] = 500-((population[i+1][1])+15);
+
+            g2D.setColor(new Color (0x8BE18E3B, true));
+            g2D.fillPolygon(xPoints,yPoints,4);
+
         }
+
+        g2D.setPaint(new Color(0x262424));
+        g2D.setStroke(new BasicStroke(3));
+        g2D.drawLine(15, 150, 15, 500);
+
+        g2D.setPaint(new Color(0x262424));
+        g2D.setStroke(new BasicStroke(3));
+        g2D.drawLine(15, 500, 690, 500);
     }
 }
