@@ -58,6 +58,7 @@ public class Main implements MouseListener {
     PieChart pieChart = new PieChart(totPeople,n1,n2,n3,n4, stats1, stats2, stats3, stats4, frame);
     GridLayout grid = new GridLayout(height, width);
     InputsPanel inputs = new InputsPanel(frame);
+    DominantGenePanel dominantGene = new DominantGenePanel(frame);
 
     //stats frame
     statsFrame statistics = new statsFrame(Populations);
@@ -102,11 +103,6 @@ public class Main implements MouseListener {
            // System.out.println(y++);
         }*/
         initialize(fastmen,fastwomen,slowmen,slowwomen);
-        }
-
-
-
-
 
         }
 
