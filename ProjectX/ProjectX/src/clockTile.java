@@ -5,7 +5,7 @@ public class clockTile implements Person{
     peopleIcon meetingtile;
     Main frame;
     clockTile(int x, int y, Main m){
-        Color c=new Color(0x0000000, true);
+        Color c=new Color(0xFF000000, true);
         peopleIcon n=new peopleIcon(x,y, c);
         meetingtile=n;
         frame=m;
@@ -58,7 +58,7 @@ public class clockTile implements Person{
     @Override
     public void run() {
         while (true) {
-            frame.slowdown();
+            //frame.slowdown();
             frame.timemove(this);
             System.out.println("e0");
 

@@ -10,8 +10,8 @@ import static java.awt.Color.*;
 
 public class Main implements MouseListener {
     public Random rd = new Random();
-    public static int lifeexpectancy = 100;
-    public static int a = 100;
+    public static int lifeexpectancy = 100000000;
+    public static int a = 50;
     public static int b = 40;
     public static int c = 50;
     public static ItsTime timelord;
@@ -22,13 +22,13 @@ public class Main implements MouseListener {
     public static int s;
     public static int fastmen=1;
     public static int fastwomen=1;
-    public static int slowmen=1;
-    public static int slowwomen=1;
+    public static int slowmen=0;
+    public static int slowwomen=0;
     public static boolean allowed = true;
 
     public static boolean dominantgene=true;
     public static boolean rand=false;
-    int width= 100;
+    int width= 30;
     int height = 30;
     int amountmen = 30;
     int amountwomen = 10;
@@ -39,10 +39,10 @@ public class Main implements MouseListener {
     ArrayList<Tile> Forbidden=new ArrayList<>();
     ArrayList<int[]> popGrowth = new ArrayList<>();
     float totPeople =  (float) (fastmen+fastwomen+slowmen+slowwomen);
-    float n1 = (float) fastmen;
+    float n1 = (float) slowwomen;
     float n2 = (float) fastwomen;
-    float n3 = (float) slowmen;
-    float n4 = (float) slowwomen;
+    float n3 = (float) fastmen;
+    float n4 = (float) slowmen;
 
 
     MyFrame frame = new MyFrame();
@@ -56,13 +56,18 @@ public class Main implements MouseListener {
     JLabel stats4 = new JLabel();
     PieChart pieChart = new PieChart(totPeople,n1,n2,n3,n4, stats1, stats2, stats3, stats4, frame);
     GridLayout grid = new GridLayout(height, width);
+    Tile graveyard= new Tile(0,0,new Color(0xFF000000));
 
 
     public Main() {
+
         frame.setLayout(null);
         frame.setVisible(true);
         frame.add(map);
         frame.add(pieChart);
+        frame.add(graveyard);
+        graveyard.setBounds(900,800,100,100);
+        graveyard.setVisible(true);
         pieChart.setBounds(920,10,500,300);
         city.setIcon(mapCity);
         city.setBounds(10,10,880,880);
@@ -389,6 +394,7 @@ public class Main implements MouseListener {
             Woman w=new Woman(29,29,this);
             ArrayList<Boolean> g = new ArrayList<>();
             g.add(true);
+            g.add(true);
             ArrayList<Boolean>gen=setDominant(g);
             w.genes=gen;
            // w.fast=true;
@@ -451,21 +457,54 @@ public class Main implements MouseListener {
             if ((55 > first.getage() && first.getage() < 12) || (55 > second.getage() && second.getage()<12)){
                 return;
             }
-            if(first.type()== second.type()){
-                gettogether(first, second);
+            if(Compatibility(first.type(),second.type())){
                 gettogether(first, second);
             }
-            gettogether(first, second);}
+            else return;
+            }
             catch (java.lang.IndexOutOfBoundsException e){
                 System.out.println("out of bound");
             }
             catch (java.lang.NullPointerException e){
             System.out.println("null pointer");
-            }
-        }
+            }}
         else{
             return;}
 
+    }
+    public boolean Compatibility(boolean type_a, boolean type_b){
+        if(type_a==true && type_b == false){
+            return false;
+        }
+        else return true;
+
+
+
+
+    }
+    public int[] Costs(boolean type_a, boolean type_b){
+        int[] costs= new int[4];
+        int costm;
+        int costw;
+        if(type_a){
+            costm=0;
+            costw=0+b;
+        }
+        else{
+            if(type_b){
+                costm=0+b/2;
+                costw=0+b/2;
+            }
+            else{
+                costm=c+b/2;
+                costw=c+b/2;
+            }
+        }
+        costs[0]=costm;
+        costs[1]=costw;
+
+
+        return costs;
     }
     public Tile getcoor(int x, int y){
         //assert (x< width && y< height );
@@ -492,9 +531,9 @@ public class Main implements MouseListener {
 
     }
     public void gettogether(Man m, Woman w){
-        if(m.single && w.single){
-            m.Pause(timepassed,cicles);
-            w.Pause(timepassed,cicles);
+            int[]pausetime=Costs(m.type(),w.type());
+            m.Pause(timepassed,pausetime[0]);
+            w.Pause(timepassed,pausetime[1]);
             //System.out.println("io");
             if(!Forbidden.contains(m.meetingtile.tileon))
                 Forbidden.add(m.meetingtile.tileon);
@@ -503,9 +542,6 @@ public class Main implements MouseListener {
             Court(true,m);
             Court(true,w);
           //System.out.println(Prison.size());
-
-
-        }
     }
     public ArrayList<Boolean> inheritance(Man m, Woman w){
         int x= (int) (Math.random()*2);
@@ -535,10 +571,10 @@ public class Main implements MouseListener {
             m.genes=setDominant(inheritance(parent1,parent2));
             m.fenotipo();
             m.birthday = timepassed;
-            Thread thread=new Thread(m);
-            m.runningon=thread;
+            //Thread thread=new Thread(m);
+            //m.runningon=thread;
             Alive.add(m);
-            thread.start();
+            //thread.start();
             return m;
         }
         else {
@@ -546,24 +582,32 @@ public class Main implements MouseListener {
             w.genes=inheritance(parent1,parent2);
             w.fenotipo();
             w.birthday = timepassed;
-            Thread thread=new Thread(w);
-            w.runningon=thread;
+            //Thread thread=new Thread(w);
+            //w.runningon=thread;
             Alive.add(w);
-            thread.start();
+            //thread.start();
             return w;
 
         }
 
     }
 
-    public void remove(Man p){
+    public void rem(Man p){
+        p.meetingtile.setwhite();
         p.meetingtile.color= lightGray;
+        //this.graveyard.add(p.meetingtile);
         p.meetingtile.tileon.remove(p.meetingtile);
+        System.out.println(p.getage());
+        p.meetingtile.revalidate();
 
     }
-    public void remove(Woman p){
+    public void rem(Woman p){
         p.meetingtile.color= lightGray;
+        //this.graveyard.add(p.meetingtile);
         p.meetingtile.tileon.remove(p.meetingtile);
+        System.out.println(p.getage());
+        p.meetingtile.revalidate();
+
 
     }
     public void makebabies(Man one, Woman two) {
@@ -589,14 +633,14 @@ public class Main implements MouseListener {
     public  void GrimReaper(Man p){
         Alive.remove(p);
         p.stop=true;
-        this.remove(p);
-        System.out.println("eo");
+        this.rem(p);
+        //System.out.println("eo");
     }
     public  void GrimReaper(Woman p){
-        System.out.println("eo");
+        //System.out.println("eo");
         Alive.remove(p);
         p.stop=true;
-        this.remove(p);
+        this.rem(p);
     }
     public ArrayList<Boolean> setDominant(ArrayList<Boolean> g){
         if(dominantgene){
