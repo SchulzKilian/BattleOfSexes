@@ -58,6 +58,13 @@ public class clockTile implements Person{
     @Override
     public void run() {
         while (true) {
+            if (!Main.allowed) {
+                try {
+                    Main.timelord.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
             //frame.slowdown();
             frame.timemove(this);
             System.out.println("e0");

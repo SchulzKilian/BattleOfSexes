@@ -12,10 +12,11 @@ public class LowerPanel extends JPanel{
         startButton = new JButton();
         startButton.setFocusable(false);
         startButton.setLayout(null);
-        startButton.setBounds(100,300,300,70);
+        startButton.setBounds(100,30,200,80);
         startButton.addActionListener(
                 e -> {startButton.setEnabled(false);
                     stopButton.setEnabled(true);
+                    Main.allowed = true;
 }
         );
         startButton.setOpaque(true);
@@ -28,11 +29,15 @@ public class LowerPanel extends JPanel{
         stopButton = new JButton();
         stopButton.setFocusable(false);
         stopButton.setLayout(null);
-        stopButton.setBounds(100,400,300,70);
+        stopButton.setBounds(100,120,200,80);
         stopButton.addActionListener(
                 e -> {startButton.setEnabled(true);
                     stopButton.setEnabled(false);
-                    Main.warten();}
+                    ItsTime timehascome = new ItsTime(false);
+                    Main.timelord = timehascome;
+                    timehascome.start();
+
+                }
         );
         stopButton.setOpaque(true);
         stopButton.setText("stop simulation");

@@ -60,7 +60,9 @@ public class Main implements MouseListener {
 
 
     public Main() {
-
+        ItsTime timehascome = new ItsTime(false);
+        Main.timelord = timehascome;
+        timehascome.start();
         frame.setLayout(null);
         frame.setVisible(true);
         frame.add(map);
@@ -108,7 +110,7 @@ public class Main implements MouseListener {
         movements++;
         if(movements%10==0){
             timepassed++;
-            ItsTime timehascome = new ItsTime(this);
+            ItsTime timehascome = new ItsTime(this,true);
             timehascome.start();
             timelord = timehascome;
             movements=0;
