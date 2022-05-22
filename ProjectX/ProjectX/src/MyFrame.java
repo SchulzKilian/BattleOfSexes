@@ -16,8 +16,8 @@ public class MyFrame extends JFrame {
         this.setTitle("test");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.getContentPane().setBackground(new Color(0xFFEDEBDE, true));
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        /*Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         pack();
-        this.setSize(screenSize.width,screenSize.height);
+        this.setSize(screenSize.width,screenSize.height);*/
     }
 }

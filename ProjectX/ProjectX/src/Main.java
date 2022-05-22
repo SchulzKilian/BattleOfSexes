@@ -11,7 +11,7 @@ import static java.awt.Color.*;
 public class Main implements MouseListener {
     public Random rd = new Random();
     public static ArrayList<Integer> Populations = new ArrayList<Integer>();
-    public static int lifeexpectancy = 100;
+    public static int lifeexpectancy = 10;
     public static int a = 60;
     public static int b = 40;
     public static int c = 50;
@@ -21,8 +21,8 @@ public class Main implements MouseListener {
     public static int population=5;
     public static int movements;
     public static int s;
-    public static int fastmen=3;
-    public static int fastwomen=5;
+    public static int fastmen=300;
+    public static int fastwomen=50;
     public static int slowmen=2;
     public static int slowwomen=2;
     public static boolean allowed = true;
@@ -81,6 +81,7 @@ public class Main implements MouseListener {
         city.setBounds(10,10,880,880);
         frame.add(city);
         frame.add(buttonPanel);
+        buttonPanel.setBounds(920,350,450,500);
         map.setBounds(10,10,880,880);
         map.setOpaque(false);
         map.setLayout(grid);
@@ -90,6 +91,7 @@ public class Main implements MouseListener {
                 map.add(p);
                 //p.setLayout(g);
                 Tlist.add(p);
+
             }
         }
         int y=0;
@@ -104,6 +106,10 @@ public class Main implements MouseListener {
         }*/
         initialize(fastmen,fastwomen,slowmen,slowwomen);
 
+
+
+
+
         }
 
     public  int[][] timemove (clockTile t){
@@ -117,7 +123,7 @@ public class Main implements MouseListener {
         }
         if (timepassed%100==0){
             Populations.add(Thread.activeCount());
-            System.out.println(Populations);
+            //System.out.println(Populations);
         }
 
         int x= t.meetingtile.coor_x;
@@ -358,8 +364,8 @@ public class Main implements MouseListener {
         f[2]=1;
         f[3]=1;
         f[1]=1;
-    }
 
+    }
     public void initialize(int fm,int fw,int sm,int sw){
         clockTile clock=new clockTile(8,8,this);
         Thread clkThread= new Thread(clock);
@@ -577,10 +583,10 @@ public class Main implements MouseListener {
             m.genes=setDominant(inheritance(parent1,parent2));
             m.fenotipo();
             m.birthday = timepassed;
-            //Thread thread=new Thread(m);
-            //m.runningon=thread;
+            Thread thread=new Thread(m);
+            m.runningon=thread;
             Alive.add(m);
-            //thread.start();
+            thread.start();
             return m;
         }
         else {
@@ -588,10 +594,10 @@ public class Main implements MouseListener {
             w.genes=inheritance(parent1,parent2);
             w.fenotipo();
             w.birthday = timepassed;
-            //Thread thread=new Thread(w);
-            //w.runningon=thread;
+            Thread thread=new Thread(w);
+            w.runningon=thread;
             Alive.add(w);
-            //thread.start();
+            thread.start();
             return w;
 
         }
@@ -599,19 +605,24 @@ public class Main implements MouseListener {
     }
 
     public void rem(Man p){
-        p.meetingtile.setwhite();
-        p.meetingtile.color= lightGray;
+        p.runningon.stop();
+        //p.meetingtile.setwhite();
+        p.meetingtile.tileon.occupants.remove(p.meetingtile);
+        // p.meetingtile.color= lightGray;
         //this.graveyard.add(p.meetingtile);
         p.meetingtile.tileon.remove(p.meetingtile);
-        System.out.println(p.getage());
+        //System.out.println(p.getage());
         p.meetingtile.revalidate();
 
     }
     public void rem(Woman p){
-        p.meetingtile.color= lightGray;
+        p.runningon.stop();
+        //p.meetingtile.setwhite();
+        p.meetingtile.tileon.occupants.remove(p.meetingtile);
+        // p.meetingtile.color= lightGray;
         //this.graveyard.add(p.meetingtile);
         p.meetingtile.tileon.remove(p.meetingtile);
-        System.out.println(p.getage());
+        //System.out.println(p.getage());
         p.meetingtile.revalidate();
 
 
@@ -640,14 +651,15 @@ public class Main implements MouseListener {
         Alive.remove(p);
         p.stop=true;
         this.rem(p);
-        //System.out.println("eo");
+
     }
     public  void GrimReaper(Woman p){
         //System.out.println("eo");
         Alive.remove(p);
         p.stop=true;
         this.rem(p);
-    }
+
+        }
     public ArrayList<Boolean> setDominant(ArrayList<Boolean> g){
         if(dominantgene){
             if(g.contains(true)){

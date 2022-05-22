@@ -17,7 +17,7 @@ public class Woman implements Person {
     boolean val = true;
     int moved;
     int birthday;
-    boolean stop=false;
+    public volatile boolean  stop;
     ArrayList<Boolean> genes;
 
 
@@ -112,6 +112,7 @@ public class Woman implements Person {
 
     @Override
     public void run() {
+        stop=false;
         while (!stop) {
             try {
                 this.getRunningon().sleep(5);

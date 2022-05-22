@@ -67,7 +67,7 @@ public class clockTile implements Person{
             }
             //frame.slowdown();
             frame.timemove(this);
-            System.out.println("e0");
+
 
         }
 

@@ -1,7 +1,10 @@
+import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 
 public class ItsTime extends Thread {
     Main m;
+    ArrayList<Man> doomlistm = new ArrayList<>();
+    ArrayList<Woman> doomlistw = new ArrayList<>();
     boolean check;
 
     ItsTime(Main m, boolean check) {
@@ -11,6 +14,7 @@ public class ItsTime extends Thread {
         this.check = check;
 
     }
+
     ItsTime(boolean check) {
         Main.timelord = this;
         Main.allowed = false;
@@ -18,6 +22,8 @@ public class ItsTime extends Thread {
     }
 
     public void run() {
+        //this is the method for everything you want to check without moving threads interfering
+        //System.out.println(Thread.activeCount());
         if (this.check) {
             //this is the method for everything you want to check without moving threads interfering
             //System.out.println(Thread.activeCount());
@@ -25,34 +31,43 @@ public class ItsTime extends Thread {
             try {
                 m.checker();
                 for (Person i : Main.Alive) {
+                    //System.out.println(i);
                     if (i.getage() > Main.lifeexpectancy && i.getgender().equals("male")) {
-                        m.GrimReaper((Man) i);
+                        doomlistm.add((Man) i);
+                        //m.GrimReaper((Man) i);
                         //System.out.println("dead");
                     }
                     if (i.getage() > Main.lifeexpectancy && i.getgender().equals("female")) {
-                        m.GrimReaper((Woman) i);
+                        doomlistw.add((Woman) i);
+                        //m.GrimReaper((Woman) i);
                         //System.out.println("dead");
                     }
 
                 }
+                for (Man p : doomlistm) {
+                    m.GrimReaper(p);
 
+                }
+                for (Woman p : doomlistw) {
+                    m.GrimReaper(p);
+                    System.out.println("d");
 
-            } catch (ConcurrentModificationException e) {
+                }
+                doomlistm.removeAll(doomlistm);
+                doomlistw.removeAll(doomlistw);}
+             catch (ConcurrentModificationException e) {
                 System.out.println("ConcurrentModification");
-                Main.allowed = true;
+                m.allowed = true;
                 return;
-            }
-            Main.allowed = true;
-
-        }
+            }}
         else{
-            while (!Main.allowed){
-                System.out.println("it works");
+                while (!Main.allowed) {
+                    System.out.println("it works");
+                }
+                Main.allowed = true;
             }
-            Main.allowed = true;
-        }
+
+
     }
-
 }
-
 

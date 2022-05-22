@@ -17,7 +17,7 @@ public class Man implements Person {
     boolean cooldown = true;
     int moved = 0;
     int birthday;
-    boolean stop= false;
+    public volatile boolean  stop;
     ArrayList<Boolean> genes;
 
 
@@ -119,6 +119,7 @@ public class Man implements Person {
 
     @Override
     public void run() {
+        stop=false;
         while (!stop) {
             try {
                 this.getRunningon().sleep(5);
