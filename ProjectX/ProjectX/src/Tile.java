@@ -6,7 +6,7 @@ public class Tile extends JPanel {
     int coor_x;
     int coor_y;
     int[] coor=new int[2];
-    Color color = new Color(255, 255, 255, 0);
+    Color color = new Color(0, 0, 0, 0);
     ArrayList<Person> occupants= new ArrayList<Person>();
     Tile tileon;
     boolean paused= false;
