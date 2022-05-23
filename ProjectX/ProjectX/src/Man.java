@@ -17,7 +17,7 @@ public class Man implements Person {
     boolean cooldown = true;
     int moved = 0;
     int birthday;
-    boolean stop= false;
+    boolean stop = false;
     ArrayList<Boolean> genes;
 
 
@@ -44,7 +44,7 @@ public class Man implements Person {
 
     @Override
     public int getage() {
-        return (Main.timepassed - birthday)/50;
+        return (Main.timepassed - birthday) / 50;
     }
 
     @Override
@@ -80,7 +80,7 @@ public class Man implements Person {
                 running = true;
                 val = true;
                 frame.Court(false, this);
-                if (!(Partner==null)){
+                if (!(Partner == null)) {
                     frame.makebabies(this, Partner);
                 }
             }
@@ -97,7 +97,6 @@ public class Man implements Person {
     }
 
 
-
     @Override
     public void fenotipo() {
         if (genes.get(0)) meetingtile.setBackground(new Color(0x7DC0A0));
@@ -110,11 +109,6 @@ public class Man implements Person {
         return new int[0];
     }
 
-    public void turntrue(Boolean b) {
-        b = true;
-    }
-
-
 
 
     @Override
@@ -125,16 +119,17 @@ public class Man implements Person {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-                //frame.slowdown();
-                //System.out.println("4");
-                if (running) {
-                    if (!Main.allowed) {
-                        try {
-                            Main.timelord.join();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
+            //frame.slowdown();
+            //System.out.println("4");
+            if (running) {
+                if (!Main.allowed) {
+                    ;
+                    //    try {
+                    //        Main.timelord.join();
+                    //    } catch (InterruptedException e) {
+                    //        e.printStackTrace();
+                    //    }
+                } else {
                     int[][] on = frame.move(this);
                     if (cooldown) {
                         if (!frame.Forbidden.contains(frame.getcoor(on[0][0], on[0][1]))) {
@@ -154,3 +149,4 @@ public class Man implements Person {
         }
     }
 
+}

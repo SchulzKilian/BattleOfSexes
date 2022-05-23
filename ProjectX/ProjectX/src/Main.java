@@ -4,6 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.ConcurrentModificationException;
 import java.util.Random;
 
 import static java.awt.Color.*;
@@ -12,21 +13,22 @@ public class Main implements MouseListener {
     public Random rd = new Random();
     public static ArrayList<Integer> Populations = new ArrayList<Integer>();
     public static int lifeexpectancy = 100;
-    public static int a = 60;
+    public static int a = 30;
     public static int b = 40;
     public static int c = 50;
-    public static ItsTime timelord;
+
     public static int timepassed;
     public static int cicles= b+c;
     public static int population=5;
     public static int movements;
+    public static int timespeed=5;
     public static int s;
-    public static int fastmen=3;
-    public static int fastwomen=5;
-    public static int slowmen=2;
-    public static int slowwomen=2;
-    public static int speed = 10;
-    public static boolean allowed = true;
+    public static int fastmen=10;
+    public static int fastwomen=10;
+    public static int slowmen=10;
+    public static int slowwomen=1;
+    public static int speed = 1;
+    public static boolean allowed = false;
 
     public static boolean dominantgene=true;
     public static boolean rand=false;
@@ -52,7 +54,7 @@ public class Main implements MouseListener {
     JPanel map = new JPanel();
     JLabel city = new JLabel();
     ImageIcon mapCity = new ImageIcon("ProjectX/ProjectX/src/cityImage.jpg");
-    LowerPanel buttonPanel = new LowerPanel(frame, Populations);
+    LowerPanel buttonPanel = new LowerPanel(frame, Populations, this);
     JLabel stats1 = new JLabel();
     JLabel stats2 = new JLabel();
     JLabel stats3 = new JLabel();
@@ -66,9 +68,6 @@ public class Main implements MouseListener {
 
     public Main() {
 
-        ItsTime timehascome = new ItsTime(false);
-        Main.timelord = timehascome;
-        timehascome.start();
         frame.setLayout(null);
         frame.setVisible(true);
         frame.add(map);
@@ -110,19 +109,18 @@ public class Main implements MouseListener {
         movements++;
         if(movements%10==0){
             timepassed++;
-            ItsTime timehascome = new ItsTime(this,true);
-            timehascome.start();
-            timelord = timehascome;
+            Main.allowed = false;
+            timelord();
             movements=0;
         }
-        if (timepassed%100==0){
-            Populations.add(Thread.activeCount());
+        if (timepassed%1000==0){
+            Populations.add(Alive.size());
             System.out.println(Populations);
         }
 
         int x= t.meetingtile.coor_x;
         int y= t.meetingtile.coor_y;
-        int[][] pos={{x+0,y+0},{x+1,y+0},{x+(-1),y+0},{x+0,y+1},{x+0,y+(-1)},{x+1,y+1},{x+1,y+(-1)},{x+(-1),y+1},{x+(-1),y+(-1)}};
+        int[][] pos={{x,y},{x+1,y},{x+(-1),y},{x,y+1},{x,y+(-1)},{x+1,y+1},{x+1,y+(-1)},{x+(-1),y+1},{x+(-1),y+(-1)}};
         if(x==0){
             pos[2][0]=x;
             pos[7][0]=x;
@@ -162,7 +160,7 @@ public class Main implements MouseListener {
         t.meetingtile.coor_x=xt;
         t.meetingtile.coor_y=yt;
         frame.repaint(); frame.revalidate();
-        int[][] pos2={{xt+0,yt+0},{xt+1,yt+0},{xt+(-1),yt+0},{xt+0,yt+1},{xt+0,yt+(-1)},{xt+1,yt+1},{xt+1,yt+(-1)},{xt+(-1),yt+1},{xt+(-1),yt+(-1)}};
+        int[][] pos2={{xt,yt},{xt+1,yt},{xt+(-1),yt},{xt,yt+1},{xt,yt+(-1)},{xt+1,yt+1},{xt+1,yt+(-1)},{xt+(-1),yt+1},{xt+(-1),yt+(-1)}};
         return pos2;
         //}
         //}
@@ -257,6 +255,36 @@ public class Main implements MouseListener {
             //}
         //return pos;
     }
+
+    public void timelord() {
+            //this is the method for everything you want to check without moving threads interfering
+            //System.out.println(Thread.activeCount());
+
+            try {
+                checker();
+                for (Person i : Main.Alive) {
+                    if (i.getage() > Main.lifeexpectancy && i.getgender().equals("male")) {
+                        GrimReaper((Man) i);
+                        //System.out.println("dead");
+                    }
+                    if (i.getage() > Main.lifeexpectancy && i.getgender().equals("female")) {
+                        GrimReaper((Woman) i);
+                        //System.out.println("dead");
+                    }
+
+                }
+
+
+            } catch (ConcurrentModificationException e) {
+                System.out.println("ConcurrentModification");
+                Main.allowed = true;
+                return;
+            }
+            Main.allowed = true;
+
+        }
+
+
     public synchronized void checker(){
 
         for (Person p:Prison) {
@@ -364,7 +392,8 @@ public class Main implements MouseListener {
         clockTile clock=new clockTile(8,8,this);
         Thread clkThread= new Thread(clock);
         clkThread.start();
-        System.out.println("4");
+        clock.runningon=clkThread;
+
         for (int i = 0; i < fm; i++) {
             Man m=new Man(0,0,this);
             ArrayList<Boolean> g = new ArrayList<>();
@@ -469,10 +498,10 @@ public class Main implements MouseListener {
             else return;
             }
             catch (java.lang.IndexOutOfBoundsException e){
-                System.out.println("out of bound");
+                System.out.print("");
             }
             catch (java.lang.NullPointerException e){
-            System.out.println("null pointer");
+            System.out.print("");
             }}
         else{
             return;}
@@ -577,10 +606,10 @@ public class Main implements MouseListener {
             m.genes=setDominant(inheritance(parent1,parent2));
             m.fenotipo();
             m.birthday = timepassed;
-            //Thread thread=new Thread(m);
-            //m.runningon=thread;
+            Thread thread=new Thread(m);
+            m.runningon=thread;
             Alive.add(m);
-            //thread.start();
+            thread.start();
             return m;
         }
         else {
@@ -588,10 +617,10 @@ public class Main implements MouseListener {
             w.genes=inheritance(parent1,parent2);
             w.fenotipo();
             w.birthday = timepassed;
-            //Thread thread=new Thread(w);
-            //w.runningon=thread;
+            Thread thread=new Thread(w);
+            w.runningon=thread;
             Alive.add(w);
-            //thread.start();
+            thread.start();
             return w;
 
         }
@@ -603,7 +632,7 @@ public class Main implements MouseListener {
         p.meetingtile.color= lightGray;
         //this.graveyard.add(p.meetingtile);
         p.meetingtile.tileon.remove(p.meetingtile);
-        System.out.println(p.getage());
+        //System.out.println(p.getage());
         p.meetingtile.revalidate();
 
     }
@@ -611,7 +640,7 @@ public class Main implements MouseListener {
         p.meetingtile.color= lightGray;
         //this.graveyard.add(p.meetingtile);
         p.meetingtile.tileon.remove(p.meetingtile);
-        System.out.println(p.getage());
+        //System.out.println(p.getage());
         p.meetingtile.revalidate();
 
 
@@ -622,9 +651,10 @@ public class Main implements MouseListener {
         int y = two.meetingtile.coor_y;
         int amount = rd.nextInt(max);
         for (int ja = 1;ja <amount; ja++){
+            //System.out.println(amount +"new babies");
             God(one,two,x,y);
         }
-        System.out.println(Integer.toString(amount)+"new babies");
+
     }
     public void Court(Boolean v,Person p){
         if(v){

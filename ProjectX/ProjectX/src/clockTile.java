@@ -4,6 +4,7 @@ public class clockTile implements Person{
 
     peopleIcon meetingtile;
     Main frame;
+    Thread runningon;
     clockTile(int x, int y, Main m){
         Color c=new Color(0xFF000000, true);
         peopleIcon n=new peopleIcon(x,y, c);
@@ -59,16 +60,18 @@ public class clockTile implements Person{
     public void run() {
         while (true) {
             if (!Main.allowed) {
+                System.out.print("");
+            }
+            else {
+                //frame.slowdown();
                 try {
-                    Main.timelord.join();
+                    runningon.sleep(Main.timespeed);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                frame.timemove(this);
+                System.out.println("e0");
             }
-            //frame.slowdown();
-            frame.timemove(this);
-            System.out.println("e0");
-
         }
 
     }

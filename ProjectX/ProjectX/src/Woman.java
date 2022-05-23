@@ -122,27 +122,31 @@ public class Woman implements Person {
                 //System.out.println("4");
                 if (running) {
                     if (!Main.allowed) {
-                        try {
-                            Main.timelord.join();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    int[][] on = frame.move(this);
-                    if (cooldown) {
-                        if (!frame.Forbidden.contains(frame.getcoor(on[0][0], on[0][1]))) {
-                            frame.localmeet(on);
-                        }
+                        ;
+                        //    try {
+                        //        Main.timelord.join();
+                        //    } catch (InterruptedException e) {
+                        //        e.printStackTrace();
+                        //    }
                     } else {
-                        moved++;
-                        if (moved == 4) {
-                            moved = 0;
-                            cooldown = true;//System.out.println(moved);
+                        int[][] on = frame.move(this);
+                        if (cooldown) {
+                            if (!frame.Forbidden.contains(frame.getcoor(on[0][0], on[0][1]))) {
+                                frame.localmeet(on);
+                            }
+                            //System.out.println(this);
+                        } else {
+                            moved++;
+                            if (moved == 4) {
+                                moved = 0;
+                                cooldown = true;
+                                //System.out.println("triggered by man");
+                            }
                         }
-
                     }
                 }
-            }
         }
     }
+
+}
 
