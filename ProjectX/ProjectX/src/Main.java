@@ -25,6 +25,7 @@ public class Main implements MouseListener {
     public static int fastwomen=5;
     public static int slowmen=2;
     public static int slowwomen=2;
+    public static int speed = 10;
     public static boolean allowed = true;
 
     public static boolean dominantgene=true;
@@ -47,10 +48,11 @@ public class Main implements MouseListener {
 
 
     MyFrame frame = new MyFrame();
+    //statsFrame statistics = new statsFrame(Populations);
     JPanel map = new JPanel();
     JLabel city = new JLabel();
     ImageIcon mapCity = new ImageIcon("ProjectX/ProjectX/src/cityImage.jpg");
-    LowerPanel buttonPanel = new LowerPanel(frame);
+    LowerPanel buttonPanel = new LowerPanel(frame, Populations);
     JLabel stats1 = new JLabel();
     JLabel stats2 = new JLabel();
     JLabel stats3 = new JLabel();
@@ -59,13 +61,11 @@ public class Main implements MouseListener {
     GridLayout grid = new GridLayout(height, width);
     InputsPanel inputs = new InputsPanel(frame);
     DominantGenePanel dominantGene = new DominantGenePanel(frame);
-
-    //stats frame
-    statsFrame statistics = new statsFrame(Populations);
     Tile graveyard= new Tile(0,0,new Color(0xFF000000));
 
 
     public Main() {
+
         ItsTime timehascome = new ItsTime(false);
         Main.timelord = timehascome;
         timehascome.start();

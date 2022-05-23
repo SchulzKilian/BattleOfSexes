@@ -121,7 +121,7 @@ public class Man implements Person {
     public void run() {
         while (!stop) {
             try {
-                this.getRunningon().sleep(5);
+                this.getRunningon().sleep(Main.speed);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

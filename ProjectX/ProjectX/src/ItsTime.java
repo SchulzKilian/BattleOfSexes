@@ -47,7 +47,7 @@ public class ItsTime extends Thread {
         }
         else{
             while (!Main.allowed){
-                System.out.println("it works");
+                System.out.print("");
             }
             Main.allowed = true;
         }

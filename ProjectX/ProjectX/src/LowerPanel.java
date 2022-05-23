@@ -2,14 +2,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class LowerPanel extends JPanel{
     JButton startButton;
     JButton stopButton;
-
-    LowerPanel(JFrame frame){
+    statsFrame statistics;
+    ArrayList<Integer> population;
+    LowerPanel(JFrame frame, ArrayList<Integer> pop){
+        population = pop;
         this.setBackground(new Color(0xFFEDEBDE, true));
-        this.setBounds(1190,320,210,175);
+        this.setBounds(1170,500,210,175);
         startButton = new JButton();
         startButton.setFocusable(false);
         startButton.setLayout(null);
@@ -18,7 +21,7 @@ public class LowerPanel extends JPanel{
                 e -> {startButton.setEnabled(false);
                     stopButton.setEnabled(true);
                     Main.allowed = true;
-}
+                }
         );
         startButton.setOpaque(true);
         startButton.setText("<html>start simulation");
@@ -29,6 +32,7 @@ public class LowerPanel extends JPanel{
 
         stopButton = new JButton();
         stopButton.setFocusable(false);
+        stopButton.setEnabled(false);
         stopButton.setLayout(null);
         stopButton.setBounds(5,90,200,80);
         stopButton.addActionListener(
@@ -37,6 +41,9 @@ public class LowerPanel extends JPanel{
                     ItsTime timehascome = new ItsTime(false);
                     Main.timelord = timehascome;
                     timehascome.start();
+                    System.out.println(population);
+                    statsFrame statistics = new statsFrame(population);
+                    statistics.show();
 
                 }
         );
