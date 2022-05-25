@@ -9,6 +9,7 @@ public class clockTile implements Person{
         Color c=new Color(0xFF000000, true);
         peopleIcon n=new peopleIcon(x,y, c);
         meetingtile=n;
+        meetingtile.setVisible(false);
         frame=m;
     }
     @Override
@@ -70,7 +71,7 @@ public class clockTile implements Person{
                     e.printStackTrace();
                 }
                 frame.timemove(this);
-                System.out.println("e0");
+
             }
         }
 

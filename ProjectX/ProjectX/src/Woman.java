@@ -113,10 +113,9 @@ public class Woman implements Person {
 
     @Override
     public void run() {
-        stop=false;
-        while (!stop) {
+        while (true) {
             try {
-                this.getRunningon().sleep(Main.speed);
+                Thread.sleep(Main.speed);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

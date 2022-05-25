@@ -4,7 +4,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.ConcurrentModificationException;
 import java.util.Random;
 
 import static java.awt.Color.*;
@@ -19,7 +18,6 @@ public class Main implements MouseListener {
 
     public static int timepassed;
     public static int cicles= b+c;
-    public static int population=5;
     public static int movements;
     public static int timespeed=5;
     public static int s;
@@ -29,18 +27,13 @@ public class Main implements MouseListener {
     public static int slowwomen;
     public static int speed = 1;
     public static boolean allowed = false;
-    public static boolean checking=false;
 
     public static boolean dominantgene;
     public static boolean none;
-    public static boolean rand=false;
     int width= 30;
     int height = 30;
-    int amountmen = 10;
-    int amountwomen = 10;
     ArrayList<Tile> Tlist= new ArrayList<Tile>();
     static ArrayList<Person> Alive=new ArrayList<Person>();
-    ArrayList<Person> Moving=new ArrayList<Person>();
     static ArrayList<Person> Prison=new ArrayList<Person>();
     ArrayList<Tile> Forbidden=new ArrayList<>();
     ArrayList<int[]> popGrowth = new ArrayList<>();
@@ -112,7 +105,6 @@ public class Main implements MouseListener {
         movements++;
         if(movements%10==0){
             timepassed++;
-            Main.allowed = false;
             timelord();
             movements=0;
         }
@@ -264,51 +256,29 @@ public class Main implements MouseListener {
         //return pos;
     }
 
-    public synchronized  void timelord() {
+    public void timelord() {
             //this is the method for everything you want to check without moving threads interfering
             //System.out.println(Thread.activeCount());
-        ArrayList<Man> doomlistm =new ArrayList<>();
-        ArrayList<Woman> doomlistw =new ArrayList<>();
+
         checker();
-            try {
-
-                for (Person i : Main.Alive) {
-                    if (i.getage() > Main.lifeexpectancy && i.getgender().equals("male")) {
-                        doomlistm.add((Man) i);
-                        //System.out.println("dead");
-                    }
-                    if (i.getage() > Main.lifeexpectancy && i.getgender().equals("female")) {
-                        doomlistw.add((Woman) i);
-                        //System.out.println("dead");
-                    }
-
-                }
-                for (Man m:doomlistm) {
-                    GrimReaper(m);
-
-                }
-                for (Woman w:doomlistw) {
-                    GrimReaper(w);
-
-                }
-                doomlistm.removeAll(doomlistm);
-                doomlistw.removeAll(doomlistw);
-
-
-            } catch (ConcurrentModificationException e) {
-                System.out.println("ConcurrentModification");
-                Main.allowed = true;
-                return;
+        ArrayList<Person> Kopie = new ArrayList<>(Alive);
+        for (Person i:Kopie){
+            if (i.getage() > lifeexpectancy && i.getgender().equals("male")) {
+                GrimReaper((Man) i);
             }
-            Main.allowed = true;
+            if (i.getage() > lifeexpectancy && i.getgender().equals("female")) {
+                GrimReaper((Woman) i);
+
+            }
+        }
+
+        Kopie.removeAll(Kopie);
 
         }
 
 
-    public synchronized void checker(){
-        ArrayList<Person> copied=new ArrayList<>();
-        copied.addAll(Prison);
-        ArrayList<Person> pardonlist=new ArrayList<>();
+    public void checker(){
+        ArrayList<Person> copied = new ArrayList<>(Prison);
         for (Person p:copied) {
             if(p.Startagain(timepassed)){
                 //pardonlist.add(p);
@@ -326,7 +296,7 @@ public class Main implements MouseListener {
     public  int[][] move(Woman t){
         int x= t.meetingtile.coor_x;
         int y= t.meetingtile.coor_y;
-        int[][] pos={{x+0,y+0},{x+1,y+0},{x+(-1),y+0},{x+0,y+1},{x+0,y+(-1)},{x+1,y+1},{x+1,y+(-1)},{x+(-1),y+1},{x+(-1),y+(-1)}};
+        int[][] pos={{x,y},{x+1,y},{x+(-1),y},{x,y+1},{x,y+(-1)},{x+1,y+1},{x+1,y+(-1)},{x+(-1),y+1},{x+(-1),y+(-1)}};
        /* if (x==0 && y>0){
             pos[2]= new int[]{x, y};
             pos[7]=new int[] {x,y+1};
@@ -404,19 +374,12 @@ public class Main implements MouseListener {
         t.meetingtile.coor_x=xt;
         t.meetingtile.coor_y=yt;
         frame.repaint(); frame.revalidate();
-        int[][] pos2={{xt,yt},{xt+1,yt},{xt+(-1),yt},{xt,yt+1},{xt,yt+(-1)},{xt+1,yt+1},{xt+1,yt+(-1)},{xt+(-1),yt+1},{xt+(-1),yt+(-1)}};
-        return pos2;
+        return new int[][]{{xt,yt},{xt+1,yt},{xt+(-1),yt},{xt,yt+1},{xt,yt+(-1)},{xt+1,yt+1},{xt+1,yt+(-1)},{xt+(-1),yt+1},{xt+(-1),yt+(-1)}};
         //}
         //}
         //return pos;
     }
-    public  synchronized void slowdown(){
-        int[] f=new int[4];
-        f[0]=1;
-        f[2]=1;
-        f[3]=1;
-        f[1]=1;
-    }
+
 
     public void initialize(int fm,int fw,int sm,int sw){
         clockTile clock=new clockTile(8,8,this);

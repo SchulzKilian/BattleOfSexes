@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class InputsPanel extends JPanel implements ActionListener {
     JTextField a;
@@ -23,6 +25,12 @@ public class InputsPanel extends JPanel implements ActionListener {
         a.setFont(new Font("Courier New", Font.BOLD , 20));
         a.setForeground(new Color(0x9F9F9F));
         a.setText("Enter a");
+        a.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                a.setText("");
+            }
+        });
         a.addActionListener(this);
 
 
@@ -31,6 +39,12 @@ public class InputsPanel extends JPanel implements ActionListener {
         b.setFont(new Font("Courier New", Font.BOLD , 20));
         b.setForeground(new Color(0x9F9F9F));
         b.setText("Enter b");
+        b.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                b.setText("");
+            }
+        });
         b.addActionListener(this);
 
         c = new JTextField();
@@ -39,12 +53,23 @@ public class InputsPanel extends JPanel implements ActionListener {
         c.setForeground(new Color(0x9F9F9F));
         c.setText("Enter c");
         c.addActionListener(this);
-
+        c.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                c.setText("");
+            }
+        });
         fmen = new JTextField();
         fmen.setPreferredSize(new Dimension(180,40));
         fmen.setFont(new Font("Courier New", Font.BOLD , 20));
         fmen.setForeground(new Color(0x9F9F9F));
         fmen.setText("philanderers");
+        fmen.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                fmen.setText("");
+            }
+        });
         fmen.addActionListener(this);
 
         fwomen = new JTextField();
@@ -52,6 +77,12 @@ public class InputsPanel extends JPanel implements ActionListener {
         fwomen.setFont(new Font("Courier New", Font.BOLD , 20));
         fwomen.setForeground(new Color( 0x9F9F9F));
         fwomen.setText("fast women");
+        fwomen.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                fwomen.setText("");
+            }
+        });
         fwomen.addActionListener(this);
 
         smen = new JTextField();
@@ -59,6 +90,12 @@ public class InputsPanel extends JPanel implements ActionListener {
         smen.setFont(new Font("Courier New", Font.BOLD , 20));
         smen.setForeground(new Color(0x9F9F9F));
         smen.setText("faithful men");
+        smen.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                smen.setText("");
+            }
+        });
         smen.addActionListener(this);
 
         swomen = new JTextField();
@@ -66,6 +103,12 @@ public class InputsPanel extends JPanel implements ActionListener {
         swomen.setFont(new Font("Courier New", Font.BOLD , 20));
         swomen.setForeground(new Color(0x9F9F9F));
         swomen.setText("coy women");
+        swomen.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                swomen.setText("");
+            }
+        });
         swomen.addActionListener(this);
 
 

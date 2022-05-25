@@ -115,9 +115,9 @@ public class Man implements Person {
 
     @Override
     public void run() {
-        while (!stop) {
+        while (true) {
             try {
-                this.getRunningon().sleep(Main.speed);
+                Thread.sleep(Main.speed);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
