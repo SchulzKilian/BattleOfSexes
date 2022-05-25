@@ -8,8 +8,10 @@ public class DominantGenePanel extends JPanel implements ActionListener {
     JRadioButton slow;
     JRadioButton none;
     JLabel title;
+    Main main;
 
-    DominantGenePanel(JFrame frame) {
+    DominantGenePanel(Main frame) {
+        main =frame;
         this.setLayout(new FlowLayout());
         this.setBounds(1160,370,230,100);
         this.setBackground(new Color(0xEDEBDE));
@@ -24,10 +26,13 @@ public class DominantGenePanel extends JPanel implements ActionListener {
 
         fast.setFont(new Font("Courier New", Font.BOLD , 20));
         fast.setForeground(new Color(0x7379C2));
+        fast.addActionListener(this);
         slow.setFont(new Font("Courier New", Font.BOLD , 20));
         slow.setForeground(new Color(0x7379C2));
+        slow.addActionListener(this);
         none.setFont(new Font("Courier New", Font.BOLD , 20));
         none.setForeground(new Color(0x7379C2));
+        slow.addActionListener(this);
         title.setFont(new Font("Courier New", Font.BOLD , 17));
         title.setForeground(new Color(0x7379C2));
 
@@ -36,11 +41,26 @@ public class DominantGenePanel extends JPanel implements ActionListener {
         this.add(slow);
         this.add(none);
         this.setVisible(true);
-        frame.add(this);
+        frame.frame.add(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if(e.getSource()==slow){
+            main.dominantgene=false;
+            main.none=false;
+            System.out.println("e");
+
+        }
+        if(e.getSource()==fast){
+            main.dominantgene=true;
+            main.none=false;
+
+        }
+        if(e.getSource()==slow){
+            main.none=true;
+
+        }
 
     }
 }

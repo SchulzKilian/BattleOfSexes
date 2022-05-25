@@ -89,11 +89,12 @@ public class Woman implements Person {
                     frame.makebabies(Partner, this);
                 }
                 val = true;
-                frame.Court(false, this);
+                //frame.Court(false, this);
+                return true;
             }
             //System.out.println(CurrentTime);
             //System.out.println(f);
-            return true;
+            else return false;
         }
         return false;
     }

@@ -18,7 +18,10 @@ public class LowerPanel extends JPanel{
         startButton.setLayout(null);
         startButton.setBounds(5,5,200,80);
         startButton.addActionListener(
-                e -> {startButton.setEnabled(false);
+                e -> {
+                    m.inputs.getvalue();
+                    m.calltoaction();
+                    startButton.setEnabled(false);
                     stopButton.setEnabled(true);
                     Main.allowed = true;
                 }

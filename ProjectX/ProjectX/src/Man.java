@@ -79,14 +79,16 @@ public class Man implements Person {
                 cooldown = false;
                 running = true;
                 val = true;
-                frame.Court(false, this);
+                //frame.Court(false, this);
                 if (!(Partner == null)) {
                     frame.makebabies(this, Partner);
                 }
+                return true;
             }
+            else return false;
             //System.out.println(CurrentTime);
             //System.out.println(f);
-            return true;
+            //return true;
         }
         return false;
     }

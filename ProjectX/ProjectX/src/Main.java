@@ -12,10 +12,10 @@ import static java.awt.Color.*;
 public class Main implements MouseListener {
     public Random rd = new Random();
     public static ArrayList<Integer> Populations = new ArrayList<Integer>();
-    public static int lifeexpectancy = 100;
-    public static int a = 30;
-    public static int b = 40;
-    public static int c = 50;
+    public static int lifeexpectancy = 80;
+    public static int a;
+    public static int b;
+    public static int c;
 
     public static int timepassed;
     public static int cicles= b+c;
@@ -23,14 +23,16 @@ public class Main implements MouseListener {
     public static int movements;
     public static int timespeed=5;
     public static int s;
-    public static int fastmen=10;
-    public static int fastwomen=10;
-    public static int slowmen=10;
-    public static int slowwomen=1;
+    public static int fastmen;
+    public static int fastwomen;
+    public static int slowmen;
+    public static int slowwomen;
     public static int speed = 1;
     public static boolean allowed = false;
+    public static boolean checking=false;
 
-    public static boolean dominantgene=true;
+    public static boolean dominantgene;
+    public static boolean none;
     public static boolean rand=false;
     int width= 30;
     int height = 30;
@@ -61,8 +63,8 @@ public class Main implements MouseListener {
     JLabel stats4 = new JLabel();
     PieChart pieChart = new PieChart(totPeople,n1,n2,n3,n4, stats1, stats2, stats3, stats4, frame);
     GridLayout grid = new GridLayout(height, width);
-    InputsPanel inputs = new InputsPanel(frame);
-    DominantGenePanel dominantGene = new DominantGenePanel(frame);
+    InputsPanel inputs = new InputsPanel(this);
+    DominantGenePanel dominantGene = new DominantGenePanel(this);
     Tile graveyard= new Tile(0,0,new Color(0xFF000000));
 
 
@@ -101,9 +103,10 @@ public class Main implements MouseListener {
             provvisorio.start();
            // System.out.println(y++);
         }*/
-        initialize(fastmen,fastwomen,slowmen,slowwomen);
+
 
         }
+
 
     public  int[][] timemove (clockTile t){
         movements++;
@@ -165,6 +168,11 @@ public class Main implements MouseListener {
         //}
         //}
         //return pos;
+    }
+    public void calltoaction(){
+        //PieChart pieChart = new PieChart(totPeople,n1,n2,n3,n4, stats1, stats2, stats3, stats4, frame);
+        initialize(fastmen,fastwomen,slowmen,slowwomen);
+
     }
 
     public  int[][] move (Man t){
@@ -256,23 +264,35 @@ public class Main implements MouseListener {
         //return pos;
     }
 
-    public void timelord() {
+    public synchronized  void timelord() {
             //this is the method for everything you want to check without moving threads interfering
             //System.out.println(Thread.activeCount());
-
+        ArrayList<Man> doomlistm =new ArrayList<>();
+        ArrayList<Woman> doomlistw =new ArrayList<>();
+        checker();
             try {
-                checker();
+
                 for (Person i : Main.Alive) {
                     if (i.getage() > Main.lifeexpectancy && i.getgender().equals("male")) {
-                        GrimReaper((Man) i);
+                        doomlistm.add((Man) i);
                         //System.out.println("dead");
                     }
                     if (i.getage() > Main.lifeexpectancy && i.getgender().equals("female")) {
-                        GrimReaper((Woman) i);
+                        doomlistw.add((Woman) i);
                         //System.out.println("dead");
                     }
 
                 }
+                for (Man m:doomlistm) {
+                    GrimReaper(m);
+
+                }
+                for (Woman w:doomlistw) {
+                    GrimReaper(w);
+
+                }
+                doomlistm.removeAll(doomlistm);
+                doomlistw.removeAll(doomlistw);
 
 
             } catch (ConcurrentModificationException e) {
@@ -286,12 +306,22 @@ public class Main implements MouseListener {
 
 
     public synchronized void checker(){
-
-        for (Person p:Prison) {
-            //System.out.println("sdsd");
-            p.Startagain(timepassed);
+        ArrayList<Person> copied=new ArrayList<>();
+        copied.addAll(Prison);
+        ArrayList<Person> pardonlist=new ArrayList<>();
+        for (Person p:copied) {
+            if(p.Startagain(timepassed)){
+                //pardonlist.add(p);
+                Court(false, p);
+            }
             //System.out.println(timepassed);
         }
+        /*for (Person p: pardonlist) {
+
+
+        }*/
+        copied.removeAll(copied);
+        //pardonlist.removeAll(pardonlist);
     }
     public  int[][] move(Woman t){
         int x= t.meetingtile.coor_x;
@@ -581,9 +611,21 @@ public class Main implements MouseListener {
     public ArrayList<Boolean> inheritance(Man m, Woman w){
         int x= (int) (Math.random()*2);
         int y= (int) (Math.random()*2);
+        int z =(int) (Math.random()*2);
         ArrayList<Boolean> disp=new ArrayList<>();
+        if(none){
+            if (z==0){
+                disp.add(m.genes.get(x));
+                disp.add(m.genes.get(x));
+            }
+            else{
+                disp.add(w.genes.get(y));
+                disp.add(w.genes.get(y));}
+
+        }
+        else{
         disp.add(m.genes.get(x));
-        disp.add(w.genes.get(y));
+        disp.add(w.genes.get(y));}
 
         return disp;
 
@@ -628,20 +670,15 @@ public class Main implements MouseListener {
     }
 
     public void rem(Man p){
-        p.meetingtile.setwhite();
-        p.meetingtile.color= lightGray;
-        //this.graveyard.add(p.meetingtile);
+        p.runningon.stop();
+
         p.meetingtile.tileon.remove(p.meetingtile);
-        //System.out.println(p.getage());
-        p.meetingtile.revalidate();
+
 
     }
     public void rem(Woman p){
-        p.meetingtile.color= lightGray;
-        //this.graveyard.add(p.meetingtile);
+
         p.meetingtile.tileon.remove(p.meetingtile);
-        //System.out.println(p.getage());
-        p.meetingtile.revalidate();
 
 
     }
@@ -667,16 +704,20 @@ public class Main implements MouseListener {
         }
     }
     public  void GrimReaper(Man p){
+        p.meetingtile.highlight();
+        p.runningon.stop();
+        p.meetingtile.tileon.remove(p.meetingtile);
+        p.meetingtile.tileon.occupants.remove((p.meetingtile));
         Alive.remove(p);
-        p.stop=true;
-        this.rem(p);
-        //System.out.println("eo");
+        //rem(p);
+        System.out.println("he dead");
     }
     public  void GrimReaper(Woman p){
-        //System.out.println("eo");
+        p.meetingtile.highlight();
+        p.runningon.stop();
+        p.meetingtile.tileon.remove(p.meetingtile);
+        p.meetingtile.tileon.occupants.remove((p.meetingtile));
         Alive.remove(p);
-        p.stop=true;
-        this.rem(p);
     }
     public ArrayList<Boolean> setDominant(ArrayList<Boolean> g){
         if(dominantgene){
@@ -684,6 +725,9 @@ public class Main implements MouseListener {
                 Collections.swap(g,g.indexOf(true),0);
             }
 
+        }
+        else if(none){
+            return g;
         }
         else {
             if(g.contains(false)){
