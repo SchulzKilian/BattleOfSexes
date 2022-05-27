@@ -61,7 +61,7 @@ public class clockTile implements Person{
     public void run() {
         while (true) {
             if (!Main.allowed) {
-                System.out.print("");
+                //System.out.print("");
             }
             else {
                 //frame.slowdown();

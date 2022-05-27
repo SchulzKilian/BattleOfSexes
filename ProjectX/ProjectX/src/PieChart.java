@@ -81,5 +81,6 @@ public class PieChart extends JPanel {// draw rectangles and arcs
         g.fillArc(10, 20, 260, 260, angle[0]+angle[1], angle[2]);
         g.setColor(new Color(0xBFFFF2));
         g.fillArc(10, 20, 260, 260, angle[0]+angle[1]+angle[2], angle[3]);
+
     }
 }

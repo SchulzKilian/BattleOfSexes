@@ -12,7 +12,7 @@ public class MyFrame extends JFrame {
     JTextField fwomen;
     MyFrame() {
         this.setVisible(true);
-        this.setSize(1440,920);  //frame.setResizeble prevent the frame from resizing(1536 864)
+        this.setSize(1240,820);  //frame.setResizeble prevent the frame from resizing(1536 864)
         this.setTitle("test");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.getContentPane().setBackground(new Color(0xFFEDEBDE, true));
