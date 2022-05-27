@@ -49,7 +49,7 @@ public class Main implements MouseListener {
     JLabel city = new JLabel();
     ImageIcon mapCity = new ImageIcon("ProjectX/ProjectX/src/cityImage.jpg");
     LowerPanel buttonPanel = new LowerPanel(frame, Populations, this);
-    PieChart pieChart = new PieChart(totPeople,n1,n2,n3,n4, frame);
+    PieChart pieChart = new PieChart(totPeople,slowwomen,fastwomen,fastmen,slowmen, frame);
     GridLayout grid = new GridLayout(height, width);
     InputsPanel inputs = new InputsPanel(this);
     DominantGenePanel dominantGene = new DominantGenePanel(this);
