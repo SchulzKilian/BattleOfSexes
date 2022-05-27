@@ -7,7 +7,6 @@ import java.util.ArrayList;
 public class LowerPanel extends JPanel{
     JButton startButton;
     JButton stopButton;
-    statsFrame statistics;
     ArrayList<Integer> population;
     LowerPanel(JFrame frame, ArrayList<Integer> pop, Main m){
         population = pop;
@@ -56,10 +55,8 @@ public class LowerPanel extends JPanel{
         stopButton.isBackgroundSet();
 
         this.setLayout(null);
-        //this.setBounds(920,350,450,500);
         this.add(startButton);
         this.add(stopButton);
         this.setVisible(true);
-        //frame.add(this);
     }
 }
