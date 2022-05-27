@@ -38,10 +38,10 @@ public class Main implements MouseListener {
     ArrayList<Tile> Forbidden=new ArrayList<>();
     ArrayList<int[]> popGrowth = new ArrayList<>();
     float totPeople =  (float) (fastmen+fastwomen+slowmen+slowwomen);
-    float n1 = (float) fastmen;
-    float n2 = (float) fastwomen;
-    float n3 = (float) slowmen;
-    float n4 = (float) slowwomen;
+    float floatswomen = (float) slowwomen;
+    float floatfwomen = (float) fastwomen;
+    float floatfmen = (float) fastmen;
+    float floatsmen = (float) slowmen;
 
 
     MyFrame frame = new MyFrame();
@@ -54,7 +54,7 @@ public class Main implements MouseListener {
     JLabel stats2 = new JLabel();
     JLabel stats3 = new JLabel();
     JLabel stats4 = new JLabel();
-    PieChart pieChart = new PieChart(totPeople,n1,n2,n3,n4, stats1, stats2, stats3, stats4, frame);
+    PieChart pieChart = new PieChart(totPeople,floatswomen,floatfwomen,floatfmen,floatsmen, stats1, stats2, stats3, stats4, frame);
     GridLayout grid = new GridLayout(height, width);
     InputsPanel inputs = new InputsPanel(this);
     DominantGenePanel dominantGene = new DominantGenePanel(this);
@@ -108,9 +108,36 @@ public class Main implements MouseListener {
             timelord();
             movements=0;
         }
-        if (timepassed%1000==0){
+        if (timepassed%200==0){
             Populations.add(Alive.size());
             System.out.println(Populations);
+        }
+        if(timepassed%500==0){
+            //Stability.stackX(5,Integer []arr) stack = new Stability()
+            int stack[]=new int[5];
+            int valore= (fastmen + fastwomen) / (slowmen + slowwomen);
+            int top=0;
+            while (stack.length == 5){
+                stack[top]=valore;
+                top++;
+            }
+            int newStack[] = new int[stack.length];
+            for(int i=0; i<=timepassed; i++ ) {
+                int valore1= (fastmen + fastwomen) / (slowmen + slowwomen);
+                newStack[i-1] = stack[i];
+                newStack[i]=valore1;
+                for(int j=0;j<=newStack.length;j++){
+                    for(int k=1;k<=newStack.length -1;k++){
+                        if(newStack[j]/newStack[k] <= 0.2){
+                            System.out.println("STOP");
+                        }
+                    }
+                }
+
+
+            }
+
+
         }
 
         int x= t.meetingtile.coor_x;
@@ -491,10 +518,10 @@ public class Main implements MouseListener {
             else return;
             }
             catch (java.lang.IndexOutOfBoundsException e){
-                System.out.print("");
+                System.out.print("IndexOutOfBoundsException");
             }
             catch (java.lang.NullPointerException e){
-            System.out.print("");
+            System.out.print("NullPointerException");
             }}
         else{
             return;}
@@ -673,7 +700,7 @@ public class Main implements MouseListener {
         p.meetingtile.tileon.occupants.remove((p.meetingtile));
         Alive.remove(p);
         //rem(p);
-        System.out.println("he dead");
+       // System.out.println("he dead");
     }
     public  void GrimReaper(Woman p){
         p.meetingtile.highlight();
@@ -749,6 +776,9 @@ public class Main implements MouseListener {
         return statsPop;
     }
 
+    public void refreshPieChart(float totPeople,float swomen, float fwomen,float fmen, float smen, JLabel stats1,JLabel stats2,JLabel stats3,JLabel stats4,JFrame frame){
+        PieChart pieChart = new PieChart(totPeople,swomen,fwomen,fmen,smen, stats1, stats2, stats3, stats4, frame);
+    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
