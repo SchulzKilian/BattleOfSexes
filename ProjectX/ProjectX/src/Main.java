@@ -96,6 +96,7 @@ public class Main implements MouseListener {
         }
 
 
+
     public  int[][] timemove (clockTile t){
         movements++;
         if(movements%10==0){
@@ -107,32 +108,8 @@ public class Main implements MouseListener {
             Populations.add(Alive.size());
             System.out.println(Populations);
         }
-        if(timepassed%500==0){
-            //Stability.stackX(5,Integer []arr) stack = new Stability()
-            int stack[]=new int[5];
-            int valore= (fastmen + fastwomen) / (slowmen + slowwomen);
-            int top=0;
-            while (stack.length == 5){
-                stack[top]=valore;
-                top++;
-            }
-            int newStack[] = new int[stack.length];
-            for(int i=0; i<=timepassed; i++ ) {
-                int valore1= (fastmen + fastwomen) / (slowmen + slowwomen);
-                newStack[i-1] = stack[i];
-                newStack[i]=valore1;
-                for(int j=0;j<=newStack.length;j++){
-                    for(int k=1;k<=newStack.length -1;k++){
-                        if(newStack[j]/newStack[k] <= 0.2){
-                            System.out.println("STOP");
-                        }
-                    }
-                }
-
-
-            }
-
-
+        if(timepassed%500==0) {
+            ciclable();
         }
 
         int x= t.meetingtile.coor_x;
@@ -183,6 +160,35 @@ public class Main implements MouseListener {
         //}
         //return pos;
     }
+    public void ciclable(){
+        //Stability.stackX(5,Integer []arr) stack = new Stability()
+        int stack[]=new int[5];
+        int valore= (fastmen + fastwomen) / (slowmen + slowwomen);
+        int top=0;
+        while (stack.length == 5){
+            stack[top]=valore;
+            top++;
+        }
+        int newStack[] = new int[stack.length];
+        for(int i=0; i<=timepassed; i++ ) {
+            int valore1= (fastmen + fastwomen) / (slowmen + slowwomen);
+            newStack[i-1] = stack[i];
+            newStack[i]=valore1;
+            for(int j=0;j<=newStack.length;j++){
+                for(int k=1;k<=newStack.length -1;k++){
+                    if(newStack[j]/newStack[k] <= 0.2){
+                        System.out.println("STOP");
+                    }
+                }
+            }
+
+
+        }
+
+
+
+    }
+
     public void calltoaction(){
         //PieChart pieChart = new PieChart(totPeople,n1,n2,n3,n4, stats1, stats2, stats3, stats4, frame);
         initialize(fastmen,fastwomen,slowmen,slowwomen);
@@ -625,6 +631,29 @@ public class Main implements MouseListener {
         }
 
     }
+
+    public void updatetype(Person p, boolean b){
+        if(b){
+        if (p.getgender().equals("male")){
+            if (p.type()==true) fastmen++;
+            else slowmen++;
+        }
+        else {
+            if (p.type()==true) fastwomen++;
+            else slowwomen++;
+        }}
+        else {
+            if (p.getgender().equals("male")){
+                if (p.type()==true) fastmen--;
+                else slowmen--;
+            }
+            else {
+                if (p.type()==true) fastwomen--;
+                else slowwomen--;
+            }}
+
+
+    }
     public Person God(Man parent1, Woman parent2, int x,int y){
         String[] gender={"male","female"};
         int k=(int)(Math.random()*2);
@@ -632,6 +661,7 @@ public class Main implements MouseListener {
             Man m=new Man(x,y,this);
             m.genes=setDominant(inheritance(parent1,parent2));
             m.fenotipo();
+            updatetype(m,true);
             m.birthday = timepassed;
             Thread thread=new Thread(m);
             m.runningon=thread;
@@ -643,6 +673,7 @@ public class Main implements MouseListener {
             Woman w=new Woman(x,y,this);
             w.genes=inheritance(parent1,parent2);
             w.fenotipo();
+            updatetype(w,true);
             w.birthday = timepassed;
             Thread thread=new Thread(w);
             w.runningon=thread;
@@ -690,6 +721,7 @@ public class Main implements MouseListener {
     }
     public  void GrimReaper(Man p){
         p.meetingtile.highlight();
+        updatetype(p,false);
         p.runningon.stop();
         p.meetingtile.tileon.remove(p.meetingtile);
         p.meetingtile.tileon.occupants.remove((p.meetingtile));
@@ -699,6 +731,7 @@ public class Main implements MouseListener {
     }
     public  void GrimReaper(Woman p){
         p.meetingtile.highlight();
+        updatetype(p,false);
         p.runningon.stop();
         p.meetingtile.tileon.remove(p.meetingtile);
         p.meetingtile.tileon.occupants.remove((p.meetingtile));
