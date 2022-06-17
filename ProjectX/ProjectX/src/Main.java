@@ -537,9 +537,13 @@ public class Main implements MouseListener {
     public void meet(Tile t){
         Man first;
         Woman second;
-        if(t.occupants.size()>=2){
-            String genderfirst=t.occupants.get(1).getgender();
-            String gendersecond = t.occupants.get(0).getgender();
+        ArrayList<Person> prov=new ArrayList<>();
+        prov.addAll(t.occupants);
+        prov.remove(null);
+        if(prov.size()>=2){
+            //System.out.println(Arrays.deepToString(new ArrayList[]{prov}));
+            String genderfirst=prov.get(1).getgender();
+            String gendersecond = prov.get(0).getgender();
             try {
 
             //System.out.println(t.occupants.get(0)+" "+t.occupants.get(1));
@@ -548,13 +552,13 @@ public class Main implements MouseListener {
 
             if(genderfirst.equals("male") && gendersecond.equals("female")){
                 //System.out.println("all good");
-                first= (Man) t.occupants.get(1);
-                second =(Woman) t.occupants.get(0);
+                first= (Man) prov.get(1);
+                second =(Woman) prov.get(0);
             }
             else if(gendersecond.equals("male") && genderfirst.equals("female")){
                // System.out.println("all good");
-                first= (Man) t.occupants.get(0);
-                second =(Woman) t.occupants.get(1);
+                first= (Man) prov.get(0);
+                second =(Woman) prov.get(1);
             }
             else { //System.out.println("all good");
                 return;}
@@ -578,6 +582,7 @@ public class Main implements MouseListener {
             }}
         else{
             return;}
+        prov.removeAll(prov);
 
     }
     public boolean Compatibility(boolean type_a, boolean type_b){

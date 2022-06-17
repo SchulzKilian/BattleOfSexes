@@ -134,6 +134,7 @@ public class Woman implements Person {
                         if (cooldown) {
                             if (!frame.Forbidden.contains(frame.getcoor(on[0][0], on[0][1]))) {
                                 frame.localmeet(on);
+
                             }
                             //System.out.println(this);
                         } else {
