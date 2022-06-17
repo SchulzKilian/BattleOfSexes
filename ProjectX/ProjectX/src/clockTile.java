@@ -9,7 +9,7 @@ public class clockTile implements Person{
         Color c=new Color(0xFF000000, true);
         peopleIcon n=new peopleIcon(x,y, c);
         meetingtile=n;
-        meetingtile.setVisible(false);
+        meetingtile.setVisible(true);
         frame=m;
     }
     @Override
@@ -61,6 +61,9 @@ public class clockTile implements Person{
     public void run() {
         while (true) {
             if (!Main.allowed) {
+                //System.out.println(false);
+
+
                 //System.out.print("");
             }
             else {
@@ -69,8 +72,10 @@ public class clockTile implements Person{
                     runningon.sleep(Main.timespeed);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                    System.out.println("rewfr");
                 }
                 frame.timemove(this);
+                //System.out.println("moving");
 
             }
         }

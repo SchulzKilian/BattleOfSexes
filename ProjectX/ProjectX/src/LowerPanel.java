@@ -19,10 +19,11 @@ public class LowerPanel extends JPanel{
         startButton.addActionListener(
                 e -> {
                     m.inputs.getvalue();
-                    m.calltoaction();
+                    Main.allowed = true;
                     startButton.setEnabled(false);
                     stopButton.setEnabled(true);
-                    Main.allowed = true;
+                    m.calltoaction();
+
                 }
         );
         startButton.setOpaque(true);

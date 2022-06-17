@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
@@ -30,13 +31,15 @@ public class Main implements MouseListener {
 
     public static boolean dominantgene;
     public static boolean none;
-    int width= 30;
-    int height = 30;
+    int width= 65;
+    int height = 65;
     ArrayList<Tile> Tlist= new ArrayList<Tile>();
     static ArrayList<Person> Alive=new ArrayList<Person>();
     static ArrayList<Person> Prison=new ArrayList<Person>();
     ArrayList<Tile> Forbidden=new ArrayList<>();
     ArrayList<int[]> popGrowth = new ArrayList<>();
+    static float[] stablist= new float[5];
+    int ind;
     float totPeople =  (float) (fastmen+fastwomen+slowmen+slowwomen);
     float floatswomen = (float) slowwomen;
     float floatfwomen = (float) fastwomen;
@@ -101,6 +104,8 @@ public class Main implements MouseListener {
         movements++;
         if(movements%10==0){
             timepassed++;
+            frame.revalidate();
+            frame.repaint();
             timelord();
             movements=0;
         }
@@ -153,7 +158,7 @@ public class Main implements MouseListener {
         int yt =tile.coor_y;
         t.meetingtile.coor_x=xt;
         t.meetingtile.coor_y=yt;
-        frame.repaint(); frame.revalidate();
+        //frame.repaint(); frame.revalidate();
         int[][] pos2={{xt,yt},{xt+1,yt},{xt+(-1),yt},{xt,yt+1},{xt,yt+(-1)},{xt+1,yt+1},{xt+1,yt+(-1)},{xt+(-1),yt+1},{xt+(-1),yt+(-1)}};
         return pos2;
         //}
@@ -161,7 +166,36 @@ public class Main implements MouseListener {
         //return pos;
     }
     public void ciclable(){
-        //Stability.stackX(5,Integer []arr) stack = new Stability()
+        float valore= (fastmen + fastwomen) /(slowmen + slowwomen);
+        System.out.println(valore+" value "+(fastmen + fastwomen)+" "+(slowmen + slowwomen));
+        if(ind<5){
+            stablist[ind]=valore;
+        }
+        else{
+            stablist[0]=stablist[1];
+            stablist[1]=stablist[2];
+            stablist[2]=stablist[3];
+            stablist[3]=stablist[4];
+            stablist[4]=valore;
+            float max= getbiggest(stablist);
+            int stab = 0;
+            for (int i = 0; i < 5; i++) {
+                if(!(max/stablist[i] <= 0.2)){
+                    stab++;
+
+                }
+
+
+            }
+            if (stab== 0){
+                end();
+            }
+
+            }
+        ind++;
+
+
+        /*//Stability.stackX(5,Integer []arr) stack = new Stability()
         int stack[]=new int[5];
         int valore= (fastmen + fastwomen) / (slowmen + slowwomen);
         int top=0;
@@ -183,10 +217,27 @@ public class Main implements MouseListener {
             }
 
 
+        }*/
+
+
+
+    }
+    public void end(){
+        allowed = false;
+        //System.out.println(population);
+        statsFrame statistics = new statsFrame(buttonPanel.population);
+        statistics.show();
+    }
+    public float getbiggest(float[] x){
+        float t=x[0];
+        for (int i=0 ;i< x.length; i++){
+            if (x[i]>=t)
+                t=x[i];
+
         }
 
 
-
+        return t;
     }
 
     public void calltoaction(){
@@ -276,7 +327,7 @@ public class Main implements MouseListener {
             int yt =tile.coor_y;
             t.meetingtile.coor_x=xt;
             t.meetingtile.coor_y=yt;
-            frame.repaint(); frame.revalidate();
+            //frame.repaint(); frame.revalidate();
             int[][] pos2={{xt,yt},{xt+1,yt},{xt+(-1),yt},{xt,yt+1},{xt,yt+(-1)},{xt+1,yt+1},{xt+1,yt+(-1)},{xt+(-1),yt+1},{xt+(-1),yt+(-1)}};
             return pos2;
                 //}
@@ -401,7 +452,7 @@ public class Main implements MouseListener {
         int yt =tile.coor_y;
         t.meetingtile.coor_x=xt;
         t.meetingtile.coor_y=yt;
-        frame.repaint(); frame.revalidate();
+        //frame.repaint(); frame.revalidate();
         return new int[][]{{xt,yt},{xt+1,yt},{xt+(-1),yt},{xt,yt+1},{xt,yt+(-1)},{xt+1,yt+1},{xt+1,yt+(-1)},{xt+(-1),yt+1},{xt+(-1),yt+(-1)}};
         //}
         //}
@@ -480,16 +531,17 @@ public class Main implements MouseListener {
 
 
         }
-        frame.repaint(); frame.revalidate();
+        //frame.repaint(); frame.revalidate();
     }
 
     public void meet(Tile t){
         Man first;
         Woman second;
         if(t.occupants.size()>=2){
-            try {
             String genderfirst=t.occupants.get(1).getgender();
             String gendersecond = t.occupants.get(0).getgender();
+            try {
+
             //System.out.println(t.occupants.get(0)+" "+t.occupants.get(1));
             //t.occupants.get(1).getFrame().slowdown();
             //t.occupants.get(0).getFrame().slowdown();
@@ -522,7 +574,7 @@ public class Main implements MouseListener {
                 System.out.print("IndexOutOfBoundsException");
             }
             catch (java.lang.NullPointerException e){
-            System.out.print("NullPointerException");
+            System.out.println("NullPointerException");
             }}
         else{
             return;}
