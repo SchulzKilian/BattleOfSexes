@@ -12,12 +12,12 @@ import static java.awt.Color.*;
 public class Main implements MouseListener {
     public Random rd = new Random();
     public static ArrayList<Integer> Populations = new ArrayList<Integer>();
-    public static int lifeexpectancy = 60;
+    public static int lifeexpectancy = 90;
     public static int a;
     public static int b;
     public static int c;
 
-    public static int timepassed=1;
+    public static int timepassed=90;
     public static int cicles= b+c;
     public static int movements;
     public static int timespeed=5;
@@ -110,8 +110,10 @@ public class Main implements MouseListener {
             Populations.add(Alive.size());
             System.out.println(Populations);
         }
-        if(timepassed%1000==0) {
-            ciclable();
+        if (timepassed!=0){
+            if(timepassed%600==0) {
+                ciclable();
+            }
         }
 
         int x= t.meetingtile.coor_x;
@@ -163,6 +165,8 @@ public class Main implements MouseListener {
         //return pos;
     }
     public void ciclable(){
+        refreshPieChart(totPeople,slowwomen,fastwomen,fastmen,slowmen, frame);
+        //frame.revalidate();frame.repaint();
         float floatswomen = (float) slowwomen;
         float floatfwomen = (float) fastwomen;
         float floatfmen = (float) fastmen;
@@ -464,6 +468,7 @@ public class Main implements MouseListener {
 
 
     public void initialize(int fm,int fw,int sm,int sw){
+
         clockTile clock=new clockTile(8,8,this);
         Thread clkThread= new Thread(clock);
         clkThread.start();
@@ -471,6 +476,7 @@ public class Main implements MouseListener {
 
         for (int i = 0; i < fm; i++) {
             Man m=new Man(0,0,this);
+            m.birthday = rd.nextInt(100);
             ArrayList<Boolean> g = new ArrayList<>();
             g.add(true);
             g.add(true);
@@ -486,6 +492,7 @@ public class Main implements MouseListener {
         }
         for (int i = 0; i < sm; i++) {
             Man m=new Man(0,0,this);
+            m.birthday = rd.nextInt(100);
             ArrayList<Boolean> g = new ArrayList<>();
             g.add(false);
             g.add(false);
@@ -501,7 +508,8 @@ public class Main implements MouseListener {
 
         }
         for (int i = 0; i < fw; i++) {
-            Woman w=new Woman(29,29,this);
+            Woman w=new Woman(width -1,height -1,this);
+            w.birthday = rd.nextInt(100);
             ArrayList<Boolean> g = new ArrayList<>();
             g.add(true);
             g.add(true);
@@ -519,6 +527,7 @@ public class Main implements MouseListener {
         }
         for (int i = 0; i < sw; i++) {
             Woman w=new Woman(width -1,height -1,this);
+            w.birthday = rd.nextInt(100);
             ArrayList<Boolean> g = new ArrayList<>();
             g.add(false);
             g.add(false);
@@ -781,23 +790,26 @@ public class Main implements MouseListener {
         }
     }
     public  void GrimReaper(Man p){
-        p.meetingtile.highlight();
+        p.meetingtile.setVisible(false);
         updatetype(p,false);
         p.runningon.stop();
         p.meetingtile.tileon.remove(p.meetingtile);
         p.meetingtile.tileon.occupants.remove((p.meetingtile));
         Alive.remove(p);
+        //frame.repaint();frame.revalidate();
 
         //rem(p);
        System.out.println("he dead");
     }
     public  void GrimReaper(Woman p){
-        p.meetingtile.highlight();
+        p.meetingtile.setVisible(false);
         updatetype(p,false);
         p.runningon.stop();
         p.meetingtile.tileon.remove(p.meetingtile);
         p.meetingtile.tileon.occupants.remove((p.meetingtile));
         Alive.remove(p);
+        //frame.repaint();frame.revalidate();
+        System.out.println("he dead");
     }
     public ArrayList<Boolean> setDominant(ArrayList<Boolean> g){
         if(dominantgene){
@@ -866,8 +878,12 @@ public class Main implements MouseListener {
         return statsPop;
     }
 
-    public void refreshPieChart(float totPeople,float swomen, float fwomen,float fmen, float smen, JLabel stats1,JLabel stats2,JLabel stats3,JLabel stats4,JFrame frame){
-        PieChart pieChart = new PieChart(totPeople,swomen,fwomen,fmen,smen,frame);
+    public void refreshPieChart(float totPeople,float swomen, float fwomen,float fmen, float smen,JFrame frame){
+        PieChart npieChart = new PieChart(totPeople,swomen,fwomen,fmen,smen,frame);
+        frame.add(npieChart);
+        frame.remove(pieChart);
+        pieChart=npieChart;
+        frame.revalidate();frame.repaint();
     }
 
     @Override

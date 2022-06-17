@@ -15,12 +15,14 @@ public class statsPanel extends JPanel implements ActionListener {
     int x=0;
     int y=0;
     static int xAxis;
+    static int YAxis;
 
     statsPanel(ArrayList<Integer> pop) {
         this.setPreferredSize(new Dimension(PANEL_WIDTH,PANEL_HEIGTH));
         //this.setBounds(100,10,100,100);
         population=pop;
         xAxis = (int) (700/(population.size()+1));
+        //YAxis = (int) (700/(population.size()+1));
         peter = new ImageIcon("gif.png").getImage();
         timer = new Timer(5, this);
         timer.start();
@@ -56,10 +58,10 @@ public class statsPanel extends JPanel implements ActionListener {
             xPoints[2] = xAxis * (i+1) +15;
             xPoints[3] = xAxis * (i+1) +15;
 
-            yPoints[0] = 500 - ((population.get(i)) + 15);
-            yPoints[1] = 500;
+            yPoints[0] =  500 - ((population.get(i)) + 15);
+            yPoints[1] =  500;
             yPoints[2] = 500;
-            yPoints[3] = 500 - ((population.get(i + 1)) + 15);
+            yPoints[3] =  500 - ((population.get(i + 1)) + 15);
 
             g2D.setColor(new Color(0x8BE18E3B, true));
             g2D.fillPolygon(xPoints, yPoints, 4);

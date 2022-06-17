@@ -45,7 +45,7 @@ public class Woman implements Person {
 
     @Override
     public int getage() {
-        return (Main.timepassed - birthday)/50;
+        return (Main.timepassed - birthday)/4;
     }
 
     @Override
