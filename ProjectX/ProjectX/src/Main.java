@@ -12,12 +12,12 @@ import static java.awt.Color.*;
 public class Main implements MouseListener {
     public Random rd = new Random();
     public static ArrayList<Integer> Populations = new ArrayList<Integer>();
-    public static int lifeexpectancy = 80;
+    public static int lifeexpectancy = 60;
     public static int a;
     public static int b;
     public static int c;
 
-    public static int timepassed;
+    public static int timepassed=1;
     public static int cicles= b+c;
     public static int movements;
     public static int timespeed=5;
@@ -31,8 +31,8 @@ public class Main implements MouseListener {
 
     public static boolean dominantgene;
     public static boolean none;
-    int width= 65;
-    int height = 65;
+    int width= 90;
+    int height = 90;
     ArrayList<Tile> Tlist= new ArrayList<Tile>();
     static ArrayList<Person> Alive=new ArrayList<Person>();
     static ArrayList<Person> Prison=new ArrayList<Person>();
@@ -41,10 +41,7 @@ public class Main implements MouseListener {
     static float[] stablist= new float[5];
     int ind;
     float totPeople =  (float) (fastmen+fastwomen+slowmen+slowwomen);
-    float floatswomen = (float) slowwomen;
-    float floatfwomen = (float) fastwomen;
-    float floatfmen = (float) fastmen;
-    float floatsmen = (float) slowmen;
+
 
 
     MyFrame frame = new MyFrame();
@@ -113,7 +110,7 @@ public class Main implements MouseListener {
             Populations.add(Alive.size());
             System.out.println(Populations);
         }
-        if(timepassed%500==0) {
+        if(timepassed%1000==0) {
             ciclable();
         }
 
@@ -166,7 +163,11 @@ public class Main implements MouseListener {
         //return pos;
     }
     public void ciclable(){
-        float valore= (fastmen + fastwomen) /(slowmen + slowwomen);
+        float floatswomen = (float) slowwomen;
+        float floatfwomen = (float) fastwomen;
+        float floatfmen = (float) fastmen;
+        float floatsmen = (float) slowmen;
+        float valore= (floatfmen + floatfwomen) /(floatsmen + floatswomen);
         System.out.println(valore+" value "+(fastmen + fastwomen)+" "+(slowmen + slowwomen));
         if(ind<5){
             stablist[ind]=valore;
@@ -180,7 +181,7 @@ public class Main implements MouseListener {
             float max= getbiggest(stablist);
             int stab = 0;
             for (int i = 0; i < 5; i++) {
-                if(!(max/stablist[i] <= 0.2)){
+                if(!(max/stablist[i] >= 0.2)){
                     stab++;
 
                 }
@@ -340,7 +341,9 @@ public class Main implements MouseListener {
             //System.out.println(Thread.activeCount());
 
         checker();
-        ArrayList<Person> Kopie = new ArrayList<>(Alive);
+        ArrayList<Person> Kopie = new ArrayList<>();
+        Kopie.addAll(Alive);
+
         for (Person i:Kopie){
             if (i.getage() > lifeexpectancy && i.getgender().equals("male")) {
                 GrimReaper((Man) i);
@@ -698,7 +701,8 @@ public class Main implements MouseListener {
         else {
             if (p.type()==true) fastwomen++;
             else slowwomen++;
-        }}
+        }
+        }
         else {
             if (p.getgender().equals("male")){
                 if (p.type()==true) fastmen--;
@@ -783,8 +787,9 @@ public class Main implements MouseListener {
         p.meetingtile.tileon.remove(p.meetingtile);
         p.meetingtile.tileon.occupants.remove((p.meetingtile));
         Alive.remove(p);
+
         //rem(p);
-       // System.out.println("he dead");
+       System.out.println("he dead");
     }
     public  void GrimReaper(Woman p){
         p.meetingtile.highlight();
