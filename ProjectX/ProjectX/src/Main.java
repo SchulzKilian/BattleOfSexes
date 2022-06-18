@@ -99,14 +99,14 @@ public class Main implements MouseListener {
 
     public  int[][] timemove (clockTile t){
         movements++;
-        if(movements%10==0){
+        if(movements%20==0){
             timepassed++;
             frame.revalidate();
             frame.repaint();
             timelord();
             movements=0;
         }
-        if (timepassed%200==0){
+        if (timepassed%100==0){
             Populations.add(Alive.size());
             System.out.println(Populations);
         }
@@ -345,7 +345,7 @@ public class Main implements MouseListener {
             //System.out.println(Thread.activeCount());
 
         checker();
-        ArrayList<Person> Kopie = new ArrayList<>();
+        /*ArrayList<Person> Kopie = new ArrayList<>();
         Kopie.addAll(Alive);
 
         for (Person i:Kopie){
@@ -358,9 +358,10 @@ public class Main implements MouseListener {
             }
         }
 
-        Kopie.removeAll(Kopie);
+        Kopie.removeAll(Kopie);*/
 
         }
+
 
 
     public void checker(){
@@ -379,6 +380,7 @@ public class Main implements MouseListener {
         copied.removeAll(copied);
         //pardonlist.removeAll(pardonlist);
     }
+
     public  int[][] move(Woman t){
         int x= t.meetingtile.coor_x;
         int y= t.meetingtile.coor_y;
@@ -713,6 +715,7 @@ public class Main implements MouseListener {
         }
         }
         else {
+            System.out.println("hdhdhdhdh");
             if (p.getgender().equals("male")){
                 if (p.type()==true) fastmen--;
                 else slowmen--;
@@ -790,14 +793,13 @@ public class Main implements MouseListener {
         }
     }
     public  void GrimReaper(Man p){
-        p.meetingtile.setVisible(false);
         updatetype(p,false);
         p.runningon.stop();
-        p.meetingtile.tileon.remove(p.meetingtile);
+        //p.meetingtile.tileon.remove(p.meetingtile);
         p.meetingtile.tileon.occupants.remove((p.meetingtile));
         Alive.remove(p);
+        p.meetingtile.setVisible(false);
         //frame.repaint();frame.revalidate();
-
         //rem(p);
        System.out.println("he dead");
     }
@@ -805,7 +807,7 @@ public class Main implements MouseListener {
         p.meetingtile.setVisible(false);
         updatetype(p,false);
         p.runningon.stop();
-        p.meetingtile.tileon.remove(p.meetingtile);
+        //p.meetingtile.tileon.remove(p.meetingtile);
         p.meetingtile.tileon.occupants.remove((p.meetingtile));
         Alive.remove(p);
         //frame.repaint();frame.revalidate();

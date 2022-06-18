@@ -131,7 +131,15 @@ public class Man implements Person {
                     //    } catch (InterruptedException e) {
                     //        e.printStackTrace();
                     //    }
-                } else {
+                }
+                else {
+                    if(this.getage() > frame.lifeexpectancy){
+
+                        frame.GrimReaper(this);
+                        System.out.println("he dead");
+
+                        return;
+                    }
                     int[][] on = frame.move(this);
                     if (cooldown) {
                         if (!frame.Forbidden.contains(frame.getcoor(on[0][0], on[0][1]))) {

@@ -130,6 +130,10 @@ public class Woman implements Person {
                         //        e.printStackTrace();
                         //    }
                     } else {
+                        if(this.getage() > frame.lifeexpectancy){
+                            frame.GrimReaper(this);
+                            return;
+                        }
                         int[][] on = frame.move(this);
                         if (cooldown) {
                             if (!frame.Forbidden.contains(frame.getcoor(on[0][0], on[0][1]))) {

@@ -2,7 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class statsPanel extends JPanel implements ActionListener {
     static ArrayList<Integer> population;
@@ -15,14 +19,16 @@ public class statsPanel extends JPanel implements ActionListener {
     int x=0;
     int y=0;
     static int xAxis;
-    static int YAxis;
+    static float yAxis;
 
     statsPanel(ArrayList<Integer> pop) {
         this.setPreferredSize(new Dimension(PANEL_WIDTH,PANEL_HEIGTH));
         //this.setBounds(100,10,100,100);
         population=pop;
         xAxis = (int) (700/(population.size()+1));
-        //YAxis = (int) (700/(population.size()+1));
+        population.sort(Comparator.reverseOrder());
+        yAxis = (float)350/(float)(population.get(0));
+        System.out.println(yAxis);
         peter = new ImageIcon("gif.png").getImage();
         timer = new Timer(5, this);
         timer.start();
@@ -50,21 +56,25 @@ public class statsPanel extends JPanel implements ActionListener {
         for (int i = 0; i < population.size() - 1; i++) {
             g2D.setStroke(new BasicStroke(3));
             g2D.setColor(new Color(0xE18E3B));
-            g2D.drawLine(xAxis * i +15, 500 - ((population.get(i)) + 15), xAxis * (i+1) + 15, 500 - ((population.get(i + 1)) + 15));
+            Shape l = new Line2D.Double(xAxis * i +15,500-(((population.get(i)) + 15)*yAxis),xAxis * (i+1) + 15,500-(((population.get(i + 1)) + 15)*yAxis));
+
+            //g2D.drawLine(xAxis * i +15, 500-(((population.get(i)) + 15)*yAxis), xAxis * (i+1) + 15, 500-(((population.get(i + 1)) + 15)*yAxis));
+            g2D.draw(l);
             int[] xPoints = new int[4];
-            int[] yPoints = new int[4];
+            float[] yPoints = new float[4];
             xPoints[0] = xAxis * i +15;
             xPoints[1] = xAxis * i +15;
             xPoints[2] = xAxis * (i+1) +15;
             xPoints[3] = xAxis * (i+1) +15;
 
-            yPoints[0] =  500 - ((population.get(i)) + 15);
-            yPoints[1] =  500;
+            yPoints[0] = 500-(((population.get(i)) + 15)*yAxis);
+            yPoints[1] = 500;
             yPoints[2] = 500;
-            yPoints[3] =  500 - ((population.get(i + 1)) + 15);
+            yPoints[3] = 500-(((population.get(i + 1)) + 15)*yAxis);
 
             g2D.setColor(new Color(0x8BE18E3B, true));
-            g2D.fillPolygon(xPoints, yPoints, 4);
+            
+            //g2D.fillPolygon(xPoints, yPoints, 4);
 
         }
 
