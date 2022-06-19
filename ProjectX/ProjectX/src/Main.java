@@ -12,7 +12,7 @@ import static java.awt.Color.*;
 public class Main implements MouseListener {
     public Random rd = new Random();
     public static ArrayList<Integer> Populations = new ArrayList<Integer>();
-    public static int lifeexpectancy = 90;
+    public static int lifeexpectancy = 80;
     public static int a;
     public static int b;
     public static int c;
@@ -101,20 +101,26 @@ public class Main implements MouseListener {
         movements++;
         if(movements%20==0){
             timepassed++;
-            frame.revalidate();
-            frame.repaint();
             timelord();
             movements=0;
         }
+        if (timepassed%3==0){
+            frame.revalidate();
+            frame.repaint();
+        }
         if (timepassed%100==0){
-            Populations.add(Alive.size());
-            System.out.println(Populations);
+            Populations.add(Thread.activeCount());
+            //System.out.println(Populations);
         }
         if (timepassed!=0){
-            if(timepassed%600==0) {
+            if(timepassed%100==0) {
+
                 ciclable();
+                timepassed++;
+
             }
         }
+        System.out.println(timepassed);
 
         int x= t.meetingtile.coor_x;
         int y= t.meetingtile.coor_y;
@@ -173,6 +179,7 @@ public class Main implements MouseListener {
         float floatsmen = (float) slowmen;
         float valore= (floatfmen + floatfwomen) /(floatsmen + floatswomen);
         System.out.println(valore+" value "+(fastmen + fastwomen)+" "+(slowmen + slowwomen));
+        System.out.println(ind);
         if(ind<5){
             stablist[ind]=valore;
         }
@@ -185,7 +192,7 @@ public class Main implements MouseListener {
             float max= getbiggest(stablist);
             int stab = 0;
             for (int i = 0; i < 5; i++) {
-                if(!(max/stablist[i] >= 0.2)){
+                if(!(max/stablist[i] >= 0.5)){
                     stab++;
 
                 }
@@ -195,9 +202,10 @@ public class Main implements MouseListener {
             if (stab== 0){
                 end();
             }
+            ind++;
 
             }
-        ind++;
+
 
 
         /*//Stability.stackX(5,Integer []arr) stack = new Stability()
@@ -545,6 +553,7 @@ public class Main implements MouseListener {
 
 
         }
+        refreshPieChart(totPeople,slowwomen,fastwomen,fastmen,slowmen, frame);
         //frame.repaint(); frame.revalidate();
     }
 
@@ -773,6 +782,7 @@ public class Main implements MouseListener {
     }
     public void makebabies(Man one, Woman two) {
         int max = a / 10;
+        if(max<1) max=1;
         int x = two.meetingtile.coor_x;
         int y = two.meetingtile.coor_y;
         int amount = rd.nextInt(max);
@@ -793,25 +803,27 @@ public class Main implements MouseListener {
         }
     }
     public  void GrimReaper(Man p){
+
         updatetype(p,false);
-        p.runningon.stop();
-        //p.meetingtile.tileon.remove(p.meetingtile);
+        //p.runningon.stop();
+        p.dead=true;
+        p.meetingtile.tileon.remove(p.meetingtile);
         p.meetingtile.tileon.occupants.remove((p.meetingtile));
         Alive.remove(p);
-        p.meetingtile.setVisible(false);
+       // p.meetingtile.setVisible(false);
+
         //frame.repaint();frame.revalidate();
         //rem(p);
        System.out.println("he dead");
     }
     public  void GrimReaper(Woman p){
-        p.meetingtile.setVisible(false);
         updatetype(p,false);
-        p.runningon.stop();
-        //p.meetingtile.tileon.remove(p.meetingtile);
+        //p.runningon.stop();
+        p.dead=true;
+        p.meetingtile.tileon.remove(p.meetingtile);
         p.meetingtile.tileon.occupants.remove((p.meetingtile));
         Alive.remove(p);
-        //frame.repaint();frame.revalidate();
-        System.out.println("he dead");
+        //p.meetingtile.setVisible(false);
     }
     public ArrayList<Boolean> setDominant(ArrayList<Boolean> g){
         if(dominantgene){

@@ -19,6 +19,7 @@ public class Woman implements Person {
     int birthday;
     public volatile boolean  stop;
     ArrayList<Boolean> genes;
+    boolean dead=false;
 
 
     Woman(int x, int y, Main m) {
@@ -151,6 +152,7 @@ public class Woman implements Person {
                         }
                     }
                 }
+                if(dead) break;
         }
     }
 

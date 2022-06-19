@@ -19,6 +19,7 @@ public class Man implements Person {
     int birthday;
     boolean stop = false;
     ArrayList<Boolean> genes;
+    boolean dead=false;
 
 
     Man(int x, int y, Main m) {
@@ -157,6 +158,7 @@ public class Man implements Person {
                     }
                 }
             }
+            if (dead) break;
         }
     }
 
