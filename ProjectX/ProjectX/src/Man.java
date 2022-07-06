@@ -1,7 +1,12 @@
 import java.awt.*;
+import java.awt.geom.Line2D;
+import java.awt.image.ImageObserver;
+import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
 
 public class Man implements Person {
+    int px;
+    int py;
     Thread runningon;
     peopleIcon meetingtile;
     boolean[] parents = {true, true};
@@ -20,9 +25,20 @@ public class Man implements Person {
     boolean stop = false;
     ArrayList<Boolean> genes;
     boolean dead=false;
+    public void paint(Graphics g) {
+        Graphics2D gD2 = (Graphics2D) g;
+        gD2.fillRect(px,py, 2,2);
+
+
+
+    }
+
 
 
     Man(int x, int y, Main m) {
+        px=x;
+        py=y;
+
         Color c = new Color(0xFFFFFF);
         peopleIcon n = new peopleIcon(x, y, c);
         meetingtile = n;
@@ -137,7 +153,7 @@ public class Man implements Person {
                     if(this.getage() > frame.lifeexpectancy){
 
                         frame.GrimReaper(this);
-                        System.out.println("he dead");
+                        //System.out.println("he dead");
 
                         return;
                     }

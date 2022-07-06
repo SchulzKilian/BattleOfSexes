@@ -28,6 +28,8 @@ public class Tile extends JPanel {
         return occupants;
     }
     public synchronized ArrayList<Person> popoccupants(Person t){
+        //ArrayList<Person> pro=new ArrayList<>();
+        //pro.addAll(occupants);
         occupants.remove(t);
         return occupants;
     }
