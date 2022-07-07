@@ -1,16 +1,17 @@
 import java.awt.*;
 import javax.swing.*;
 
-public class PieChart extends JPanel {// draw rectangles and arcs
+public class ZoePieChart extends JPanel {// draw rectangles and arcs
     int[] angle;
     float[] perc;
-    PieChart(float tot, float a1, float a2, float a3, float a4, JFrame frame) {
+    ZoePieChart(float tot, float a1, float a2, float a3, float a4, JFrame frame) {
         JLabel s1 = new JLabel();
         JLabel s2 = new JLabel();
         JLabel s3 = new JLabel();
         JLabel s4 = new JLabel();
         perc = getPercentage(tot,a1,a2,a3,a4);
         angle = getAngle(perc);
+        //System.out.println(angle);
 
         this.setLayout(null);
         this.setBounds(920,10,500,300);

@@ -43,7 +43,6 @@ public class populationGraph extends JPanel {
         g2D.setPaint(new Color(0x000000));
         g2D.setStroke(new BasicStroke(3));
         g2D.drawLine(15, 150, 15, 500);
-
         g2D.setPaint(new Color(0x262424));
         g2D.setStroke(new BasicStroke(3));
         g2D.drawLine(15, 500, 690, 500);

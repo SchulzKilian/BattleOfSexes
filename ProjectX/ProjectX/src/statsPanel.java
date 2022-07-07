@@ -26,7 +26,7 @@ public class statsPanel extends JPanel implements ActionListener {
         //this.setBounds(100,10,100,100);
         population=pop;
         xAxis = (int) (700/(population.size()+1));
-        population.sort(Comparator.reverseOrder());
+        //population.sort(Comparator.reverseOrder());
         yAxis = (float)350/(float)(population.get(0));
         System.out.println(yAxis);
         peter = new ImageIcon("gif.png").getImage();

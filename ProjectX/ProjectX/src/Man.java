@@ -150,7 +150,7 @@ public class Man implements Person {
                     //    }
                 }
                 else {
-                    if(this.getage() > frame.lifeexpectancy){
+                    if(this.getage() > Main.lifeexpectancy){
 
                         frame.GrimReaper(this);
                         //System.out.println("he dead");
