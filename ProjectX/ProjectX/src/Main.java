@@ -27,6 +27,10 @@ public class Main implements MouseListener {
     public static int slowwomen;
     public static int gesamt;
     public static int maxpop;
+    public static float[] fastmena = new float[5];
+    public static float[] slowwomena = new float[5];
+    public static float[] slowmena = new float[5];
+    public static float[] fastwomena = new float[5];
     public static int speed = 1;
     public static boolean allowed = false;
     public static boolean dominantgene;
@@ -105,19 +109,22 @@ public class Main implements MouseListener {
             timelord();
             movements=0;
         }
-        if (timepassed%3==0){
-            //frame.revalidate();
-            //frame.repaint();
+        if (timepassed % 20 == 0){
+            int index = timepassed%100/20;
+            slowmena[index]= (float)slowmen/gesamt;
+            slowwomena[index] = (float)slowwomen/gesamt;
+            fastwomena[index]= (float)fastwomen/gesamt;
+            fastmena[index]= (float)fastmen/gesamt;
+
         }
         if (timepassed%100==0){
-            System.out.print(Thread.activeCount());
-            System.out.print(" ");
-            System.out.println(fastwomen + fastmen + slowwomen + slowmen);
-            Populations.add(Thread.activeCount());
+            Populations.add(gesamt);
+
             //System.out.println(Populations);
         }
         if (timepassed!=0){
             if(timepassed%100==0) {
+                System.out.print(Arrays.toString(fastmena));
                 ciclable();
                 timepassed++;
 
@@ -172,6 +179,10 @@ public class Main implements MouseListener {
         //}
         //}
         //return pos;
+    }
+    public void cyclable(){
+        refreshPieChart(gesamt,slowwomen, fastwomen, fastmen, slowmen, frame);
+
     }
     public void ciclable(){
         refreshPieChart(gesamt,slowwomen,fastwomen,fastmen,slowmen, frame);
@@ -304,7 +315,7 @@ public class Main implements MouseListener {
         int ind= (int) (Math.random()* pos.length);
 
             if (t.meetingtile.tileon!=null){
-                t.meetingtile.tileon.popoccupants(t);}
+                t.meetingtile.tileon.occupants.remove(t);}
             Tile tile=getcoor(pos[ind][0],pos[ind][1]);
             //for (Tile tile: Tlist) {
                 //if (tile.coor_x == pos[ind][0] && tile.coor_y == pos[ind][1]){
@@ -358,7 +369,7 @@ public class Main implements MouseListener {
         int ind= (int) (Math.random()* pos.length);
 
         if (t.meetingtile.tileon!=null) {
-            t.meetingtile.tileon.popoccupants(t);
+            t.meetingtile.tileon.occupants.remove(t);;
         }
         Tile tile=getcoor(pos[ind][0],pos[ind][1]);
         //for (Tile tile: Tlist) {
@@ -580,12 +591,12 @@ public class Main implements MouseListener {
         int costw;
         if(type_a){
             costm=0;
-            costw=0+b;
+            costw=b;
         }
         else{
             if(type_b){
-                costm=0+b/2;
-                costw=0+b/2;
+                costm=b/2;
+                costw=b/2;
             }
             else{
                 costm=c+b/2;
