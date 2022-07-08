@@ -17,6 +17,7 @@ public class Main implements MouseListener {
     public static int b;
     public static int c;
     public static float maxgrowth = 0.5F;
+    public static float standarddeviation = 0.1F;
     public static int timepassed=90;
     public static int movements;
     public static int timespeed=5;
@@ -122,10 +123,10 @@ public class Main implements MouseListener {
 
             //System.out.println(Populations);
         }
-        if (timepassed!=0){
+        if (timepassed>400){
             if(timepassed%100==0) {
-                System.out.print(Arrays.toString(fastmena));
-                ciclable();
+                //System.out.print(Arrays.toString(fastmena));
+                cyclable();
                 timepassed++;
 
             }
@@ -180,10 +181,35 @@ public class Main implements MouseListener {
         //}
         //return pos;
     }
+    public float getstandard(float[] arr){
+        float summe=0F;
+        for (int i=0; i<5;i++){
+            summe += arr[i];
+        }
+        float mean = summe/5;
+        float summee = 0;
+        for(int i=0; i<5; i++){
+            summee+= Math.abs(arr[i]-mean);
+        }
+        System.out.println((float) Math.sqrt(summee/5));
+        return (float) Math.sqrt(summee/5);
+    }
     public void cyclable(){
         refreshPieChart(gesamt,slowwomen, fastwomen, fastmen, slowmen, frame);
+        float fmsd = getstandard(fastmena);
+        float smsd = getstandard(slowmena);
+        float fwsd = getstandard(fastwomena);
+        float swsd = getstandard(slowwomena);
+        for (float floaty : new float[]{fmsd,smsd,fwsd,swsd}) {
+            if (floaty> standarddeviation){
+                return;
+            }
+        }
+        end();
 
-    }
+        }
+
+
     public void ciclable(){
         refreshPieChart(gesamt,slowwomen,fastwomen,fastmen,slowmen, frame);
         //frame.revalidate();frame.repaint();
@@ -369,7 +395,7 @@ public class Main implements MouseListener {
         int ind= (int) (Math.random()* pos.length);
 
         if (t.meetingtile.tileon!=null) {
-            t.meetingtile.tileon.occupants.remove(t);;
+            t.meetingtile.tileon.occupants.remove(t);
         }
         Tile tile=getcoor(pos[ind][0],pos[ind][1]);
         //for (Tile tile: Tlist) {
@@ -521,8 +547,7 @@ public class Main implements MouseListener {
         //System.out.println("la grandezza e'"+t.size());
         Man first;
         Woman second;
-        ArrayList<Person> prov=new ArrayList<>();
-        prov.addAll(t.occupants);
+        ArrayList<Person> prov = new ArrayList<>(t.occupants);
         prov.remove(null);
         if(prov.size()>=2){
             String genderfirst="nope";
@@ -555,7 +580,7 @@ public class Main implements MouseListener {
             if (!first.single || !second.single){
                 return;
             }
-            if ((55 > first.getage() && first.getage() < 12) || (55 > second.getage() && second.getage()<12)){
+            if ((55 < first.getage() || first.getage() < 12) || (55 < second.getage() || second.getage()<12)){
                 return;
             }
             if(Compatibility(first.type(),second.type())){
@@ -586,7 +611,7 @@ public class Main implements MouseListener {
 
     }
     public int[] Costs(boolean type_a, boolean type_b){
-        int[] costs= new int[4];
+        int[] costs= new int[2];
         int costm;
         int costw;
         if(type_a){
@@ -779,7 +804,7 @@ public class Main implements MouseListener {
         updatetype(p,false);
         //p.runningon.stop();
         p.dead=true;
-        p.meetingtile.tileon.remove(p.meetingtile);
+
         p.meetingtile.tileon.occupants.remove((p.meetingtile));
         Alive.remove(p);
         //System.out.println(Alive.size());
@@ -794,7 +819,6 @@ public class Main implements MouseListener {
         updatetype(p,false);
         //p.runningon.stop();
         p.dead=true;
-        p.meetingtile.tileon.remove(p.meetingtile);
         p.meetingtile.tileon.occupants.remove((p.meetingtile));
         Alive.remove(p);
         //System.out.println(Alive.size());
