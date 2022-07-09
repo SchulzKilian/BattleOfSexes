@@ -8,8 +8,8 @@ public class LowerPanel extends JPanel{
     JButton startButton;
     JButton stopButton;
     ArrayList<Integer> population;
-    LowerPanel(JFrame frame, ArrayList<Integer> pop, Main m){
-        population = pop;
+    LowerPanel(JFrame frame,  Main m){
+        population = Main.Populations;
         this.setBackground(new Color(0xFFEDEBDE, true));
         this.setBounds(1170,500,210,175);
         startButton = new JButton();
@@ -42,7 +42,6 @@ public class LowerPanel extends JPanel{
                 e -> {startButton.setEnabled(true);
                     stopButton.setEnabled(false);
                     Main.allowed = false;
-                    System.out.println(population);
                     statsFrame statistics = new statsFrame(population);
                     statistics.show();
 

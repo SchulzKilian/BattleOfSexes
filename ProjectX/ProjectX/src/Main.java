@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static java.awt.Color.*;
 
@@ -16,7 +17,7 @@ public class Main implements MouseListener {
     public static int a;
     public static int b;
     public static int c;
-    public static float maxgrowth = 0.5F;
+    public static float maxgrowth = 3.0F;
     public static float standarddeviation = 0.1F;
     public static int timepassed=90;
     public static int movements;
@@ -45,7 +46,7 @@ public class Main implements MouseListener {
     ArrayList<int[]> popGrowth = new ArrayList<>();
     static float[] stablist= new float[5];
     int ind;
-    float totPeople =  (float) (fastmen+fastwomen+slowmen+slowwomen);
+
 
 
 
@@ -53,8 +54,8 @@ public class Main implements MouseListener {
     JPanel map = new JPanel();
     JLabel city = new JLabel();
     ImageIcon mapCity = new ImageIcon("ProjectX/ProjectX/src/cityImage.jpg");
-    LowerPanel buttonPanel = new LowerPanel(frame, Populations, this);
-    ZoePieChart pieChart = new ZoePieChart(totPeople,slowwomen,fastwomen,fastmen,slowmen, frame);
+    LowerPanel buttonPanel = new LowerPanel(frame, this);
+    ZoePieChart pieChart = new ZoePieChart(gesamt,slowwomen,fastwomen,fastmen,slowmen, frame);
     GridLayout grid = new GridLayout(height, width);
     InputsPanel inputs = new InputsPanel(this);
     DominantGenePanel dominantGene = new DominantGenePanel(this);
@@ -116,11 +117,12 @@ public class Main implements MouseListener {
             slowwomena[index] = (float)slowwomen/gesamt;
             fastwomena[index]= (float)fastwomen/gesamt;
             fastmena[index]= (float)fastmen/gesamt;
+            Populations.add(gesamt);
 
         }
         if (timepassed%100==0){
-            Populations.add(gesamt);
-
+            //Populations.add(gesamt);
+            refreshPieChart(gesamt,slowwomen, fastwomen, fastmen, slowmen, frame);
             //System.out.println(Populations);
         }
         if (timepassed>400){
@@ -195,7 +197,7 @@ public class Main implements MouseListener {
         return (float) Math.sqrt(summee/5);
     }
     public void cyclable(){
-        refreshPieChart(gesamt,slowwomen, fastwomen, fastmen, slowmen, frame);
+
         float fmsd = getstandard(fastmena);
         float smsd = getstandard(slowmena);
         float fwsd = getstandard(fastwomena);
@@ -285,6 +287,7 @@ public class Main implements MouseListener {
         statistics.show();
         //System.out.println("Congrats");
     }
+
     public float getbiggest(float[] x){
         float t=x[0];
         for (int i=0 ;i< x.length; i++){
@@ -340,8 +343,13 @@ public class Main implements MouseListener {
 
         int ind= (int) (Math.random()* pos.length);
 
-            if (t.meetingtile.tileon!=null){
-                t.meetingtile.tileon.occupants.remove(t);}
+            if (t.meetingtile.tileon!=null) {
+                try {
+                    t.meetingtile.tileon.occupants.remove(t);
+                } catch(ArrayIndexOutOfBoundsException e){
+
+                }
+            }
             Tile tile=getcoor(pos[ind][0],pos[ind][1]);
             //for (Tile tile: Tlist) {
                 //if (tile.coor_x == pos[ind][0] && tile.coor_y == pos[ind][1]){
@@ -395,7 +403,11 @@ public class Main implements MouseListener {
         int ind= (int) (Math.random()* pos.length);
 
         if (t.meetingtile.tileon!=null) {
-            t.meetingtile.tileon.occupants.remove(t);
+            try {
+                t.meetingtile.tileon.occupants.remove(t);
+            } catch(ArrayIndexOutOfBoundsException e){
+
+            }
         }
         Tile tile=getcoor(pos[ind][0],pos[ind][1]);
         //for (Tile tile: Tlist) {
@@ -539,7 +551,7 @@ public class Main implements MouseListener {
 
 
         }
-        refreshPieChart(totPeople,slowwomen,fastwomen,fastmen,slowmen, frame);
+        refreshPieChart(gesamt,slowwomen,fastwomen,fastmen,slowmen, frame);
         //frame.repaint(); frame.revalidate();
     }
 
@@ -746,7 +758,7 @@ public class Main implements MouseListener {
             m.runningon=thread;
             Alive.add(m);
             thread.start();
-            return;
+
         }
         else {
             Woman w=new Woman(x,y,this);
@@ -778,11 +790,20 @@ public class Main implements MouseListener {
 
     }
     public void makebabies(Man one, Woman two) {
-        int max = a / 10;
-        if(max<1) max=1;
-        int x = two.meetingtile.coor_x;
-        int y = two.meetingtile.coor_y;
-        int amount = rd.nextInt(max);
+        int min;
+        if (a>20){
+            min = a-20;
+        }
+        else{
+            min = 0;
+        }
+        int randomNum = ThreadLocalRandom.current().nextInt(min, a);
+        int x = 0;
+        int y = 0;
+        //int x = two.meetingtile.coor_x;
+        //int y = two.meetingtile.coor_y;
+        int amount = randomNum/10;
+        System.out.println(amount);
         for (int ja = 1;ja <amount; ja++){
             //System.out.println(amount +"new babies");
             God(one,two,x,y);
