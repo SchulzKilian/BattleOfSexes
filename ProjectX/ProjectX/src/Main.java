@@ -484,7 +484,7 @@ public class Main implements MouseListener {
 
         for (int i = 0; i < fm; i++) {
             Man m=new Man(0,0,this);
-            m.birthday = rd.nextInt(100);
+            m.birthday = rd.nextInt(400);
             ArrayList<Boolean> g = new ArrayList<>();
             g.add(true);
             g.add(true);
@@ -500,7 +500,7 @@ public class Main implements MouseListener {
         }
         for (int i = 0; i < sm; i++) {
             Man m=new Man(0,0,this);
-            m.birthday = rd.nextInt(100);
+            m.birthday = rd.nextInt(400);
             ArrayList<Boolean> g = new ArrayList<>();
             g.add(false);
             g.add(false);
@@ -517,7 +517,7 @@ public class Main implements MouseListener {
         }
         for (int i = 0; i < fw; i++) {
             Woman w=new Woman(width -1,height -1,this);
-            w.birthday = rd.nextInt(100);
+            w.birthday = rd.nextInt(400);
             ArrayList<Boolean> g = new ArrayList<>();
             g.add(true);
             g.add(true);
@@ -535,7 +535,7 @@ public class Main implements MouseListener {
         }
         for (int i = 0; i < sw; i++) {
             Woman w=new Woman(width -1,height -1,this);
-            w.birthday = rd.nextInt(100);
+            w.birthday = rd.nextInt(400);
             ArrayList<Boolean> g = new ArrayList<>();
             g.add(false);
             g.add(false);
@@ -588,8 +588,7 @@ public class Main implements MouseListener {
             }
             else { //System.out.println("all good");
                 return;}
-
-            if (!first.single || !second.single){
+            if (!first.single || !second.single || !first.running || !second.running){
                 return;
             }
             if ((55 < first.getage() || first.getage() < 12) || (55 < second.getage() || second.getage()<12)){
@@ -632,12 +631,12 @@ public class Main implements MouseListener {
         }
         else{
             if(type_b){
-                costm=b/2;
-                costw=b/2;
+                costm=b/4;
+                costw=b/4;
             }
             else{
-                costm=c+b/2;
-                costw=c+b/2;
+                costm=c+b/4;
+                costw=c+b/4;
             }
         }
         costs[0]=costm;
@@ -847,6 +846,7 @@ public class Main implements MouseListener {
         //p.meetingtile.setVisible(false);
     }
     public ArrayList<Boolean> setDominant(ArrayList<Boolean> g){
+
         if(dominantgene){
             if(g.contains(true)){
                 Collections.swap(g,g.indexOf(true),0);

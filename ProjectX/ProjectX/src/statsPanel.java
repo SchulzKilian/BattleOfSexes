@@ -81,7 +81,7 @@ public class statsPanel extends JPanel implements ActionListener {
         for (int i = 0; i < population.size() - 1; i++) {
             g2D.setStroke(new BasicStroke(3));
             g2D.setColor(new Color(0xE18E3B));
-            Shape l = new Line2D.Double(xAxis * i +15, 700 -population.get(i),xAxis * (i+1) + 15,700 -population.get(i+1));
+            Shape l = new Line2D.Double(xAxis * i +15, 650 -population.get(i),xAxis * (i+1) + 15,650 -population.get(i+1));
             g2D.draw(l);
         }
 
