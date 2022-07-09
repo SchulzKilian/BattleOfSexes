@@ -27,7 +27,7 @@ public class statsPanel extends JPanel implements ActionListener {
         this.setPreferredSize(new Dimension(PANEL_WIDTH,PANEL_HEIGTH));
         //this.setBounds(100,10,100,100);
         population= pop;
-        xAxis = (int) (700/(population.size()+1));
+
         //population.sort(Comparator.reverseOrder());
         yAxis = (float)350/(float)(population.get(0));
         peter = new ImageIcon("gif.png").getImage();
@@ -36,9 +36,7 @@ public class statsPanel extends JPanel implements ActionListener {
 
     }
     public void normalizevals(ArrayList<Integer> populations){
-        for(Integer i:populations) {
-            //System.out.println(i);
-        }
+
         int max = 0;
         int min = 0;
 
@@ -57,6 +55,18 @@ public class statsPanel extends JPanel implements ActionListener {
             populations.set(i, (int) ( 350*x));
         }
 
+    }
+    public ArrayList<int[]> fixlist(ArrayList<Integer> k){
+        int b = 0;
+        ArrayList<int[]> myarr = new ArrayList<>();
+        for(int i=0;i<k.size();i++){
+            if ((k.get(i)!= b)|| (i == k.size()-1)){
+                myarr.add(new int[]{i, k.get(i)});
+                b = k.get(i);
+            }
+
+        }
+        return myarr;
     }
     public void paint(Graphics g) {
         Graphics2D g2D = (Graphics2D) g;
@@ -78,10 +88,16 @@ public class statsPanel extends JPanel implements ActionListener {
 
         int endLine = 0;
         normalizevals(population);
-        for (int i = 0; i < population.size() - 1; i++) {
+        ArrayList<int[]>  fixedlist = fixlist(population);
+        xAxis = (int) (800/(population.size()+1));
+        for (int i = 0;i<fixedlist.size()-1;i++) {
+            int x1 = fixedlist.get(i)[0];
+            int y1 = fixedlist.get(i)[1];
+            int x= fixedlist.get(i+1)[0];
+            int y= fixedlist.get(i+1)[1];
             g2D.setStroke(new BasicStroke(3));
             g2D.setColor(new Color(0xE18E3B));
-            Shape l = new Line2D.Double(xAxis * i +15, 650 -population.get(i),xAxis * (i+1) + 15,650 -population.get(i+1));
+            Shape l = new Line2D.Double(xAxis * x1 +15, 650 -y1,xAxis * x + 15,650 -y);
             g2D.draw(l);
         }
 
