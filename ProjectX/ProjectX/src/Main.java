@@ -33,6 +33,10 @@ public class Main implements MouseListener {
     public static float[] slowwomena = new float[5];
     public static float[] slowmena = new float[5];
     public static float[] fastwomena = new float[5];
+    public static ArrayList<Integer> fastmenl = new ArrayList<Integer>();
+    public static ArrayList<Integer> fastwomenl = new ArrayList<Integer>();
+    public static ArrayList<Integer> slowmenl = new ArrayList<Integer>();
+    public static ArrayList<Integer> slowwomenl = new ArrayList<Integer>();
     public static int speed = 1;
     public static boolean allowed = false;
     public static boolean dominantgene;
@@ -118,6 +122,13 @@ public class Main implements MouseListener {
             fastwomena[index]= (float)fastwomen/gesamt;
             fastmena[index]= (float)fastmen/gesamt;
             Populations.add(gesamt);
+            fastmenl.add((int)(((float)fastmen/gesamt)*1000));
+            fastwomenl.add((int)(((float)fastwomen/gesamt)*1000));
+            slowmenl.add((int)(((float)slowmen/gesamt)*1000));
+            slowwomenl.add((int)(((float)slowwomen/gesamt)*1000));
+            //System.out.println();
+
+
 
         }
         if (timepassed%100==0){
@@ -749,7 +760,9 @@ public class Main implements MouseListener {
         int k=(int)(Math.random()*2);
         if(gender[k].equals("male")){
             Man m=new Man(x,y,this);
-            m.genes=setDominant(inheritance(parent1,parent2));
+            ArrayList<Boolean> genes=inheritance(parent1,parent2);
+            genes.add(parent1.type());
+            m.genes = setDominant(genes);
             m.fenotipo();
             updatetype(m,true);
             m.birthday = timepassed;
@@ -761,7 +774,9 @@ public class Main implements MouseListener {
         }
         else {
             Woman w=new Woman(x,y,this);
-            w.genes=inheritance(parent1,parent2);
+            ArrayList<Boolean> genes=inheritance(parent1,parent2 );
+            genes.add(parent2.type());
+            w.genes = setDominant(genes);
             w.fenotipo();
             updatetype(w,true);
             w.birthday = timepassed;
@@ -802,7 +817,6 @@ public class Main implements MouseListener {
         //int x = two.meetingtile.coor_x;
         //int y = two.meetingtile.coor_y;
         int amount = randomNum/10;
-        System.out.println(amount);
         for (int ja = 1;ja <amount; ja++){
             //System.out.println(amount +"new babies");
             God(one,two,x,y);

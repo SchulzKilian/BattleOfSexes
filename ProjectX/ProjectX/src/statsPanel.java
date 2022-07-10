@@ -7,6 +7,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -19,9 +20,15 @@ public class statsPanel extends JPanel implements ActionListener {
     int xVelocity = 1;
     int yVelocity = 1;
     int x=0;
+    int max = 0;
+    int min = 0;
     int y=0;
     static int xAxis;
     static float yAxis;
+    ArrayList<int[]> fixedfastm;
+    ArrayList<int[]> fixedfastw;
+    ArrayList<int[]> fixedslowm;
+    ArrayList<int[]> fixedslowwom;
 
     statsPanel(ArrayList<Integer> pop) {
         this.setPreferredSize(new Dimension(PANEL_WIDTH,PANEL_HEIGTH));
@@ -33,21 +40,34 @@ public class statsPanel extends JPanel implements ActionListener {
         peter = new ImageIcon("gif.png").getImage();
         timer = new Timer(5, this);
         timer.start();
+        massnormalizer(new ArrayList[]{Main.fastmenl, Main.fastwomenl, Main.slowmenl, Main.slowwomenl});
+        fixedfastm= fixlist(Main.fastmenl);
+        fixedfastw= fixlist(Main.fastwomenl);
+        fixedslowm= fixlist(Main.slowmenl);
+        fixedslowwom= fixlist(Main.slowwomenl);
 
     }
-    public void normalizevals(ArrayList<Integer> populations){
-
-        int max = 0;
-        int min = 0;
-
-        for (int i:populations ){
-            if (i>max){
-                max = i;
-            }
-            if (i<min){
-                min = i;
+    public void massnormalizer(ArrayList<Integer>[] t){
+        for (ArrayList<Integer> k:t){
+            for (Integer p:k){
+                if (p>max){
+                    max = p;
+                }
+                else if(p< min){
+                    min = p;
+                }
             }
         }
+        for (ArrayList<Integer> k:t) {
+            normalizevals(k);
+        }
+        }
+
+
+
+    public void normalizevals(ArrayList<Integer> populations){
+
+
         int dif = max-min;
         //System.out.println(dif);
         for (int i=0; i<populations.size();i++){
@@ -87,20 +107,24 @@ public class statsPanel extends JPanel implements ActionListener {
 
 
         int endLine = 0;
-        normalizevals(population);
-        ArrayList<int[]>  fixedlist = fixlist(population);
-        xAxis = (int) (800/(population.size()+1));
-        for (int i = 0;i<fixedlist.size()-1;i++) {
-            int x1 = fixedlist.get(i)[0];
-            int y1 = fixedlist.get(i)[1];
-            int x= fixedlist.get(i+1)[0];
-            int y= fixedlist.get(i+1)[1];
-            g2D.setStroke(new BasicStroke(3));
-            g2D.setColor(new Color(0xE18E3B));
-            Shape l = new Line2D.Double(xAxis * x1 +15, 650 -y1,xAxis * x + 15,650 -y);
-            g2D.draw(l);
-        }
 
+        xAxis = (int) (800/(population.size()+1));
+
+
+
+        for (ArrayList<int[]> k: new ArrayList[]{fixedslowwom, fixedslowm, fixedfastm, fixedfastw}) {
+
+            for (int i = 0; i < k.size() - 1; i++) {
+                int x1 = k.get(i)[0];
+                int y1 = k.get(i)[1];
+                int x = k.get(i + 1)[0];
+                int y = k.get(i + 1)[1];
+                g2D.setStroke(new BasicStroke(3));
+                g2D.setColor(new Color(0xE18E3B));
+                Shape l = new Line2D.Double(xAxis * x1 + 15, 650 - y1, xAxis * x + 15, 650 - y);
+                g2D.draw(l);
+            }
+        }
         g2D.setPaint(new Color(0x262424));
         g2D.setStroke(new BasicStroke(3));
         g2D.drawLine(15, 300, 15, 650);
