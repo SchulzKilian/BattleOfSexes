@@ -749,7 +749,9 @@ public class Main implements MouseListener {
         int k=(int)(Math.random()*2);
         if(gender[k].equals("male")){
             Man m=new Man(x,y,this);
-            m.genes=setDominant(inheritance(parent1,parent2));
+            ArrayList<Boolean> genes=inheritance(parent1,parent2);
+            genes.add(parent1.type());
+            m.genes = setDominant(genes);
             m.fenotipo();
             updatetype(m,true);
             m.birthday = timepassed;
@@ -761,7 +763,9 @@ public class Main implements MouseListener {
         }
         else {
             Woman w=new Woman(x,y,this);
-            w.genes=inheritance(parent1,parent2);
+            ArrayList<Boolean> genes=inheritance(parent1,parent2);
+            genes.add(parent2.type());
+            w.genes = setDominant(genes);
             w.fenotipo();
             updatetype(w,true);
             w.birthday = timepassed;
@@ -775,19 +779,7 @@ public class Main implements MouseListener {
 
     }
 
-    public void rem(Man p){
-        p.runningon.stop();
 
-        p.meetingtile.tileon.remove(p.meetingtile);
-
-
-    }
-    public void rem(Woman p){
-
-        p.meetingtile.tileon.remove(p.meetingtile);
-
-
-    }
     public void makebabies(Man one, Woman two) {
         int min;
         if (a>20){
