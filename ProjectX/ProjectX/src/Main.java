@@ -55,13 +55,13 @@ public class Main implements MouseListener {
     JPanel map = new JPanel();
     JLabel city = new JLabel();
     ImageIcon start = new ImageIcon("startmap.png");
-    ImageIcon mapCity = new ImageIcon("/Users/zoe/Downloads/BattleOfSexes/ProjectX/ProjectX/src/citymap.gif");
+    ImageIcon mapCity = new ImageIcon("ProjectX/ProjectX/src/citymap.gif");
     LowerPanel buttonPanel = new LowerPanel(frame, this);
     ZoePieChart pieChart = new ZoePieChart(gesamt,slowwomen,fastwomen,fastmen,slowmen, frame);
     GridLayout grid = new GridLayout(height, width);
     InputsPanel inputs = new InputsPanel(this);
     DominantGenePanel dominantGene = new DominantGenePanel(this);
-    Tile graveyard= new Tile(0,0,new Color(0xFF000000));
+
 
 
     public Main() {
@@ -70,9 +70,6 @@ public class Main implements MouseListener {
         frame.setVisible(true);
         frame.add(map);
         frame.add(pieChart);
-        frame.add(graveyard);
-        graveyard.setBounds(900,800,100,100);
-        graveyard.setVisible(true);
         pieChart.setBounds(920,10,500,300);
         city.setBounds(10,10,880,880);
         city.setIcon(start);
