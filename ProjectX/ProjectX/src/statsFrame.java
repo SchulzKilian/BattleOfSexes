@@ -58,7 +58,7 @@ public class statsFrame extends JFrame {
         s2.setBackground(new Color(0xFFEDEBDE));
         s2.setText("<html>fast women<br>"+(int)m.ifastwomen);
         s2.setFont(new Font("Courier New", Font.BOLD , 20));
-        s2.setForeground(new Color(0xCE9E6E));
+        s2.setForeground(new Color(0xCE9E6E, true));
         s3.setOpaque(true);
         s3.setBackground(new Color(0xFFEDEBDE));
         s3.setText("<html>philanderers<br>"+(int)m.ifastmen);

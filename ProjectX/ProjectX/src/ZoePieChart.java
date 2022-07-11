@@ -80,7 +80,7 @@ public class ZoePieChart extends JPanel {// draw rectangles and arcs
         s2.setBackground(new Color(0xFFEDEBDE));
         s2.setText("<html>fast women<br>"+(int)a2+"("+Math.round(perc[1] * 100.0)/100.0+"%)</html>");
         s2.setFont(new Font("Courier New", Font.BOLD , 20));
-        s2.setForeground(new Color(0xCE9E6E));
+        s2.setForeground(new Color(0xCE9E6E,true ));
         s3.setOpaque(true);
         s3.setBackground(new Color(0xFFEDEBDE));
         s3.setText("<html>philanderers<br>"+(int)a3+"("+Math.round(perc[2] * 100.0)/100.0+"%)</html>");

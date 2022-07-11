@@ -758,8 +758,7 @@ public class Main implements MouseListener {
             Man m=new Man(x,y,this);
             ArrayList<Boolean> genes=inheritance(parent1,parent2);
             genes.add(parent1.type());
-            m.genes = genes;
-            //m.genes = setDominant(genes);
+            m.genes = setDominant(genes);
             m.fenotipo();
             updatetype(m,true);
             m.birthday = timepassed;
@@ -773,8 +772,7 @@ public class Main implements MouseListener {
             Woman w=new Woman(x,y,this);
             ArrayList<Boolean> genes=inheritance(parent1,parent2);
             genes.add(parent2.type());
-            //w.genes = setDominant(genes);
-            w.genes = genes;
+            w.genes = setDominant(genes);
             w.fenotipo();
             updatetype(w,true);
             w.birthday = timepassed;
