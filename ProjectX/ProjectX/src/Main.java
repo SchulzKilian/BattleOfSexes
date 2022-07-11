@@ -19,7 +19,7 @@ public class Main implements MouseListener {
     public static int b;
     public static int c;
     public static float maxgrowth = 3.0F;
-    public static float standarddeviation = 0.1F;
+    public static float standarddeviation = 0.2F;
     public static int timepassed=90;
     public static int movements;
     public static int timespeed=5;
@@ -758,7 +758,8 @@ public class Main implements MouseListener {
             Man m=new Man(x,y,this);
             ArrayList<Boolean> genes=inheritance(parent1,parent2);
             genes.add(parent1.type());
-            m.genes = setDominant(genes);
+            m.genes = genes;
+            //m.genes = setDominant(genes);
             m.fenotipo();
             updatetype(m,true);
             m.birthday = timepassed;
@@ -772,7 +773,8 @@ public class Main implements MouseListener {
             Woman w=new Woman(x,y,this);
             ArrayList<Boolean> genes=inheritance(parent1,parent2);
             genes.add(parent2.type());
-            w.genes = setDominant(genes);
+            //w.genes = setDominant(genes);
+            w.genes = genes;
             w.fenotipo();
             updatetype(w,true);
             w.birthday = timepassed;
