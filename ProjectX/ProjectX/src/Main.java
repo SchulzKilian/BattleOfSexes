@@ -495,6 +495,7 @@ public class Main implements MouseListener {
             ArrayList<Boolean> g = new ArrayList<>();
             g.add(true);
             g.add(true);
+            g.add(true);
             ArrayList<Boolean>gen=setDominant(g);
             m.genes=gen;
             //m.fast=true;
@@ -509,6 +510,7 @@ public class Main implements MouseListener {
             Man m=new Man(0,0,this);
             m.birthday = rd.nextInt(400);
             ArrayList<Boolean> g = new ArrayList<>();
+            g.add(false);
             g.add(false);
             g.add(false);
             ArrayList<Boolean>gen=setDominant(g);
@@ -528,6 +530,7 @@ public class Main implements MouseListener {
             ArrayList<Boolean> g = new ArrayList<>();
             g.add(true);
             g.add(true);
+            g.add(true);
             ArrayList<Boolean>gen=setDominant(g);
             w.genes=gen;
            // w.fast=true;
@@ -544,6 +547,7 @@ public class Main implements MouseListener {
             Woman w=new Woman(width -1,height -1,this);
             w.birthday = rd.nextInt(400);
             ArrayList<Boolean> g = new ArrayList<>();
+            g.add(false);
             g.add(false);
             g.add(false);
             ArrayList<Boolean>gen=setDominant(g);
@@ -690,9 +694,9 @@ public class Main implements MouseListener {
           //System.out.println(Prison.size());
     }
     public ArrayList<Boolean> inheritance(Man m, Woman w){
-        int x= (int) (Math.random()*2);
-        int y= (int) (Math.random()*2);
-        int z =(int) (Math.random()*2);
+        int x= (int) (Math.random()*3);
+        int y= (int) (Math.random()*3);
+        int z =(int) (Math.random()*3);
         ArrayList<Boolean> disp=new ArrayList<>();
         if(none){
             if (z==0){

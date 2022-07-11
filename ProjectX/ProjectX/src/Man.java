@@ -9,7 +9,7 @@ public class Man implements Person {
     int py;
     Thread runningon;
     peopleIcon meetingtile;
-    boolean[] parents = {true, true};
+    boolean[] parents = {true, true,true};
     String gender = "male";
     boolean single = true;
     //boolean fast;
