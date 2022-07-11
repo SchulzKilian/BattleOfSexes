@@ -20,6 +20,7 @@ public class LowerPanel extends JPanel{
                 e -> {
                     m.inputs.getvalue();
                     Main.allowed = true;
+                    m.city.setIcon(m.mapCity);
                     startButton.setEnabled(false);
                     stopButton.setEnabled(true);
                     m.calltoaction();

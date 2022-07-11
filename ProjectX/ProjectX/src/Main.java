@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -59,13 +60,14 @@ public class Main implements MouseListener {
     MyFrame frame = new MyFrame();
     JPanel map = new JPanel();
     JLabel city = new JLabel();
-    ImageIcon mapCity = new ImageIcon("ProjectX/ProjectX/src/cityImage.jpg");
+    ImageIcon start = new ImageIcon("startmap.png");
+    ImageIcon mapCity = new ImageIcon("ProjectX/ProjectX/src/citymap.gif");
     LowerPanel buttonPanel = new LowerPanel(frame, this);
     ZoePieChart pieChart = new ZoePieChart(gesamt,slowwomen,fastwomen,fastmen,slowmen, frame);
     GridLayout grid = new GridLayout(height, width);
     InputsPanel inputs = new InputsPanel(this);
     DominantGenePanel dominantGene = new DominantGenePanel(this);
-    Tile graveyard= new Tile(0,0,new Color(0xFF000000));
+
 
 
     public Main() {
@@ -74,12 +76,10 @@ public class Main implements MouseListener {
         frame.setVisible(true);
         frame.add(map);
         frame.add(pieChart);
-        frame.add(graveyard);
-        graveyard.setBounds(900,800,100,100);
-        graveyard.setVisible(true);
         pieChart.setBounds(920,10,500,300);
-        city.setIcon(mapCity);
         city.setBounds(10,10,880,880);
+        city.setIcon(start);
+        city.setVisible(true);
         frame.add(city);
         frame.add(buttonPanel);
         map.setBounds(10,10,880,880);
