@@ -33,6 +33,12 @@ public class Main implements MouseListener {
     public static float[] slowwomena = new float[5];
     public static float[] slowmena = new float[5];
     public static float[] fastwomena = new float[5];
+    public static int ifastmen;
+    public static int ifastwomen;
+    public static int islowmen;
+    public static int islowwomen;
+    public static int igesamt=ifastmen+ifastwomen+islowmen+islowwomen;
+
     public static int speed = 1;
     public static boolean allowed = false;
     public static boolean dominantgene;
@@ -283,7 +289,7 @@ public class Main implements MouseListener {
     public void end(){
         allowed = false;
         //System.out.println(population);
-        statsFrame statistics = new statsFrame(buttonPanel.population);
+        statsFrame statistics = new statsFrame(buttonPanel.population,this);
         statistics.show();
         //System.out.println("Congrats");
     }

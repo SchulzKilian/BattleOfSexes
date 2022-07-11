@@ -135,12 +135,16 @@ public class InputsPanel extends JPanel implements ActionListener {
 
         int smenValue = Integer.parseInt(smen.getText());
         f.slowmen=smenValue;
+        f.islowmen=smenValue;
         int fmenValue = Integer.parseInt(fmen.getText());
         f.fastmen=fmenValue;
+        f.ifastmen=fmenValue;
         int swomenValue = Integer.parseInt(swomen.getText());
         f.slowwomen=swomenValue;
+        f.islowwomen=swomenValue;
         int fwomenValue = Integer.parseInt(fwomen.getText());
         f.fastwomen=fwomenValue;
+        f.ifastwomen=fwomenValue;
     }
 
     @Override

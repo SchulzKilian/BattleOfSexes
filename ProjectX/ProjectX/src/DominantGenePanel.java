@@ -32,7 +32,7 @@ public class DominantGenePanel extends JPanel implements ActionListener {
         slow.addActionListener(this);
         none.setFont(new Font("Courier New", Font.BOLD , 20));
         none.setForeground(new Color(0x7379C2));
-        slow.addActionListener(this);
+        none.addActionListener(this);
         title.setFont(new Font("Courier New", Font.BOLD , 17));
         title.setForeground(new Color(0x7379C2));
 
@@ -49,16 +49,19 @@ public class DominantGenePanel extends JPanel implements ActionListener {
         if(e.getSource()==slow){
             main.dominantgene=false;
             main.none=false;
-            System.out.println("e");
+            System.out.println("slo");
 
         }
         if(e.getSource()==fast){
             main.dominantgene=true;
             main.none=false;
+            System.out.println("fast");
 
         }
-        if(e.getSource()==slow){
+        if(e.getSource()==none){
+            main.dominantgene=false;
             main.none=true;
+            System.out.println("gfghjh");
 
         }
 
