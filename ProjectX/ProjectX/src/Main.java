@@ -291,6 +291,7 @@ public class Main implements MouseListener {
         //System.out.println(population);
         statsFrame statistics = new statsFrame(buttonPanel.population,this);
         statistics.show();
+        city.setIcon(null);
         //System.out.println("Congrats");
     }
 

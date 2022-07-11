@@ -50,25 +50,25 @@ public class statsFrame extends JFrame {
 
         s1.setOpaque(true);
         s1.setBackground(new Color( 0xFFEDEBDE));
-        s1.setText("<html>coy women<br>"+(int)m.islowwomen+"("+Math.round(perc[0] * 100.0)/100.0+"%)</html>");
+        s1.setText("<html>coy women<br>"+(int)m.islowwomen);
         JLabel label = new JLabel("<html>First line<br>Second line</html>");
         s1.setFont(new Font("Courier New", Font.BOLD , 20));
-        s1.setForeground(new Color(0xF6A6A6));
+        s1.setForeground(new Color(0xD58B40));
         s2.setOpaque(true);
         s2.setBackground(new Color(0xFFEDEBDE));
-        s2.setText("<html>fast women<br>"+(int)m.ifastwomen+"("+Math.round(perc[1] * 100.0)/100.0+"%)</html>");
+        s2.setText("<html>fast women<br>"+(int)m.ifastwomen);
         s2.setFont(new Font("Courier New", Font.BOLD , 20));
-        s2.setForeground(new Color(0x9D6363, true));
+        s2.setForeground(new Color(0xCE9E6E));
         s3.setOpaque(true);
         s3.setBackground(new Color(0xFFEDEBDE));
-        s3.setText("<html>philanderers<br>"+(int)m.ifastmen+"("+Math.round(perc[2] * 100.0)/100.0+"%)</html>");
+        s3.setText("<html>philanderers<br>"+(int)m.ifastmen);
         s3.setFont(new Font("Courier New", Font.BOLD , 20));
-        s3.setForeground(new Color(0x7DC0A0));
+        s3.setForeground(new Color(0x238891));
         s4.setOpaque(true);
         s4.setBackground(new Color(0xFFEDEBDE));
-        s4.setText("<html>faithful men<br>"+(int)m.islowmen+"("+Math.round(perc[3] * 100.0)/100.0+"%)</html>");
+        s4.setText("<html>faithful men<br>"+(int)m.islowmen);
         s4.setFont(new Font("Courier New", Font.BOLD , 20));
-        s4.setForeground(new Color(0xBFFFF2));
+        s4.setForeground(new Color(0x83C5BF));
     }
     /*public void paint(Graphics g){
         Graphics2D g2D = (Graphics2D) g;
