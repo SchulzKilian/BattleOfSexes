@@ -25,16 +25,19 @@ public class DominantGenePanel extends JPanel implements ActionListener {
         title = new JLabel("choose a dominant gene");
 
         fast.setFont(new Font("Courier New", Font.BOLD , 20));
-        fast.setForeground(new Color(0x7379C2));
+        fast.setForeground(new Color(0x426A79));
+        fast.setBackground(new Color(0xEDEBDE));
         fast.addActionListener(this);
         slow.setFont(new Font("Courier New", Font.BOLD , 20));
-        slow.setForeground(new Color(0x7379C2));
+        slow.setForeground(new Color(0x426A79));
+        slow.setBackground(new Color(0xEDEBDE));
         slow.addActionListener(this);
         none.setFont(new Font("Courier New", Font.BOLD , 20));
-        none.setForeground(new Color(0x7379C2));
+        none.setForeground(new Color(0x426A79));
+        none.setBackground(new Color(0xEDEBDE));
         none.addActionListener(this);
         title.setFont(new Font("Courier New", Font.BOLD , 17));
-        title.setForeground(new Color(0x7379C2));
+        title.setForeground(new Color(0x426A79));
 
         this.add(title);
         this.add(fast);

@@ -102,7 +102,7 @@ public class statsPanel extends JPanel implements ActionListener {
             int x= fixedlist.get(i+1)[0];
             int y= fixedlist.get(i+1)[1];
             g2D.setStroke(new BasicStroke(3));
-            g2D.setColor(new Color(0xFFE18E3B, true));
+            g2D.setColor(new Color(0xFC426A79, true));
             int[] arrx= {xAxis * x1 +40,xAxis * x1 +40,xAxis * x + 40,xAxis * x + 40};
             int[] arry={350,350 -y1,350 -y,350};
             //Polygon p= new Polygon(arrx,arry,4);

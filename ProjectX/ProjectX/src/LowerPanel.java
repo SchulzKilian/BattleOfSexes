@@ -30,7 +30,7 @@ public class LowerPanel extends JPanel{
         startButton.setOpaque(true);
         startButton.setText("<html>start simulation");
         startButton.setFont(new Font("Courier New", Font.BOLD , 20));
-        startButton.setForeground(new Color(0xFF7379C2));
+        startButton.setForeground(new Color(0x426A79));
         startButton.setBackground(new Color(0x07379C2, true));
         startButton.isBackgroundSet();
 
@@ -52,7 +52,7 @@ public class LowerPanel extends JPanel{
         stopButton.setOpaque(true);
         stopButton.setText("stop simulation");
         stopButton.setFont(new Font("Courier New", Font. BOLD , 20));
-        stopButton.setForeground(new Color(0x7379C2));
+        stopButton.setForeground(new Color(0x426A79));
         stopButton.setBackground(new Color(0x07379C2, true));
         stopButton.isBackgroundSet();
 

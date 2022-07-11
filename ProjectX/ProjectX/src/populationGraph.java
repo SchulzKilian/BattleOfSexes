@@ -21,7 +21,7 @@ public class populationGraph extends JPanel {
 
         for (int i=0; i<10-1; i++){
             g2D.setStroke(new BasicStroke(3));
-            g2D.setColor(new Color (0xE18E3B));
+            g2D.setColor(new Color (0x426A79));
             g2D.drawLine((population[i][0])+15,500-((population[i][1])+15),(population[i+1][0])+15,500-((population[i+1][1])+15));
             int[] xPoints = new int[4];
             int[] yPoints = new int[4];
@@ -35,7 +35,7 @@ public class populationGraph extends JPanel {
             yPoints[2] = 500;
             yPoints[3] = 500-((population[i+1][1])+15);
 
-            g2D.setColor(new Color (0x8BE18E3B, true));
+            g2D.setColor(new Color (0xA9426A79, true));
             g2D.fillPolygon(xPoints,yPoints,4);
 
         }
