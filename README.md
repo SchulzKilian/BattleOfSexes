@@ -26,9 +26,7 @@ The simulation models four distinct types:
 - `b`: Cost of parenting
 - `c`: Cost of courtship
 
-<div align="center">
-<img src="https://via.placeholder.com/600x300.png?text=Population+Distribution+Graph" alt="Population Distribution" />
-</div>
+
 
 ## 🔧 Technical Implementation
 ### Architecture
@@ -75,8 +73,7 @@ public class Person {
 > "After four months of regular coding, we reached almost ten thousand lines of code and hundreds of man-hours in debugging this monstrosity of a program. But we couldn't be prouder of the final result."
 
 ## 🛠️ Setup and Usage
-# Clone the repository
-git clone https://github.com/yourusername/battle-of-sexes-sim
+
 
 # Compile the project
 javac Main.java
